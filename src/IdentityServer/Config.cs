@@ -28,7 +28,7 @@ namespace IdentityServer
             return new Client[] { };
         }
 
-        public static IEnumerable<TestUser> GetTestUsers()
+        public static List<TestUser> GetTestUsers()
         {
             return new List<TestUser>
             {
