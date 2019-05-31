@@ -7,12 +7,14 @@ using IdentityServer.Extensions.IdentityServer4;
 using IdentityServer.Infrastracture.DataEntity;
 using IdentityServer.UI.Filters;
 using IdentityServer.UI.ViewModels.Account;
+using IdentityServer4.Events;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -112,6 +114,7 @@ namespace IdentityServer.UI.Controllers.Account
             // form model values are all valid
             if (ModelState.IsValid)
             {
+                _logger.LogDebug("Resource Owner clicked login button");
                 // validate username/password against in-memory store
                 if (_users.ValidateCredentials(model.Username, model.Password))
                 {
@@ -123,6 +126,8 @@ namespace IdentityServer.UI.Controllers.Account
                     AuthenticationProperties props = null;
                     if (AccountOptions.AllowRememberLogin && model.RememberLogin)
                     {
+                        _logger.LogDebug("remember me checkbox is checked");
+
                         props = new AuthenticationProperties
                         {
                             IsPersistent = true,
@@ -137,15 +142,18 @@ namespace IdentityServer.UI.Controllers.Account
                     {
                         if (await _clientStore.IsPkceClientAsync(context.ClientId))
                         {
+                            _logger.LogDebug("Client include PKCE so redirect to Redirect View ");
                             // if the client is PKCE then we assume it's native, so this change in how to
                             // return the response is for better UX for the end user.
                             return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
                         }
 
+                        _logger.LogDebug("Client DOES Not include PKCE so redirect using returnUrl which client provided");
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                         return Redirect(model.ReturnUrl);
                     }
 
+                    _logger.LogDebug("what is local request ... is there anything else rather than authorization request?");
                     // request for a local page
                     if (Url.IsLocalUrl(model.ReturnUrl))
                     {
