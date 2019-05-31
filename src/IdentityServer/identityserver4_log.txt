@@ -1556,3 +1556,122 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2019-05-31 01:13:18.830 -07:00 [DBG] Checking for PKCE parameters
 2019-05-31 01:13:18.830 -07:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
 2019-05-31 01:13:18.830 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:18.103 -07:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-05-31 01:55:18.169 -07:00 [INF] Using the default authentication scheme idsrv for IdentityServer
+2019-05-31 01:55:18.172 -07:00 [DBG] Using idsrv as default ASP.NET Core scheme for authentication
+2019-05-31 01:55:18.172 -07:00 [DBG] Using idsrv as default ASP.NET Core scheme for sign-in
+2019-05-31 01:55:18.172 -07:00 [DBG] Using idsrv as default ASP.NET Core scheme for sign-out
+2019-05-31 01:55:18.172 -07:00 [DBG] Using idsrv as default ASP.NET Core scheme for challenge
+2019-05-31 01:55:18.172 -07:00 [DBG] Using idsrv as default ASP.NET Core scheme for forbid
+2019-05-31 01:55:18.719 -07:00 [DBG] Login Url: /Account/Login
+2019-05-31 01:55:18.721 -07:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-05-31 01:55:18.721 -07:00 [DBG] Logout Url: /Account/Logout
+2019-05-31 01:55:18.722 -07:00 [DBG] ConsentUrl Url: /consent
+2019-05-31 01:55:18.722 -07:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-05-31 01:55:18.722 -07:00 [DBG] Error Url: /home/error
+2019-05-31 01:55:18.722 -07:00 [DBG] Error Id Parameter: errorId
+2019-05-31 01:55:28.226 -07:00 [DBG] CORS request made for path: /.well-known/openid-configuration from origin: http://localhost:8080
+2019-05-31 01:55:28.236 -07:00 [DBG] Client list checked and origin: http://localhost:8080 is allowed
+2019-05-31 01:55:28.236 -07:00 [DBG] CorsPolicyService allowed origin: http://localhost:8080
+2019-05-31 01:55:28.243 -07:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2019-05-31 01:55:28.248 -07:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2019-05-31 01:55:28.249 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2019-05-31 01:55:28.253 -07:00 [DBG] Start discovery request
+2019-05-31 01:55:28.344 -07:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2019-05-31 01:55:28.350 -07:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2019-05-31 01:55:28.350 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2019-05-31 01:55:28.354 -07:00 [DBG] Start authorize request
+2019-05-31 01:55:28.389 -07:00 [DBG] User in authorize request: 1
+2019-05-31 01:55:28.395 -07:00 [DBG] Start authorize request protocol validation
+2019-05-31 01:55:28.414 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:28.421 -07:00 [DBG] Checking for PKCE parameters
+2019-05-31 01:55:28.456 -07:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-05-31 01:55:28.491 -07:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"spa.react","ClientName":null,"RedirectUri":"http://localhost:8080/callback","AllowedRedirectUris":["http://localhost:8080/callback"],"SubjectId":"1","ResponseType":"code","ResponseMode":"query","GrantType":"authorization_code","RequestedScopes":"openid","State":"e89b2e7e8e894a8a8c44c6280583dd7e","UiLocales":null,"Nonce":null,"AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"b768fee3507a09a9cf44a59adcafd99e","Raw":{"client_id":"spa.react","redirect_uri":"http://localhost:8080/callback","response_type":"code","scope":"openid","state":"e89b2e7e8e894a8a8c44c6280583dd7e","code_challenge":"2minMe-oHl-xvau2iPqZCoaTq2r02KRk8uyDJ45xbWM","code_challenge_method":"S256"},"$type":"AuthorizeRequestValidationLog"}
+2019-05-31 01:55:28.523 -07:00 [DBG] IsActive called from: AuthorizeEndpoint
+2019-05-31 01:55:28.538 -07:00 [DBG] user_consent grant with value: spa.react|1 not found in store.
+2019-05-31 01:55:28.538 -07:00 [DBG] Found no prior consent from consent store, consent is required
+2019-05-31 01:55:28.538 -07:00 [INF] Showing consent: User has not yet consented
+2019-05-31 01:55:28.578 -07:00 [DBG] Consent Index (GET) redirected from /Account/Login (POST) 
+2019-05-31 01:55:28.589 -07:00 [DBG] Start authorize request protocol validation
+2019-05-31 01:55:28.590 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:28.590 -07:00 [DBG] Checking for PKCE parameters
+2019-05-31 01:55:28.590 -07:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-05-31 01:55:28.591 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:33.481 -07:00 [DBG] CORS request made for path: /consent from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-05-31 01:55:33.591 -07:00 [DBG] Receive postback from Consent/Index (GET) View 
+2019-05-31 01:55:33.591 -07:00 [DBG] Consent Input Form Values: {"Button":"yes","ScopesConsented":["openid"],"RememberConsent":true,"ReturnUrl":"/connect/authorize/callback?client_id=spa.react&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fcallback&response_type=code&scope=openid&state=e89b2e7e8e894a8a8c44c6280583dd7e&code_challenge=2minMe-oHl-xvau2iPqZCoaTq2r02KRk8uyDJ45xbWM&code_challenge_method=S256","$type":"ConsentInputModel"}
+2019-05-31 01:55:33.593 -07:00 [DBG] Start authorize request protocol validation
+2019-05-31 01:55:33.593 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:33.593 -07:00 [DBG] Checking for PKCE parameters
+2019-05-31 01:55:33.593 -07:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-05-31 01:55:33.643 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:33.927 -07:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2019-05-31 01:55:33.928 -07:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2019-05-31 01:55:33.928 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2019-05-31 01:55:33.937 -07:00 [DBG] Start authorize callback request
+2019-05-31 01:55:33.944 -07:00 [DBG] User in authorize request: 1
+2019-05-31 01:55:33.944 -07:00 [DBG] Start authorize request protocol validation
+2019-05-31 01:55:33.944 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 01:55:33.944 -07:00 [DBG] Checking for PKCE parameters
+2019-05-31 01:55:33.944 -07:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-05-31 01:55:33.944 -07:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"spa.react","ClientName":null,"RedirectUri":"http://localhost:8080/callback","AllowedRedirectUris":["http://localhost:8080/callback"],"SubjectId":"1","ResponseType":"code","ResponseMode":"query","GrantType":"authorization_code","RequestedScopes":"openid","State":"e89b2e7e8e894a8a8c44c6280583dd7e","UiLocales":null,"Nonce":null,"AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"b768fee3507a09a9cf44a59adcafd99e","Raw":{"client_id":"spa.react","redirect_uri":"http://localhost:8080/callback","response_type":"code","scope":"openid","state":"e89b2e7e8e894a8a8c44c6280583dd7e","code_challenge":"2minMe-oHl-xvau2iPqZCoaTq2r02KRk8uyDJ45xbWM","code_challenge_method":"S256"},"$type":"AuthorizeRequestValidationLog"}
+2019-05-31 01:55:33.944 -07:00 [DBG] IsActive called from: AuthorizeEndpoint
+2019-05-31 01:55:33.945 -07:00 [DBG] user_consent grant with value: spa.react|1 not found in store.
+2019-05-31 01:55:33.945 -07:00 [DBG] Found no prior consent from consent store, consent is required
+2019-05-31 01:55:33.951 -07:00 [INF] User consented to scopes: ["openid"]
+2019-05-31 01:55:33.953 -07:00 [DBG] User indicated to remember consent for scopes: ["openid"]
+2019-05-31 01:55:33.957 -07:00 [DBG] Client allows remembering consent, and consent given. Updating consent store for subject: 1
+2019-05-31 01:55:33.976 -07:00 [DBG] Creating Authorization Code Flow response.
+2019-05-31 01:55:34.006 -07:00 [INF] Authorize endpoint response
+{"SubjectId":"1","ClientId":"spa.react","RedirectUri":"http://localhost:8080/callback","State":"e89b2e7e8e894a8a8c44c6280583dd7e","Scope":"openid","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2019-05-31 01:55:34.055 -07:00 [DBG] Augmenting SignInContext
+2019-05-31 01:55:34.072 -07:00 [INF] AuthenticationScheme: idsrv signed in.
+2019-05-31 02:13:10.488 -07:00 [DBG] CORS request made for path: /.well-known/openid-configuration from origin: http://localhost:8080
+2019-05-31 02:13:10.488 -07:00 [DBG] Client list checked and origin: http://localhost:8080 is allowed
+2019-05-31 02:13:10.488 -07:00 [DBG] CorsPolicyService allowed origin: http://localhost:8080
+2019-05-31 02:13:10.488 -07:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2019-05-31 02:13:10.489 -07:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2019-05-31 02:13:10.489 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2019-05-31 02:13:10.489 -07:00 [DBG] Start discovery request
+2019-05-31 02:13:10.549 -07:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2019-05-31 02:13:10.549 -07:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2019-05-31 02:13:10.549 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2019-05-31 02:13:10.549 -07:00 [DBG] Start authorize request
+2019-05-31 02:13:10.549 -07:00 [DBG] User in authorize request: 1
+2019-05-31 02:13:10.549 -07:00 [DBG] Start authorize request protocol validation
+2019-05-31 02:13:10.549 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 02:13:10.549 -07:00 [DBG] Checking for PKCE parameters
+2019-05-31 02:13:10.549 -07:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-05-31 02:13:10.550 -07:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"spa.react","ClientName":null,"RedirectUri":"http://localhost:8080/callback","AllowedRedirectUris":["http://localhost:8080/callback"],"SubjectId":"1","ResponseType":"code","ResponseMode":"query","GrantType":"authorization_code","RequestedScopes":"openid","State":"28050745c8aa42b9b6cd1fb6581683f7","UiLocales":null,"Nonce":null,"AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"b768fee3507a09a9cf44a59adcafd99e","Raw":{"client_id":"spa.react","redirect_uri":"http://localhost:8080/callback","response_type":"code","scope":"openid","state":"28050745c8aa42b9b6cd1fb6581683f7","code_challenge":"bVMSn1QJ8MoUykMvGnN7HIrK2I2XwS7FaPosFEBnUNE","code_challenge_method":"S256"},"$type":"AuthorizeRequestValidationLog"}
+2019-05-31 02:13:10.550 -07:00 [DBG] IsActive called from: AuthorizeEndpoint
+2019-05-31 02:13:10.554 -07:00 [DBG] Consent found in consent store is same as current request, consent is not required
+2019-05-31 02:13:10.554 -07:00 [DBG] Creating Authorization Code Flow response.
+2019-05-31 02:13:10.563 -07:00 [INF] Authorize endpoint response
+{"SubjectId":"1","ClientId":"spa.react","RedirectUri":"http://localhost:8080/callback","State":"28050745c8aa42b9b6cd1fb6581683f7","Scope":"openid","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2019-05-31 02:13:11.650 -07:00 [DBG] CORS request made for path: /.well-known/openid-configuration from origin: http://localhost:8080
+2019-05-31 02:13:11.651 -07:00 [DBG] Client list checked and origin: http://localhost:8080 is allowed
+2019-05-31 02:13:11.651 -07:00 [DBG] CorsPolicyService allowed origin: http://localhost:8080
+2019-05-31 02:13:11.651 -07:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2019-05-31 02:13:11.651 -07:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2019-05-31 02:13:11.651 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2019-05-31 02:13:11.651 -07:00 [DBG] Start discovery request
+2019-05-31 02:13:11.789 -07:00 [DBG] CORS request made for path: /connect/token from origin: http://localhost:8080
+2019-05-31 02:13:11.791 -07:00 [DBG] Client list checked and origin: http://localhost:8080 is allowed
+2019-05-31 02:13:11.791 -07:00 [DBG] CorsPolicyService allowed origin: http://localhost:8080
+2019-05-31 02:13:11.792 -07:00 [DBG] Request path /connect/token matched to endpoint type Token
+2019-05-31 02:13:11.800 -07:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2019-05-31 02:13:11.800 -07:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2019-05-31 02:13:11.821 -07:00 [DBG] Start token request.
+2019-05-31 02:13:11.829 -07:00 [DBG] Start client validation
+2019-05-31 02:13:11.835 -07:00 [DBG] Start parsing Basic Authentication secret
+2019-05-31 02:13:11.839 -07:00 [DBG] Start parsing for secret in post body
+2019-05-31 02:13:11.904 -07:00 [DBG] client id without secret found
+2019-05-31 02:13:11.906 -07:00 [DBG] Parser found secret: PostBodySecretParser
+2019-05-31 02:13:11.907 -07:00 [DBG] Secret id found: spa.react
+2019-05-31 02:13:11.921 -07:00 [DBG] client configuration validation for client spa.react succeeded.
+2019-05-31 02:13:11.955 -07:00 [DBG] Hashed shared secret validator cannot process NoSecret
+2019-05-31 02:13:11.956 -07:00 [DBG] Secret validators could not validate secret
+2019-05-31 02:13:11.956 -07:00 [ERR] Client secret validation failed for client: spa.react.

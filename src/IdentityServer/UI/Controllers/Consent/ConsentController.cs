@@ -1,5 +1,9 @@
-﻿using IdentityServer.UI.Filters;
+﻿using IdentityServer.Extensions.IdentityServer4;
+using IdentityServer.UI.Filters;
+using IdentityServer.UI.ViewModels.Account;
 using IdentityServer.UI.ViewModels.Consent;
+using IdentityServer4.Events;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
@@ -51,14 +55,122 @@ namespace IdentityServer.UI.Controllers.Consent
             return View("Error");
         }
 
+        /// <summary>
+        /// Handles the consent screen postback
+        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(ConsentInputModel model)
+        {
+            _logger.LogDebug("Receive postback from Consent/Index (GET) View ");
+            _logger.LogDebug("Consent Input Form Values: {@Form}", model);
+            
+            var result = await ProcessConsent(model);
+
+            if (result.IsRedirect)
+            {
+                if (await _clientStore.IsPkceClientAsync(result.ClientId))
+                {
+                    // if the client is PKCE then we assume it's native, so this change in how to
+                    // return the response is for better UX for the end user.
+                    return View("Redirect", new RedirectViewModel { RedirectUrl = result.RedirectUri });
+                }
+
+                return Redirect(result.RedirectUri);
+            }
+
+            if (result.HasValidationError)
+            {
+                ModelState.AddModelError(string.Empty, result.ValidationError);
+            }
+
+            if (result.ShowView)
+            {
+                return View("Index", result.ViewModel);
+            }
+
+            return View("Error");
+        }
+
+        private async Task<ProcessConsentResult> ProcessConsent(ConsentInputModel model)
+        {
+            var result = new ProcessConsentResult();
+
+            // validate return url is still valid
+            var request = await _interaction.GetAuthorizationContextAsync(model.ReturnUrl);
+            if (request == null) return result;
+
+            ConsentResponse grantedConsent = null;
+
+            // user clicked 'no' - send back the standard 'access_denied' response
+            if (model?.Button == "no")
+            {
+                grantedConsent = ConsentResponse.Denied;
+
+                // emit event
+                await _events.RaiseAsync(new ConsentDeniedEvent(User.GetSubjectId(), request.ClientId, request.ScopesRequested));
+            }
+            // user clicked 'yes' - validate the data
+            else if (model?.Button == "yes")
+            {
+                // if the user consented to some scope, build the response model
+                if (model.ScopesConsented != null && model.ScopesConsented.Any())
+                {
+                    var scopes = model.ScopesConsented;
+                    if (ConsentOptions.EnableOfflineAccess == false)
+                    {
+                        scopes = scopes.Where(x => x != IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess);
+                    }
+
+                    grantedConsent = new ConsentResponse
+                    {
+                        RememberConsent = model.RememberConsent,
+                        ScopesConsented = scopes.ToArray()
+                    };
+
+                    // emit event
+                    await _events.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.ClientId, request.ScopesRequested, grantedConsent.ScopesConsented, grantedConsent.RememberConsent));
+                }
+                else
+                {
+                    result.ValidationError = ConsentOptions.MustChooseOneErrorMessage;
+                }
+            }
+            else
+            {
+                result.ValidationError = ConsentOptions.InvalidSelectionErrorMessage;
+            }
+
+            if (grantedConsent != null)
+            {
+                // communicate outcome of consent back to identityserver (tell the result of consent to IdentityServer)
+                await _interaction.GrantConsentAsync(request, grantedConsent);
+
+                // indicate that's it ok to redirect back to authorization endpoint
+                result.RedirectUri = model.ReturnUrl;
+                result.ClientId = request.ClientId;
+            }
+            else
+            {
+                // we need to redisplay the consent UI
+                result.ViewModel = await BuildViewModelAsync(model.ReturnUrl, model);
+            }
+
+            return result;
+        }
+
+
         private async Task<ConsentViewModel> BuildViewModelAsync(string returnUrl, ConsentInputModel model = null)
         {
+            // get authorization request
             var request = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (request != null)
             {
+                // get client
                 var client = await _clientStore.FindEnabledClientByIdAsync(request.ClientId);
                 if (client != null)
                 {
+                    // get scope of the client and must include at least one of claim 
                     var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
                     {
@@ -100,8 +212,11 @@ namespace IdentityServer.UI.Controllers.Consent
                 AllowRememberConsent = client.AllowRememberConsent
             };
 
+            // get identity and resouce scope from db
             vm.IdentityScopes = resources.IdentityResources.Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
             vm.ResourceScopes = resources.ApiResources.SelectMany(x => x.Scopes).Select(x => CreateScopeViewModel(x, vm.ScopesConsented.Contains(x.Name) || model == null)).ToArray();
+
+            // offline_access = refresh token (some of grant types does not support refresh token)
             if (ConsentOptions.EnableOfflineAccess && resources.OfflineAccess)
             {
                 vm.ResourceScopes = vm.ResourceScopes.Union(new ScopeViewModel[] {
