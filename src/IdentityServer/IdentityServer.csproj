@@ -22,7 +22,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="UI\ViewModels\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 </Project>

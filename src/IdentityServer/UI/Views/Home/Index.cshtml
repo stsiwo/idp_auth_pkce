@@ -1,40 +1,10 @@
-﻿@model List<IdentityServer.Infrastracture.DataEntity.ToDo>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title></title>
 </head>
 <body>
     <p>welcome to idp</p>
-    <div>
-        <label for="priority">Priority Point</label>
-        <select id="priority" name="priority">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-        </select>
-    </div>
-    <div>
-        <label for="is-done">Is Done</label>
-        <input type="radio" name="is-done" value="0" checked/>: Done
-        <input type="radio" name="is-done" value="1" />: Not Done 
-    </div>
-    <div>
-        <input type="button" id="priority-btn" value="Update"/>
-    </div>
-    <ul>
-        @foreach (var todo in Model)
-        {
-            <li>@todo.Title</li>
-        }
-    </ul>
-    <div id="priority-list">
-        @await Component.InvokeAsync("PriorityList", new { maxPriority = 2, isDone = false })
-    </div>
-    <script type="text/javascript" src="~/js/bundle.js"></script>
+
 </body>
 </html>

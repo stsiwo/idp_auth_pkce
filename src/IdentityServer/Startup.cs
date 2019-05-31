@@ -26,10 +26,7 @@ namespace IdentityServer
         {
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
-            var builder = services.AddIdentityServer(options => 
-            {
-                options.UserInteraction.LoginUrl = "Account/Login";
-            })
+            var builder = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients())
@@ -70,10 +67,7 @@ namespace IdentityServer
 
             app.UseIdentityServer();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
