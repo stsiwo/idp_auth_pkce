@@ -22,7 +22,7 @@ namespace IdentityServerAspNetIdentity
         {
             return new List<ApiResource>
             {
-
+                new ApiResource("catalog_api", "sts catalog api")
             };
         }
 
@@ -48,7 +48,8 @@ namespace IdentityServerAspNetIdentity
 
                     AllowedScopes =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "catalog_api"
                     }
                 }
             };
