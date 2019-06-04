@@ -25,8 +25,13 @@ namespace IdentityServerAspNetIdentity
             if (seed)
             {
                 var config = host.Services.GetRequiredService<IConfiguration>();
-                var connectionString = config.GetConnectionString("DefaultConnection");
+                var connectionString = config.GetConnectionString("AspNetIdentityConnection");
+                var idp4ConnectionString = config.GetConnectionString("IdentityServer4Connection");
+                // asp.net identity initial (test user) seed
                 SeedData.EnsureSeedData(connectionString);
+
+                // identity server 4 initial identity resource, api resource, and client data seed (defined in Config.cs)
+                Idp4SeedData.EnsureSeedData(host, idp4ConnectionString);
                 return;
             }
 

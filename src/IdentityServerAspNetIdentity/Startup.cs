@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 
 namespace IdentityServerAspNetIdentity
 {
@@ -28,7 +30,7 @@ namespace IdentityServerAspNetIdentity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(Configuration.GetConnectionString("AspNetIdentityConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -42,6 +44,8 @@ namespace IdentityServerAspNetIdentity
                 iis.AutomaticAuthentication = false;
             });
 
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             var builder = services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -49,9 +53,16 @@ namespace IdentityServerAspNetIdentity
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             })
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients())
+                .AddConfigurationStore<ConfigurationDbContext>(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlite(Configuration.GetConnectionString("IdentityServer4Connection"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                })
+                .AddOperationalStore<PersistedGrantDbContext>(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseSqlite(Configuration.GetConnectionString("IdentityServer4Connection"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                    // this enables automatic token cleanup. this is optional.
+                    options.EnableTokenCleanup = true;
+                })
                 .AddAspNetIdentity<ApplicationUser>();
 
             if (Environment.IsDevelopment())
