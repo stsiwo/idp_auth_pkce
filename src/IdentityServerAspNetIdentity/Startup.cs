@@ -34,6 +34,7 @@ namespace IdentityServerAspNetIdentity
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
@@ -63,6 +64,8 @@ namespace IdentityServerAspNetIdentity
                     // this enables automatic token cleanup. this is optional.
                     options.EnableTokenCleanup = true;
                 })
+                // this configures IdentityServer4 to use the asp.net Identity implementations of "IUserClaimsPrincipalFactory", "IResourceOwnerPasswordValidator", and "IProfileService".
+                // it also configures some of asp.net Identity's options for use with IdentityServer (such as claim types to use and authentication cookie settings)
                 .AddAspNetIdentity<ApplicationUser>();
 
             if (Environment.IsDevelopment())
