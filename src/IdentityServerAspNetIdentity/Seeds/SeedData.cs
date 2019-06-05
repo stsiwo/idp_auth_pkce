@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IdentityServerAspNetIdentity
+namespace IdentityServerAspNetIdentity.Seeds
 {
     public class SeedData
     {
