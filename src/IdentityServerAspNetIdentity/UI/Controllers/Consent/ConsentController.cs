@@ -172,6 +172,7 @@ namespace IdentityServer4.Quickstart.UI
                 if (client != null)
                 {
                     var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
+                    _logger.LogDebug("enabled scopes (id and resource): {@Id} and {@Res}", resources.IdentityResources, resources.ApiResources);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
                     {
                         return CreateConsentViewModel(model, returnUrl, request, client, resources);

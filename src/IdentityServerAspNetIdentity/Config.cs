@@ -14,7 +14,9 @@ namespace IdentityServerAspNetIdentity
         {
             return new List<IdentityResource> 
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Email(),
+                new IdentityResources.Profile()
             };
         }
 
@@ -43,12 +45,16 @@ namespace IdentityServerAspNetIdentity
 
                     ClientSecrets =
                     {
+                        // fix here. don't expose secret key here. instead define in appsetting.
+                        // #REFACTOR
                         new Secret("secret".Sha256())
                     },
 
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
                         "catalog_api"
                     }
                 }

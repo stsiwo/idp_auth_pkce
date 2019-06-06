@@ -39,7 +39,8 @@ namespace IdentityServerAspNetIdentity.Seeds
                     {
                         alice = new ApplicationUser
                         {
-                            UserName = "alice"
+                            UserName = "alice",
+                            Email = "AliceSmith@email.com"
                         };
                         var result = userMgr.CreateAsync(alice, "Pass123$").Result;
                         if (!result.Succeeded)
@@ -72,7 +73,8 @@ namespace IdentityServerAspNetIdentity.Seeds
                     {
                         bob = new ApplicationUser
                         {
-                            UserName = "bob"
+                            UserName = "bob",
+                            Email = "BobSmith@email.com"
                         };
                         var result = userMgr.CreateAsync(bob, "Pass123$").Result;
                         if (!result.Succeeded)
