@@ -62,8 +62,11 @@ namespace IdentityServerAspNetIdentity
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
-                // login path
+                // default url : something wierd happens here.
+                // /Account/Login is supposed to be default but runtime always direct to /Identity/Account/Login
                 options.UserInteraction.LoginUrl = "/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Account/Logout";
+                options.UserInteraction.ConsentUrl = "/Consent/Index";
             })
                 .AddConfigurationStore<ConfigurationDbContext>(options =>
                 {
