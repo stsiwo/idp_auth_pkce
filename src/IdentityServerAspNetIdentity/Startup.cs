@@ -41,8 +41,8 @@ namespace IdentityServerAspNetIdentity
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.ViewLocationFormats.Clear();
-                options.ViewLocationFormats.Add("/Areas/Idp/Views/{1}/{0}.cshtml");
-                options.ViewLocationFormats.Add("/Areas/Idp/Views/Shared/{0}.cshtml");
+                options.ViewLocationFormats.Add("/UI/Views/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("/UI/Views/Shared/{0}.cshtml");
             });
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
@@ -61,6 +61,9 @@ namespace IdentityServerAspNetIdentity
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
+
+                // login path
+                options.UserInteraction.LoginUrl = "/Account/Login";
             })
                 .AddConfigurationStore<ConfigurationDbContext>(options =>
                 {
