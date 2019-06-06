@@ -99,6 +99,11 @@ namespace IdentityServerAspNetIdentity
                     // set the redirect URI to http://localhost:5000/signin-google
                     options.ClientId = Configuration.GetConnectionString("GoogleClientId");
                     options.ClientSecret = Configuration.GetConnectionString("GoogleClientSecret");
+                })
+                .AddFacebook(options => 
+                {
+                    options.ClientId = Configuration.GetConnectionString("FacebookClientId");
+                    options.ClientSecret = Configuration.GetConnectionString("FacebookClientSecret");
                 });
         }
 
