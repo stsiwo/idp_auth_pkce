@@ -2,9 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServerAspNetIdentity.Data;
 using IdentityServerAspNetIdentity.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -30,8 +33,11 @@ namespace IdentityServerAspNetIdentity
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("AspNetIdentityConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => {
+                options.UseSqlite(Configuration.GetConnectionString("AspNetIdentityConnection"));
+                options.EnableSensitiveDataLogging();
+                });
+                
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,14 +76,22 @@ namespace IdentityServerAspNetIdentity
             })
                 .AddConfigurationStore<ConfigurationDbContext>(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlite(Configuration.GetConnectionString("IdentityServer4Connection"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                options.ConfigureDbContext = b => {
+                    b.UseSqlite(Configuration.GetConnectionString("IdentityServer4Connection"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                    b.EnableSensitiveDataLogging();
+                };
+                    
                 })
                 .AddOperationalStore<PersistedGrantDbContext>(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlite(Configuration.GetConnectionString("IdentityServer4Connection"), sql => sql.MigrationsAssembly(migrationsAssembly));
-                    // this enables automatic token cleanup. this is optional.
-                    options.EnableTokenCleanup = true;
-                })
+                    options.ConfigureDbContext = b =>
+                    {
+                        b.UseSqlite(Configuration.GetConnectionString("IdentityServer4Connection"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                        b.EnableSensitiveDataLogging();
+                    };
+                        // this enables automatic token cleanup. this is optional.
+                        options.EnableTokenCleanup = true;
+                    })
                 // this configures IdentityServer4 to use the asp.net Identity implementations of "IUserClaimsPrincipalFactory", "IResourceOwnerPasswordValidator", and "IProfileService".
                 // it also configures some of asp.net Identity's options for use with IdentityServer (such as claim types to use and authentication cookie settings)
                 .AddAspNetIdentity<ApplicationUser>();
@@ -94,6 +108,7 @@ namespace IdentityServerAspNetIdentity
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to http://localhost:5000/signin-google
@@ -102,6 +117,7 @@ namespace IdentityServerAspNetIdentity
                 })
                 .AddFacebook(options => 
                 {
+                    options.SignInScheme = IdentityConstants.ExternalScheme;
                     options.ClientId = Configuration.GetConnectionString("FacebookClientId");
                     options.ClientSecret = Configuration.GetConnectionString("FacebookClientSecret");
                 });

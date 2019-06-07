@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,14 @@ namespace Host.Quickstart.Account
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
+        private readonly ILogger<ExternalController> _logger;
 
         public ExternalController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
+            ILogger<ExternalController> logger,
             IEventService events)
         {
             _userManager = userManager;
@@ -40,6 +43,7 @@ namespace Host.Quickstart.Account
             _interaction = interaction;
             _clientStore = clientStore;
             _events = events;
+            _logger = logger;
         }
 
         /// <summary>
@@ -85,6 +89,7 @@ namespace Host.Quickstart.Account
         [HttpGet]
         public async Task<IActionResult> Callback()
         {
+            _logger.LogDebug("start reading what is stored in external cookie");
             // read external identity from the temporary cookie
             var result = await HttpContext.AuthenticateAsync(IdentityConstants.ExternalScheme);
             if (result?.Succeeded != true)
