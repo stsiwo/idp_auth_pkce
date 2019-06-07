@@ -39,6 +39,9 @@ namespace IdentityServerAspNetIdentity
                     RequirePkce = true,
                     RequireClientSecret = true,
 
+                    // disable cosent since this is not 3rd-party client
+                    RequireConsent = false,
+
                     RedirectUris = { "http://localhost:8080/callback" },
                     PostLogoutRedirectUris = { "http://localhost:8080" },
                     AllowedCorsOrigins = { "http://localhost:8080" },
