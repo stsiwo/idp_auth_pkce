@@ -33,10 +33,11 @@ namespace IdentityServerAspNetIdentity
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => {
-                options.UseSqlite(Configuration.GetConnectionString("AspNetIdentityConnection"));
+            services.AddDbContext<ApplicationDbContext>(options => 
+            {
+                options.UseSqlite(Configuration.GetConnectionString("CatalogApiConnection"));
                 options.EnableSensitiveDataLogging();
-                });
+            });
                 
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
