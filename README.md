@@ -17,10 +17,15 @@ identity server test with spa and Authorization Code type and PKCE
 ### Resource Server (CatalogApi) features
     - don't apply DDD since this api only does query stuff.
   * **1**: implement Infrastructure Layer.
-    - DataEntity
+    - ~~DataEntity~~
     - DbContext
-    - Specification (per filter and search item)
-    - Repository 
+      - ~~entities~~
+      - ~~relationships~~
+      - index (later based on query)
+    - ~~Specification (per filter and search item)~~
+    - ~~SpecificationBuilder (class which create and put each specification together)~~
+    - ~~QueryBuilder (class which build query based on query string using specification builder)~~
+    - ~~Repository~~
   * **2**: implement Application Layer (coordinate Specification and Repository)
     - implement Mediator to decoupling DataEntity (infrastructure) and ViewModel (UI); only return ViewModel (this ends up json)
     - implement service per request 
