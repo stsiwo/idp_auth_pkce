@@ -39,20 +39,24 @@ namespace CatalogApi.UI.Controllers
     {
         private readonly IUtil _util;
 
-        public ProductsController(IUtil util)
+        // ideally want to use method injection but it looks complicated so defined each App services for each endpoing in this controller.
+        private readonly IGetProductsService _getProductsService;
+
+        public ProductsController(IUtil util, IGetProductsService getProductsService)
         {
             _util = util;
+            _getProductsService = getProductsService;
         }
 
         // DI for IGetProductsService
         [HttpGet]
-        public async Task<ActionResult<ProductDTO>> Get([FromQuery] string queryString, IGetProductsService getProductsService)
+        public async Task<ActionResult<ProductDTO>> Get([FromQuery] string queryString)
         {
             // map query string to dictionary
             IDictionary<string, string> qs = _util.MapQueryString(HttpUtility.ParseQueryString(queryString)); 
 
             // get query result
-            var products = await getProductsService.GetProducts(qs);
+            var products = await _getProductsService.GetProducts(qs);
 
             // if empty, return 204 
             if (products == null)

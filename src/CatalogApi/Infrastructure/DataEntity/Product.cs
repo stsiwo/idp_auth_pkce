@@ -46,3 +46,4 @@ namespace CatalogApi.Infrastructure.DataEntity
         public SubCategory SubCategory { get; set; }
 
     }
+}

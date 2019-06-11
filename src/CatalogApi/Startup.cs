@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using CatalogApi.DI;
 using CatalogApi.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +28,7 @@ namespace CatalogApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CatalogApiDbContext>(options => 
             {
@@ -38,9 +41,16 @@ namespace CatalogApi
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
-                
-
             });
+
+            // autofac config 
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.RegisterModule<DefaultModule>();
+            containerBuilder.RegisterModule<ProductsControllerModule>();
+            containerBuilder.RegisterModule<SpecificationModule>();
+            containerBuilder.Populate(services);
+            var container = containerBuilder.Build();
+            return new AutofacServiceProvider(container);
 
 
         }
