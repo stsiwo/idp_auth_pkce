@@ -20,7 +20,7 @@ namespace CatalogApi.Infrastructure.DataEntity
 
         [Required]
         [Column("product_id", TypeName = "uuid")]
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
 
         [ForeignKey("ProductId")]
         public Product Product { get; set; }

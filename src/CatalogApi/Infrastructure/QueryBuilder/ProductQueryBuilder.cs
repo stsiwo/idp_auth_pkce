@@ -59,9 +59,9 @@ namespace CatalogApi.Infrastructure.QueryBuilder
                     case (int)SortConstants.ReviewDesc:
                         return _query.OrderByDescending(p => p.Reviews.Count);
                     case (int)SortConstants.ReviewScoreAsc:
-                        return _query.OrderBy(p => p.Reviews.Average(r => r.Score));
+                        return _query.OrderBy(p => p.Reviews.Average(r => (int) r.Score));
                     case (int)SortConstants.ReviewScoreDesc:
-                        return _query.OrderByDescending(p => p.Reviews.Average(r => r.Score));
+                        return _query.OrderByDescending(p => p.Reviews.Average(r => (int) r.Score));
                     default:
                         // if sort value is anything else than above just return defualt (DateAsc) 
                         return _query.OrderBy(p => p.CreationDate);

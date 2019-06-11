@@ -28,7 +28,7 @@ namespace CatalogApi.Infrastructure.DataEntity
 
         [Required]
         [Column("sub_category_id")]
-        public int SubCategoryId { get; set; }
+        public SubCategoryConstants SubCategoryId { get; set; }
 
         [Required]
         [Column("price")]

@@ -19,12 +19,12 @@ namespace CatalogApi.Infrastructure.DataEntity
         public String Author { get; set; }
 
         [Required]
-        [Column("author")]
+        [Column("comment")]
         public String Comment { get; set; }
 
         [Required]
         [Column("score")]
-        public int Score { get; set; }
+        public ScoreConstants Score { get; set; }
 
         [Required]
         [Column("product_id", TypeName = "uuid")]

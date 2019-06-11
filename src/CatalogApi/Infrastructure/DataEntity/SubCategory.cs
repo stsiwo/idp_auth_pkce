@@ -27,8 +27,8 @@ namespace CatalogApi.Infrastructure.DataEntity
         public String ImageURL { get; set; }
 
         [Required]
-        [Column("category_id", TypeName = "uuid")]
-        public String CategoryId { get; set; }
+        [Column("category_id", TypeName = "smallint")]
+        public CategoryConstants CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
