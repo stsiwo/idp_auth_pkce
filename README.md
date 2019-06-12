@@ -2,12 +2,12 @@
 identity server test with spa and Authorization Code type and PKCE
 
 ## Tasks
-  1. security : https://securityheaders.com/
+  * **1. security**: 
     - **HSTS** (if possible. might too much??): https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.2&tabs=visual-studio#http-strict-transport-security-protocol-hsts 
-    - Content Security Policy: 
-    - XSS policy and SQL Injection policy: make sure all input are sanitize and enforce validation (html, js, backend, data stored in db)
-    - XSRF policy: use token for every post request
-    - OWASP: use free version to make sure there is no any security hole.
+    - **Content Security Policy**: https://securityheaders.com/
+    - **XSS policy and SQL Injection policy**: make sure all input are sanitize and enforce validation (html, js, backend, data stored in db)
+    - **XSRF policy**: use token for every post request
+    - **OWASP**: use free version to make sure there is no any security hole.
 
 ### Idp features
   * **Idp.1**: ~~change login inputs~~<br>
@@ -40,9 +40,11 @@ identity server test with spa and Authorization Code type and PKCE
     - caveat: read docs to make sure how Autofac and ASP.NET Core work together
     - create module per endpoint or controller to organize registration of components and its service
   * **5**: Unit Test
-    - i still dont appreciate why Unit Test is important
+    - only test public method (not private method. this is covered by when testing the public method which uses the private method)
+    - ~~i still dont appreciate why Unit Test is important~~
       - but docs say following:
         - can reduce the number of integration test by unit test (how??)
+          - i think this is because if you do without any unit test, you have to do integration test and fixes the errors and repeat this process over and over again. let's say, if you need to do integration test five times to implement a feature, and it takes 5sec per testing. so the total time comes to 25sec. on the other hands, if you implement implement unit test to implement the feature, you can use the unit test to fix the erros. and let's say you had to do unit testing 5 times and plus integration test only once. and unit testing takes 1sec. the total comes to 5 + 5 = 10sec. you saved your time and also you can get all benefits come from unit testing (like below) and also drawbacks such as cost for preparing unit test and test data. 
         - avoid regression error (i see this point)
         - facilitate design following SOLID principle (i also see this point)
   * **6**: Integration Test
