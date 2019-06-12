@@ -3,6 +3,11 @@ identity server test with spa and Authorization Code type and PKCE
 
 ## Tasks
   1. security : https://securityheaders.com/
+    - **HSTS** (if possible. might too much??): https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.2&tabs=visual-studio#http-strict-transport-security-protocol-hsts 
+    - Content Security Policy: 
+    - XSS policy and SQL Injection policy: make sure all input are sanitize and enforce validation (html, js, backend, data stored in db)
+    - XSRF policy: use token for every post request
+    - OWASP: use free version to make sure there is no any security hole.
 
 ### Idp features
   * **Idp.1**: ~~change login inputs~~<br>
