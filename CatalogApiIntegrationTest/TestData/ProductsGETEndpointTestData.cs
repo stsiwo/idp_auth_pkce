@@ -11,7 +11,7 @@ namespace CatalogApiIntegrationTest.TestData
 {
     public static class ProductsGETEndpointTestData
     {
-        public static string GetProducts()
+        public static List<Product> GetProducts()
         {
             var categoryFaker = new Faker<Category>()
                 .RuleFor(c => c.Id, f => f.PickRandom<CategoryConstants>())
@@ -75,15 +75,14 @@ namespace CatalogApiIntegrationTest.TestData
 
             Product SeededProduct(int seed)
             {
-                return productFaker.Generate();
+                return productFaker.UseSeed(seed).Generate();
             }
 
             var products = Enumerable.Range(1, 5)
                 .Select(SeededProduct)
                 .ToList();
 
-            return JsonConvert.SerializeObject(products); 
+            return products;  
         }
-
     }
 }

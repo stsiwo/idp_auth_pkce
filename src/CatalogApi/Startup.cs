@@ -46,8 +46,10 @@ namespace CatalogApi
             // autofac config 
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<DefaultModule>();
+            containerBuilder.RegisterModule<SingletonModule>();
             containerBuilder.RegisterModule<ProductsControllerModule>();
             containerBuilder.RegisterModule<SpecificationModule>();
+            containerBuilder.RegisterModule<SingletonModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             return new AutofacServiceProvider(container);

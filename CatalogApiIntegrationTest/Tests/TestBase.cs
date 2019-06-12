@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
 
-namespace CatalogApiIntegrationTest
+namespace CatalogApiIntegrationTest.Tests
 {
     public abstract class TestBase
     {

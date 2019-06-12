@@ -2,6 +2,7 @@
 using CatalogApi.Application.Service.Products;
 using CatalogApi.UI.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -38,22 +39,31 @@ namespace CatalogApi.UI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IUtil _util;
+        private readonly ILogger<ProductsController> _logger;
 
         // ideally want to use method injection but it looks complicated so defined each App services for each endpoing in this controller.
         private readonly IGetProductsService _getProductsService;
 
-        public ProductsController(IUtil util, IGetProductsService getProductsService)
+
+        public ProductsController(IUtil util, IGetProductsService getProductsService, ILogger<ProductsController> logger)
         {
             _util = util;
             _getProductsService = getProductsService;
+            _logger = logger;
         }
 
         // DI for IGetProductsService
         [HttpGet]
         public async Task<ActionResult<ProductDTO>> Get([FromQuery] string queryString)
         {
-            // map query string to dictionary
-            IDictionary<string, string> qs = _util.MapQueryString(HttpUtility.ParseQueryString(queryString)); 
+            _logger.LogDebug("Get Endpoint: {@Query}", queryString);
+
+            IDictionary<string, string> qs = null;
+            if (queryString != null)
+            {
+                // map query string to dictionary
+                qs = _util.MapQueryString(HttpUtility.ParseQueryString(queryString)); 
+            }
 
             // get query result
             var products = await _getProductsService.GetProducts(qs);

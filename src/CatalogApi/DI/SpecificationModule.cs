@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using CatalogApi.Infrastructure.DataEntity;
 using CatalogApi.Infrastructure.Specification.Builder;
+using CatalogApi.Infrastructure.Specification.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace CatalogApi.DI
         protected override void Load(ContainerBuilder builder)
         {
             // ProductSpecificationBuilder
-            builder.RegisterType<SpecificationBuilder<Product>>().As<ISpecificationBuilder<Product>>().InstancePerRequest();
+            builder.RegisterType<BaseSpecification<Product>>().As<ISpecification<Product>>().InstancePerLifetimeScope();
         }
     }
 }

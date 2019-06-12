@@ -3,7 +3,7 @@ using CatalogApi.Infrastructure.Specification.Builder;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,10 +28,10 @@ namespace CatalogApi.Infrastructure.QueryBuilder
                 .Include(p => p.SubImages)
                 .Include(p => p.Reviews).AsQueryable();
 
-            if (qs.Keys.Intersect(QueryConstants.ToList()).Count() > 0)
+            if (qs != null && qs.Keys.Intersect(QueryConstants.ToList()).Count() > 0)
                 _query = _query.Where(_specificationBuilder.Build(qs)).AsQueryable();
 
-            if (qs.ContainsKey(QueryConstants.Sort))
+            if (qs != null && qs.ContainsKey(QueryConstants.Sort))
                 _query = BuildOrderByClause(qs);
 
             return await _query.ToListAsync();
