@@ -27,8 +27,26 @@ identity server test with spa and Authorization Code type and PKCE
     - ~~QueryBuilder (class which build query based on query string using specification builder)~~
     - ~~Repository~~
   * **2**: implement Application Layer (coordinate Specification and Repository)
-    - implement Mediator to decoupling DataEntity (infrastructure) and ViewModel (UI); only return ViewModel (this ends up json)
-    - implement service per request 
-    - implement DI scope using Autofac for each thread (request)
+    - decouple DataEntity (infrastructure) and DTO (UI); only return DTO (this ends up json)
+    - implement service per request/endpoint
   * **3**: implement UI Layer 
     - implement Controller (maybe using Swagger): should i use HETEOS??
+  * **4**: implement DI (Autfac)
+    - caveat: read docs to make sure how Autofac and ASP.NET Core work together
+    - create module per endpoint or controller to organize registration of components and its service
+  * **5**: Unit Test
+    - i still dont appreciate why Unit Test is important
+      - but docs say following:
+        - can reduce the number of integration test by unit test (how??)
+        - avoid regression error (i see this point)
+        - facilitate design following SOLID principle (i also see this point)
+  * **6**: Integration Test
+    - implement per endpoint
+      - use Bogus to create test data
+      - WebApplicationFactory to create TestServer and Client (request)
+      - validate the resonse 
+# Error handlings and tips
+  * **NullReferenceException**: reference variable is not initiated (not primitive)
+      - enforce null check
+  * **IQueryable without Where method** : memory burst?? this is because all data in db moves into memory if data is huge, memory got bloated and throws exception.
+      - use pagination or Where clause to limit how many data are moved into memory
