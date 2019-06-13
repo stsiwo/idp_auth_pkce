@@ -4,6 +4,7 @@ using CatalogApi.Application.Repository;
 using CatalogApi.Infrastructure.DataEntity;
 using CatalogApi.Infrastructure.QueryBuilder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -20,19 +21,24 @@ namespace CatalogApi.Infrastructure.Repository
         // inject per request
         private readonly IQueryBuilder<Product> _queryBuilder;
 
-        public ProductRepository(IMapper mapper, IQueryBuilder<Product> queryBuilder)
+        private readonly ILogger<ProductRepository> _logger;
+
+        public ProductRepository(IMapper mapper, IQueryBuilder<Product> queryBuilder, ILogger<ProductRepository> logger)
         {
             _mapper = mapper;
             _queryBuilder = queryBuilder;
+            _logger = logger;
         }
 
 
-        public async Task<List<ProductDTO>> GetList(IDictionary<string, string> qs)
+        public async Task<IList<ProductDTO>> GetList(IDictionary<string, string> qs)
         {
-            List<DataEntity.Product> results = await _queryBuilder.Build(qs);
+            List<Product> results = await _queryBuilder.Build(qs);
+
+            _logger.LogDebug("result of product query satoshi: {@Result}", results);
 
             // 2. assign results to List<Product> DTO
-            List<ProductDTO> products = this._mapper.Map<List<ProductDTO>>(results);
+            IList<ProductDTO> products = this._mapper.Map<IList<Product>, IList<ProductDTO>>(results);
 
             // 3. return it!!
             return products;

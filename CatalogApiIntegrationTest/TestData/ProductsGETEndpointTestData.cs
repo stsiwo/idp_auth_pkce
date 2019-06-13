@@ -78,7 +78,7 @@ namespace CatalogApiIntegrationTest.TestData
                 return productFaker.UseSeed(seed).Generate();
             }
 
-            var products = Enumerable.Range(1, 5)
+            var products = Enumerable.Range(1,50)
                 .Select(SeededProduct)
                 .ToList();
 

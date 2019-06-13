@@ -12,10 +12,13 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
 {
     public class GetEndpoint : IClassFixture<ProductsControllerWebApplicationFactory<Startup>>
     {
+        private readonly ITestOutputHelper _output;
+
         private readonly ProductsControllerWebApplicationFactory<Startup> _factory;
-        public GetEndpoint(ProductsControllerWebApplicationFactory<Startup> factory)  
+        public GetEndpoint(ProductsControllerWebApplicationFactory<Startup> factory, ITestOutputHelper output)  
         {
             _factory = factory;
+            _output = output;
         }
 
         [Theory]
@@ -36,7 +39,7 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
 
         [Theory]
         [InlineData("/api/products")]
-        public async Task GET_Endpoints_ReturnNotContentStatusCode(string url)
+        public async Task GET_Endpoints_ReturnAllProductsWithoutStringQuery(string url)
         {
             // Arrange
             var client = _factory.CreateClient();
@@ -44,6 +47,8 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
             // Act
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
+
+            _output.WriteLine(body);
 
             // Assert
             //response.EnsureSuccessStatusCode(); // Status Code 200-299

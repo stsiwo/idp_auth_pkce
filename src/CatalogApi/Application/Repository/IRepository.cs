@@ -15,6 +15,6 @@ namespace CatalogApi.Application.Repository
         /**
          * return a list of DataEntity based on query string (qs)
          **/ 
-        Task<List<R>> GetList(IDictionary<string, string> qs);
+        Task<IList<R>> GetList(IDictionary<string, string> qs);
     }
 }

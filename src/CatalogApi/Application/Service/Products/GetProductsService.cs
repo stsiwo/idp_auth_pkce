@@ -18,7 +18,7 @@ namespace CatalogApi.Application.Service.Products
         {
             _repository = repository;
         }
-        public async Task<List<ProductDTO>> GetProducts(IDictionary<string, string> qs)
+        public async Task<IList<ProductDTO>> GetProducts(IDictionary<string, string> qs)
         {
             return await _repository.GetList(qs);
         }

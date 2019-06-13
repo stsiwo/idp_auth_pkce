@@ -30,5 +30,8 @@ namespace CatalogApi.Application.DTO
 
         [DataMember]
         public List<ReviewDTO> ReviewList { get; private set; }
+
+        [DataMember]
+        public SubCategoryDTO SubCategory { get; set; }
     }
 }

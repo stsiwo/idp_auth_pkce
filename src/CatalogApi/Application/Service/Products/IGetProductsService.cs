@@ -9,6 +9,6 @@ namespace CatalogApi.Application.Service.Products
 {
     public interface IGetProductsService
     {
-        Task<List<ProductDTO>> GetProducts(IDictionary<string, string> qs);
+        Task<IList<ProductDTO>> GetProducts(IDictionary<string, string> qs);
     }
 }
