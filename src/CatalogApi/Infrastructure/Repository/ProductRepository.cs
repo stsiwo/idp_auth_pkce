@@ -33,7 +33,7 @@ namespace CatalogApi.Infrastructure.Repository
 
         public async Task<IList<ProductDTO>> GetList(IDictionary<string, string> qs)
         {
-            List<Product> results = await _queryBuilder.Build(qs);
+            IList<Product> results = await _queryBuilder.Build(qs);
 
             _logger.LogDebug("result of product query satoshi: {@Result}", results);
 

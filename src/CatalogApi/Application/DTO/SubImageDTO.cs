@@ -7,8 +7,8 @@ namespace CatalogApi.Application.DTO
 {
     public class SubImageDTO : IDTO
     {
-        public String Id { get; private set; }
-        public String Url { get; private set; }
-        public int ProductId { get; private set; }
+        public String Id { get; set; }
+        public String Url { get; set; }
+        public string ProductId { get; set; }
     }
 }

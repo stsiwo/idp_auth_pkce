@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CatalogApi.Infrastructure.Specification.Product
+namespace CatalogApi.Infrastructure.Specification.Products
 {
-    public class IncludeSubCategorySpecification : CompositeSpecification<DataEntity.Product>
+    public class IncludeSubCategorySpecification : CompositeSpecification<Product>
     {
         private readonly SubCategoryConstants _SubCategoryType;
 
@@ -16,7 +16,7 @@ namespace CatalogApi.Infrastructure.Specification.Product
         {
             this._SubCategoryType = subCategoryType;
         }
-        public override Expression<Func<DataEntity.Product, bool>> ToExpression()
+        public override Expression<Func<Product, bool>> ToExpression()
         {
             return product => product.SubCategory.Id == this._SubCategoryType;
         }

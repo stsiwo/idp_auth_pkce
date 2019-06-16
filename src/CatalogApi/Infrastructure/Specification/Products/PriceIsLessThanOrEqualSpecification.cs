@@ -1,13 +1,14 @@
-﻿using CatalogApi.Infrastructure.Specification.Core;
+﻿using CatalogApi.Infrastructure.DataEntity;
+using CatalogApi.Infrastructure.Specification.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CatalogApi.Infrastructure.Specification.Product
+namespace CatalogApi.Infrastructure.Specification.Products
 {
-    public class PriceIsLessThanOrEqualSpecification : CompositeSpecification<DataEntity.Product>
+    public class PriceIsLessThanOrEqualSpecification : CompositeSpecification<Product>
     {
         private readonly decimal _MinPrice;
 
@@ -15,7 +16,7 @@ namespace CatalogApi.Infrastructure.Specification.Product
         {
             this._MinPrice = minPrice;
         }
-        public override Expression<Func<DataEntity.Product, bool>> ToExpression()
+        public override Expression<Func<Product, bool>> ToExpression()
         {
             return product => product.Price <= this._MinPrice;
         }

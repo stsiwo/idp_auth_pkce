@@ -10,18 +10,18 @@ namespace CatalogApi.Application.DTO
     public class ReviewDTO : IDTO
     {
         [DataMember]
-        public String Id { get; private set; }
+        public String Id { get; set; }
 
         [DataMember]
-        public String Author { get; private set; }
+        public String Author { get; set; }
 
         [DataMember]
-        public String Comment { get; private set; }
+        public String Comment { get; set; }
 
         [DataMember]
-        public int Score { get; private set; }
+        public int Score { get; set; }
 
         [DataMember]
-        public String CreationDate { get; private set; }
+        public String CreationDate { get; set; }
     }
 }

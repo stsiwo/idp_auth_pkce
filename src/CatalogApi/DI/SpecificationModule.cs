@@ -15,6 +15,7 @@ namespace CatalogApi.DI
         {
             // ProductSpecificationBuilder
             builder.RegisterType<BaseSpecification<Product>>().As<ISpecification<Product>>().InstancePerLifetimeScope();
+
         }
     }
 }

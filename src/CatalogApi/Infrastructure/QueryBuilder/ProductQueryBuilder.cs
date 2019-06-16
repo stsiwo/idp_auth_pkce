@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Features.Indexed;
+using CatalogApi.Infrastructure.QueryBuilder.OrderClauseStrategy;
 
 namespace CatalogApi.Infrastructure.QueryBuilder
 {
@@ -15,59 +17,39 @@ namespace CatalogApi.Infrastructure.QueryBuilder
 
         private readonly ISpecificationBuilder<Product> _specificationBuilder;
 
+        private readonly IIndex<SortConstants, IOrderClauseStrategy> _orderStrategyFactory;
+
         private IQueryable<Product> _query;
 
-        public ProductQueryBuilder(CatalogApiDbContext context, ISpecificationBuilder<Product> specificationBuilder)
+        public ProductQueryBuilder(CatalogApiDbContext context, IIndex<SortConstants, IOrderClauseStrategy> orderStrategyFactory, ISpecificationBuilder<Product> specificationBuilder)
         {
             _context = context;
+            _orderStrategyFactory = orderStrategyFactory;
             _specificationBuilder = specificationBuilder;
         }
-        public async Task<List<Product>> Build(IDictionary<string, string> qs = null)
+        public async Task<IList<Product>> Build(IDictionary<string, string> qs = null)
         {
+            // include
             _query = _context.Products
                 .Include(p => p.SubImages)
                 .Include(p => p.Reviews).AsQueryable();
 
+            // where clause using specification
             if (qs != null && qs.Keys.Intersect(QueryConstants.ToList()).Count() > 0)
                 _query = _query.Where(_specificationBuilder.Build(qs)).AsQueryable();
 
+            // order clause using strategy
             if (qs != null && qs.ContainsKey(QueryConstants.Sort))
-                _query = BuildOrderByClause(qs);
+            {
+                int sortId = Convert.ToInt32(qs[QueryConstants.Sort]);
+                IOrderClauseStrategy orderStrategy = _orderStrategyFactory[(SortConstants)sortId];
+
+                _query = orderStrategy.GetOrderClause(_query); 
+            }
 
             return await _query.ToListAsync();
         }
 
-        private IQueryable<Product> BuildOrderByClause(IDictionary<string, string> qs)
-        {
-            {
-                switch (Convert.ToInt16(qs[QueryConstants.Sort]))
-                {
-                    case (int)SortConstants.DateAsc:
-                        return _query.OrderBy(p => p.CreationDate);
-                    case (int)SortConstants.DateDesc:
-                        return _query.OrderByDescending(p => p.CreationDate);
-                    case (int)SortConstants.PriceAsc:
-                        return _query.OrderBy(p => p.Price);
-                    case (int)SortConstants.PriceDesc:
-                        return _query.OrderByDescending(p => p.Price);
-                    case (int)SortConstants.NameAsc:
-                        return _query.OrderBy(p => p.Name);
-                    case (int)SortConstants.NameDesc:
-                        return _query.OrderByDescending(p => p.Name);
-                    case (int)SortConstants.ReviewAsc:
-                        return _query.OrderBy(p => p.Reviews.Count);
-                    case (int)SortConstants.ReviewDesc:
-                        return _query.OrderByDescending(p => p.Reviews.Count);
-                    case (int)SortConstants.ReviewScoreAsc:
-                        return _query.OrderBy(p => p.Reviews.Average(r => (int) r.Score));
-                    case (int)SortConstants.ReviewScoreDesc:
-                        return _query.OrderByDescending(p => p.Reviews.Average(r => (int) r.Score));
-                    default:
-                        // if sort value is anything else than above just return defualt (DateAsc) 
-                        return _query.OrderBy(p => p.CreationDate);
-                }
-            }
-        }
     }
 
 }

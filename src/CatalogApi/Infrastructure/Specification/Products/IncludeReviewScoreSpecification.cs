@@ -6,9 +6,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CatalogApi.Infrastructure.Specification.Product
+namespace CatalogApi.Infrastructure.Specification.Products
 {
-    public class IncludeReviewScoreSpecification : CompositeSpecification<DataEntity.Product>
+    public class IncludeReviewScoreSpecification : CompositeSpecification<Product>
     {
         private readonly ScoreConstants _Score;
 
@@ -16,7 +16,7 @@ namespace CatalogApi.Infrastructure.Specification.Product
         {
             this._Score = score;
         }
-        public override Expression<Func<DataEntity.Product, bool>> ToExpression()
+        public override Expression<Func<Product, bool>> ToExpression()
         {
             return product => Convert.ToInt16(product.Reviews.Average(r => (int) r.Score)) == (int)this._Score;
         }

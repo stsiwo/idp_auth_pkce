@@ -10,7 +10,7 @@ namespace CatalogApi.Infrastructure.QueryBuilder
     public interface IQueryBuilder<T>
     where T : IDataEntity
     {
-        Task<List<T>> Build(IDictionary<string, string> qs = null);
+        Task<IList<T>> Build(IDictionary<string, string> qs = null);
 
     }
 }

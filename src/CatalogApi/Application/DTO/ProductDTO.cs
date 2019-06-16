@@ -8,28 +8,28 @@ namespace CatalogApi.Application.DTO
     public class ProductDTO : IDTO
     {
         [DataMember]
-        public String Id { get; private set; }
+        public String Id { get; set; }
 
         [DataMember]
-        public String Name { get; private set; }
+        public String Name { get; set; }
 
         [DataMember]
-        public String Description { get; private set; }
+        public String Description { get; set; }
 
         [DataMember]
-        public String MainImageURL { get; private set; }
+        public String MainImageURL { get; set; }
 
         /** DataContract and collection
          *  DataContract Attribute automatically change complex data structure to array or object in json 
          **/
         [DataMember]
-        public List<SubImageDTO> SubImageURLList { get; private set; }
+        public List<SubImageDTO> SubImageURLList { get; set; }
 
         [DataMember]
-        public decimal Price { get; private set; }
+        public decimal Price { get; set; }
 
         [DataMember]
-        public List<ReviewDTO> ReviewList { get; private set; }
+        public List<ReviewDTO> ReviewList { get; set; }
 
         [DataMember]
         public SubCategoryDTO SubCategory { get; set; }

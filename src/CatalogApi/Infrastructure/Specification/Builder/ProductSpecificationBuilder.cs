@@ -1,6 +1,6 @@
 ﻿using CatalogApi.Infrastructure.DataEntity;
 using CatalogApi.Infrastructure.Specification.Core;
-using CatalogApi.Infrastructure.Specification.Product;
+using CatalogApi.Infrastructure.Specification.Products;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;

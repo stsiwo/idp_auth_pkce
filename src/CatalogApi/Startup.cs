@@ -49,6 +49,7 @@ namespace CatalogApi
             containerBuilder.RegisterModule<SingletonModule>();
             containerBuilder.RegisterModule<ProductsControllerModule>();
             containerBuilder.RegisterModule<SpecificationModule>();
+            containerBuilder.RegisterModule<ProductSpecificationFactoryModule>();
             containerBuilder.RegisterModule<SingletonModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
