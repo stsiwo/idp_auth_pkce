@@ -20,31 +20,48 @@ namespace CatalogApi.DI
              *  client => specificationFactory => each Specification
              **/
             // product specification
-            builder.RegisterType<SpecificationFactory<string, IncludeCategorySpecification>>()
-               .Keyed<ISpecificationFactory<string, ISpecification<Product>>>(QueryConstants.Category)
+            builder.RegisterType<SpecificationFactory<IncludeCategorySpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.Category)
                .InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationFactory<string, IncludeKeyWordSpecification>>()
-               .Keyed<ISpecificationFactory<string, ISpecification<Product>>>(QueryConstants.KeyWord)
+            builder.RegisterType<SpecificationFactory<IncludeKeyWordSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.KeyWord)
                .InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationFactory<string, IncludeSubCategorySpecification>>()
-               .Keyed<ISpecificationFactory<string, ISpecification<Product>>>(QueryConstants.SubCategory)
+            builder.RegisterType<SpecificationFactory<IncludeSubCategorySpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.SubCategory)
                .InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationFactory<ScoreConstants, IncludeReviewScoreSpecification>>()
-               .Keyed<ISpecificationFactory<ScoreConstants, ISpecification<Product>>>(QueryConstants.ReviewScore)
+            builder.RegisterType<SpecificationFactory<IncludeReviewScoreSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.ReviewScore)
                .InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationFactory<decimal, PriceIsLessThanOrEqualSpecification>>()
-               .Keyed<ISpecificationFactory<decimal, ISpecification<Product>>>(QueryConstants.MaxPrice)
+            builder.RegisterType<SpecificationFactory<PriceIsLessThanOrEqualSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.MaxPrice)
                .InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationFactory<decimal, PriceIsMoreThanOrEqualSpecification>>()
-               .Keyed<ISpecificationFactory<decimal, ISpecification<Product>>>(QueryConstants.MinPrice)
+            builder.RegisterType<SpecificationFactory<PriceIsMoreThanOrEqualSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.MinPrice)
                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeCategorySpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeKeyWordSpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeSubCategorySpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeReviewScoreSpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PriceIsLessThanOrEqualSpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PriceIsMoreThanOrEqualSpecification>()
+                .InstancePerLifetimeScope();
 
         }
-
     }
 }

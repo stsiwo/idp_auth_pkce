@@ -12,9 +12,9 @@ namespace CatalogApi.Infrastructure.Specification.Products
     {
         private readonly decimal _MaxPrice;
 
-        public PriceIsMoreThanOrEqualSpecification(decimal maxPrice)
+        public PriceIsMoreThanOrEqualSpecification(string maxPrice)
         {
-            this._MaxPrice = maxPrice;
+            this._MaxPrice = Convert.ToDecimal(maxPrice);
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {

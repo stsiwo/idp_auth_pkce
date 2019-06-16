@@ -14,7 +14,7 @@ namespace CatalogApi.Infrastructure.Specification.Products
 
         public IncludeCategorySpecification(string categoryType)
         {
-            this._CategoryType = (CategoryConstants)categoryType;
+            this._CategoryType = (CategoryConstants)Convert.ToInt32(categoryType);
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {

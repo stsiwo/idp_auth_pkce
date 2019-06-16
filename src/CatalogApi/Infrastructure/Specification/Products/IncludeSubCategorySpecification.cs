@@ -12,9 +12,9 @@ namespace CatalogApi.Infrastructure.Specification.Products
     {
         private readonly SubCategoryConstants _SubCategoryType;
 
-        public IncludeSubCategorySpecification(SubCategoryConstants subCategoryType)
+        public IncludeSubCategorySpecification(string subCategoryType)
         {
-            this._SubCategoryType = subCategoryType;
+            this._SubCategoryType = (SubCategoryConstants)Convert.ToInt32(subCategoryType);
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {

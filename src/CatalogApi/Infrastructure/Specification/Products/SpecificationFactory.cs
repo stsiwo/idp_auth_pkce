@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace CatalogApi.Infrastructure.Specification.Products
 {
-    public class SpecificationFactory<P, T> : ISpecificationFactory<P, T>
+    public class SpecificationFactory<T> : ISpecificationFactory<T>
         where T : ISpecification<Product>
     {
-        private readonly Func<P, T> _factory;
+        private readonly Func<string, T> _factory;
 
-        public SpecificationFactory(Func<P, T> factory)
+        public SpecificationFactory(Func<string, T> factory)
         {
             _factory = factory;
         }
 
-        public T Create(P param)
+        public T Create(string param)
         {
             return _factory(param);
         }

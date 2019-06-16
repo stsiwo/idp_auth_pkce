@@ -12,9 +12,9 @@ namespace CatalogApi.Infrastructure.Specification.Products
     {
         private readonly ScoreConstants _Score;
 
-        public IncludeReviewScoreSpecification(ScoreConstants score)
+        public IncludeReviewScoreSpecification(string score)
         {
-            this._Score = score;
+            this._Score = (ScoreConstants)Convert.ToInt32(score);
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {

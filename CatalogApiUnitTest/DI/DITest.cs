@@ -109,11 +109,46 @@ namespace CatalogApiUnitTest
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<SpecificationFactory<CategoryConstants, IncludeCategorySpecification>>()
-               .Keyed<ISpecificationFactory<CategoryConstants, ISpecification<Product>>>(QueryConstants.Category)
+            builder.RegisterType<SpecificationFactory<IncludeCategorySpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.Category)
+               .InstancePerLifetimeScope();
+
+            builder.RegisterType<SpecificationFactory<IncludeKeyWordSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.KeyWord)
+               .InstancePerLifetimeScope();
+
+            builder.RegisterType<SpecificationFactory<IncludeSubCategorySpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.SubCategory)
+               .InstancePerLifetimeScope();
+
+            builder.RegisterType<SpecificationFactory<IncludeReviewScoreSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.ReviewScore)
+               .InstancePerLifetimeScope();
+
+            builder.RegisterType<SpecificationFactory<PriceIsLessThanOrEqualSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.MaxPrice)
+               .InstancePerLifetimeScope();
+
+            builder.RegisterType<SpecificationFactory<PriceIsMoreThanOrEqualSpecification>>()
+               .Keyed<ISpecificationFactory<ISpecification<Product>>>(QueryStringConstants.MinPrice)
                .InstancePerLifetimeScope();
 
             builder.RegisterType<IncludeCategorySpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeKeyWordSpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeSubCategorySpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<IncludeReviewScoreSpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PriceIsLessThanOrEqualSpecification>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PriceIsMoreThanOrEqualSpecification>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<SpecificationFactoryClient>().InstancePerDependency();
@@ -123,10 +158,17 @@ namespace CatalogApiUnitTest
             {
                 SpecificationFactoryClient c = scope.Resolve<SpecificationFactoryClient>();
 
-                c.SetSpecification(QueryConstants.Category, CategoryConstants.Category1);
+                c.SetSpecification(QueryStringConstants.Category, Convert.ToString((int)CategoryConstants.Category1));
 
                 Assert.Equal("CatalogApi.Infrastructure.Specification.Products.IncludeCategorySpecification", c.GetSpecificationType());
 
+                c.SetSpecification(QueryStringConstants.KeyWord, "some KeyWord");
+
+                Assert.Equal("CatalogApi.Infrastructure.Specification.Products.IncludeKeyWordSpecification", c.GetSpecificationType());
+
+                c.SetSpecification(QueryStringConstants.MaxPrice, "30000");
+
+                Assert.Equal("CatalogApi.Infrastructure.Specification.Products.PriceIsLessThanOrEqualSpecification", c.GetSpecificationType());
             }
         }
     }

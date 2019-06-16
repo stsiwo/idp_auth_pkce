@@ -10,16 +10,16 @@ namespace CatalogApiUnitTest.DI.TestComponents
 {
     class SpecificationFactoryClient
     {
-        IIndex<string, ISpecificationFactory<CategoryConstants, ISpecification<Product>>> _spFactory;
+        IIndex<QueryStringConstants, ISpecificationFactory<ISpecification<Product>>> _spFactory;
 
         ISpecification<Product> _sp;
 
-        public SpecificationFactoryClient(IIndex<string, ISpecificationFactory<CategoryConstants, ISpecification<Product>>> spFactory)
+        public SpecificationFactoryClient(IIndex<QueryStringConstants, ISpecificationFactory<ISpecification<Product>>> spFactory)
         {
             _spFactory = spFactory; 
         }
 
-        public void SetSpecification(string qConst, CategoryConstants type)
+        public void SetSpecification(QueryStringConstants qConst, string type)
         {
             _sp = _spFactory[qConst].Create(type);
         }

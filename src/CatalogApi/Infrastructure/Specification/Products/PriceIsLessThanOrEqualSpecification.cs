@@ -12,9 +12,9 @@ namespace CatalogApi.Infrastructure.Specification.Products
     {
         private readonly decimal _MinPrice;
 
-        public PriceIsLessThanOrEqualSpecification(decimal minPrice)
+        public PriceIsLessThanOrEqualSpecification(string minPrice)
         {
-            this._MinPrice = minPrice;
+            this._MinPrice = Convert.ToDecimal(minPrice);
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {
