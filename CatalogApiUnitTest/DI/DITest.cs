@@ -1,12 +1,16 @@
-﻿using Autofac;
+﻿using System.Configuration;
+using Autofac;
 using CatalogApi.Infrastructure.DataEntity;
 using CatalogApi.Infrastructure.QueryBuilder;
 using CatalogApi.Infrastructure.QueryBuilder.OrderClauseStrategy;
 using CatalogApi.Infrastructure.Specification.Core;
 using CatalogApi.Infrastructure.Specification.Products;
 using CatalogApi.Test;
+using CatalogApi.UI.Validators.ProductQueryString;
 using CatalogApiUnitTest.DI.TestComponents;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -169,6 +173,44 @@ namespace CatalogApiUnitTest
                 c.SetSpecification(QueryStringConstants.MaxPrice, "30000");
 
                 Assert.Equal("CatalogApi.Infrastructure.Specification.Products.PriceIsLessThanOrEqualSpecification", c.GetSpecificationType());
+            }
+        }
+
+        [Fact]
+        public void DI_Container_ShouldResolveAllValidatorImplOfTheInterface()
+        {
+            // arrange
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<CategoryKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<KeyWordKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<MaxPriceKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<MinPriceKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<RemoveUnspecifiedKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<ReviewScoreKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<SortKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+            builder.RegisterType<SubCategoryKeyQueryStringValidator>().As<IProductQueryStringValidator>().InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductQueryStringValidatorClient>().InstancePerLifetimeScope();
+
+            // get all impl of this interface
+            IList<string> expectedResult = new List<string>();
+            
+            foreach (Type mytype in typeof(IProductQueryStringValidator).Assembly.GetTypes()
+                 .Where(mytype => mytype.GetInterfaces().Contains(typeof(IProductQueryStringValidator))))
+            {
+                expectedResult.Add(mytype.ToString());
+            }
+
+            using (var container = builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // act
+                ProductQueryStringValidatorClient client = scope.Resolve<ProductQueryStringValidatorClient>();
+                var result = client.GetImpls();
+
+                // arrange
+                Assert.Equal(expectedResult, result);
             }
         }
     }
