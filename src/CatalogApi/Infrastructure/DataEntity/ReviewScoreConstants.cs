@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CatalogApi.Infrastructure.DataEntity
 {
-    public enum ScoreConstants
+    public enum ReviewScoreConstants
     {
         StarZero = 0,
         StarOne = 1,

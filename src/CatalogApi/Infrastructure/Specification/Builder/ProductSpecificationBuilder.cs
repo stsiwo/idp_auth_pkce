@@ -20,7 +20,6 @@ namespace CatalogApi.Infrastructure.Specification.Builder
         public override Func<Product, bool> Build(IDictionary<string, string> qs)
         {
             // 1. map query string dictionary with specification
-
             foreach (KeyValuePair<string, string> query in qs)
             {
                 QueryStringConstants queryKey = QueryStringDictionary.Content[query.Key];

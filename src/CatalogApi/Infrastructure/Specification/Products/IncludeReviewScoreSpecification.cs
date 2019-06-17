@@ -10,11 +10,11 @@ namespace CatalogApi.Infrastructure.Specification.Products
 {
     public class IncludeReviewScoreSpecification : CompositeSpecification<Product>
     {
-        private readonly ScoreConstants _Score;
+        private readonly ReviewScoreConstants _Score;
 
         public IncludeReviewScoreSpecification(string score)
         {
-            this._Score = (ScoreConstants)Convert.ToInt32(score);
+            this._Score = (ReviewScoreConstants)Convert.ToInt32(score);
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {

@@ -14,7 +14,7 @@ namespace CatalogApi.Infrastructure.DataEntity
         public static String Category = "category";
         public static String SubCategory = "subcategory";
         public static String ReviewScore = "reviewscore";
-        public static String Review = "review";
+        //public static String Review = "review"; // don't need this one
         public static String Sort = "sort";
 
         public static List<string> ToList()

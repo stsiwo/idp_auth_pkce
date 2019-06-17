@@ -43,7 +43,7 @@ namespace CatalogApiUnitTest.TestData
                 .RuleFor(r => r.Id, f => Guid.NewGuid().ToString())
                 .RuleFor(r => r.Author, f => f.Name.FindName())
                 .RuleFor(r => r.Comment, f => f.Random.Words(f.Random.Number(1, 500)))
-                .RuleFor(r => r.Score, f => f.PickRandom<ScoreConstants>());
+                .RuleFor(r => r.Score, f => f.PickRandom<ReviewScoreConstants>());
                 //.RuleFor(r => r.ProductId, f => f.Product.Id); // you can't access to Product at this moment!! use "FinishWith" instead to assign product id to this
                 
 

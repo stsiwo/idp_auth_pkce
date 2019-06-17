@@ -24,7 +24,7 @@ namespace CatalogApi.Infrastructure.DataEntity
 
         [Required]
         [Column("score")]
-        public ScoreConstants Score { get; set; }
+        public ReviewScoreConstants Score { get; set; }
 
         [Required]
         [Column("product_id", TypeName = "uuid")]

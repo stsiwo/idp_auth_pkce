@@ -71,17 +71,17 @@ namespace CatalogApi.Infrastructure.DataEntity
         SubCategory45 = 44,
 
         // Category9
-        SubCategory46 = 46,
-        SubCategory47 = 47,
-        SubCategory48 = 48,
-        SubCategory49 = 49,
-        SubCategory50 = 50,
+        SubCategory46 = 45,
+        SubCategory47 = 46,
+        SubCategory48 = 47,
+        SubCategory49 = 48,
+        SubCategory50 = 49,
 
         // Category10
-        SubCategory51 = 51,
-        SubCategory52 = 52,
-        SubCategory53 = 53,
-        SubCategory54 = 54,
-        SubCategory55 = 55,
+        SubCategory51 = 50,
+        SubCategory52 = 51,
+        SubCategory53 = 52,
+        SubCategory54 = 53,
+        SubCategory55 = 54,
     }
 }
