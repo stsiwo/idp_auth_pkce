@@ -12,6 +12,7 @@ namespace CatalogApi.DI
             var mapperConfig = new MapperConfiguration(cfg => 
             {
                 cfg.AddProfile<DefaultProfile>();
+                cfg.AddProfile<EntityDataToDTOProfile>();
             });
             var mapper = mapperConfig.CreateMapper(); 
             builder.RegisterInstance(mapper).As<IMapper>().SingleInstance();

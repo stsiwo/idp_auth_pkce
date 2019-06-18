@@ -7,6 +7,7 @@ using CatalogApi.Infrastructure.QueryBuilder;
 using CatalogApi.Infrastructure.Repository;
 using CatalogApiUnitTest.Configs;
 using CatalogApiUnitTest.TestData;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -38,10 +39,15 @@ namespace CatalogApiUnitTest.Infrastructure.Repository
 
         //   1.1. sort based on CreationDate (ASC)
         [Fact]
-        public async void Build_Sort_ShouldBeBasedOnCreationDate() 
+        public async void Build_IQueryable_ShouldConstructedWithoutWhereAndOrderByClause() 
         {
             // arrange 
+            // 0. DbContextOptionsBuilder (use in-memory)
+            var optionsBuilder = new DbContextOptionsBuilder<CatalogApiDbContext>().UseInMemoryDatabase("testDB");
             // 1. CatalogApiDbContext (use real implementation)  
+            CatalogApiDbContext contextStub = new CatalogApiDbContext(optionsBuilder.Options);
+
+
 
 
             // act 

@@ -1,5 +1,7 @@
-﻿using CatalogApi.Infrastructure;
+﻿using CatalogApi;
+using CatalogApi.Infrastructure;
 using CatalogApiIntegrationTest.TestData;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;

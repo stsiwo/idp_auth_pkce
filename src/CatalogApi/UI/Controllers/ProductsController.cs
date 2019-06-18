@@ -1,6 +1,7 @@
 ﻿using CatalogApi.Application.DTO;
 using CatalogApi.Application.Service.Products;
 using CatalogApi.UI.Utils;
+using CatalogApi.UI.Validators.ProductQueryString;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
@@ -40,33 +41,39 @@ namespace CatalogApi.UI.Controllers
     {
         private readonly IUtil _util;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IEnumerable<IProductQueryStringValidator> _queryStringValidators;
 
         // ideally want to use method injection but it looks complicated so defined each App services for each endpoing in this controller.
         private readonly IGetProductsService _getProductsService;
 
 
-        public ProductsController(IUtil util, IGetProductsService getProductsService, ILogger<ProductsController> logger)
+        public ProductsController(
+            IUtil util, 
+            IGetProductsService getProductsService, 
+            ILogger<ProductsController> logger, 
+            IEnumerable<IProductQueryStringValidator> queryStringValidators)
         {
             _util = util;
             _getProductsService = getProductsService;
             _logger = logger;
+            _queryStringValidators = queryStringValidators;
+
         }
 
         // DI for IGetProductsService
         [HttpGet]
-        public async Task<ActionResult<ProductDTO>> Get([FromQuery] string queryString)
+        public async Task<ActionResult<ProductDTO>> Get([FromQuery] string queryString = "")
         {
             _logger.LogDebug("Get Endpoint: {@Query}", queryString);
 
-            IDictionary<string, string> qs = null;
-            if (queryString != null)
+            // validate query string
+            foreach (var validator in _queryStringValidators)
             {
-                // map query string to dictionary
-                qs = _util.MapQueryString(HttpUtility.ParseQueryString(queryString)); 
+                queryString = validator.Validate(queryString);
             }
 
-            // get query result
-            var products = await _getProductsService.GetProducts(qs);
+            // get products from service
+            var products = await _getProductsService.GetProducts(HttpUtility.ParseQueryString(queryString));
 
             // if empty, return 204 
             if (products == null)

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,7 +24,7 @@ namespace CatalogApiUnitTest.Infrastructure.Repository
         {
             // arrange 
             // 1. query string dummy
-            IDictionary<string, string> queryStringDummy = null;
+            NameValueCollection queryStringDummy = null;
             // 2. test data stub
             IList<Product> productsStub = ProductsTestData.GetProducts();
             // 3. queryBuilder stub
@@ -41,8 +42,6 @@ namespace CatalogApiUnitTest.Infrastructure.Repository
 
             // assert
             Assert.Equal(50, result.Count());
-
-
         }
     }
 }

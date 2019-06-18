@@ -44,7 +44,8 @@ namespace CatalogApiIntegrationTest.TestData
                 .RuleFor(r => r.Id, f => Guid.NewGuid().ToString())
                 .RuleFor(r => r.Author, f => f.Name.FindName())
                 .RuleFor(r => r.Comment, f => f.Random.Words(f.Random.Number(1, 500)))
-                .RuleFor(r => r.Score, f => f.PickRandom<ReviewScoreConstants>());
+                .RuleFor(r => r.Score, f => f.PickRandom<ReviewScoreConstants>())
+                .RuleFor(r => r.CreationDate, f => f.Date.Past());
                 //.RuleFor(r => r.ProductId, f => f.Product.Id); // you can't access to Product at this moment!! use "FinishWith" instead to assign product id to this
                 
 
@@ -58,6 +59,7 @@ namespace CatalogApiIntegrationTest.TestData
                 .RuleFor(p => p.SubCategory, f => subCategoryFaker.Generate(1).First())
                 .RuleFor(p => p.SubCategoryId, (f, p) => p.SubCategory.Id) 
                 .RuleFor(p => p.Reviews, (f, p) => reviewFaker.Generate(f.Random.Number(0, 10)))
+                .RuleFor(p => p.CreationDate, f => f.Date.Past())
                 .FinishWith((f, p) => 
                 {
                    // assign product id to each review and subImage entities 
@@ -78,7 +80,7 @@ namespace CatalogApiIntegrationTest.TestData
                 return productFaker.UseSeed(seed).Generate();
             }
 
-            var products = Enumerable.Range(1,50)
+            var products = Enumerable.Range(1,5)
                 .Select(SeededProduct)
                 .ToList();
 

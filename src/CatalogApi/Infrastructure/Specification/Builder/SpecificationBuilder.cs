@@ -3,6 +3,7 @@ using CatalogApi.Infrastructure.Specification.Core;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,6 @@ namespace CatalogApi.Infrastructure.Specification.Builder
             this._BaseSpecification = baseSpecification;
         }
 
-        public abstract Func<T, bool> Build(IDictionary<String, string> qs);
+        public abstract Func<T, bool> Build(NameValueCollection qs);
     }
 }

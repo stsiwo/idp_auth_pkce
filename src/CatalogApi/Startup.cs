@@ -37,7 +37,11 @@ namespace CatalogApi
             });
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options => 
+                {
+                    options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                });
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -50,6 +54,7 @@ namespace CatalogApi
             containerBuilder.RegisterModule<ProductsControllerModule>();
             containerBuilder.RegisterModule<SpecificationModule>();
             containerBuilder.RegisterModule<ProductSpecificationFactoryModule>();
+            containerBuilder.RegisterModule<OrderClauseStrategyModule>();
             containerBuilder.RegisterModule<SingletonModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();

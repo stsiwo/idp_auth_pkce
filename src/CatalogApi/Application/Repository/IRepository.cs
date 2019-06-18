@@ -3,6 +3,7 @@ using CatalogApi.Infrastructure.DataEntity;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,6 @@ namespace CatalogApi.Application.Repository
         /**
          * return a list of DataEntity based on query string (qs)
          **/ 
-        Task<IList<R>> GetList(IDictionary<string, string> qs);
+        Task<IList<R>> GetList(NameValueCollection qs);
     }
 }

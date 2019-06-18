@@ -5,6 +5,7 @@ using CatalogApi.Infrastructure.Specification.Products;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace CatalogApi.Infrastructure.Specification.Builder
         {
 
         }
-        public override Func<Product, bool> Build(IDictionary<string, string> qs)
+        public override Func<Product, bool> Build(NameValueCollection qs)
         {
             // 1. map query string dictionary with specification
             foreach (KeyValuePair<string, string> query in qs)

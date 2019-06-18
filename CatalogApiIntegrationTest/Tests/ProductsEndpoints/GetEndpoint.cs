@@ -1,6 +1,9 @@
 ﻿using CatalogApi;
 using CatalogApiIntegrationTest.Configs;
+using CatalogApiIntegrationTest.TestData;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +23,8 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
             _factory = factory;
             _output = output;
         }
+
+        public object ProductGETEndpointTestData { get; private set; }
 
         [Theory]
         [InlineData("/api/products")]
@@ -43,16 +48,21 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
         {
             // Arrange
             var client = _factory.CreateClient();
+            // default sort is CreationDate (Asc)
+            //var expectedResult = JsonConvert.SerializeObject(ProductsGETEndpointTestData.GetProducts().OrderBy(p => p.CreationDate), Formatting.Indented);
+            var expectedResult = ProductsGETEndpointTestData.GetProducts().Count;
 
             // Act
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
-
-            _output.WriteLine(body);
+            // convert json to JObject
+            JArray bodyJObject = JArray.Parse(body); 
+            var result = bodyJObject.Count;
 
             // Assert
-            //response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal("", body);
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+           
+            Assert.Equal(expectedResult, result);
 
         }
     }

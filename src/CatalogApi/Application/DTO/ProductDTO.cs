@@ -33,5 +33,8 @@ namespace CatalogApi.Application.DTO
 
         [DataMember]
         public SubCategoryDTO SubCategory { get; set; }
+
+        [DataMember]
+        public string CreationDate { get; set; }
     }
 }

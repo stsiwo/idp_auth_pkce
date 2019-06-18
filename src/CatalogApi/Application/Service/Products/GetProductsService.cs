@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using CatalogApi.Application.DTO;
@@ -18,7 +19,7 @@ namespace CatalogApi.Application.Service.Products
         {
             _repository = repository;
         }
-        public async Task<IList<ProductDTO>> GetProducts(IDictionary<string, string> qs)
+        public async Task<IList<ProductDTO>> GetProducts(NameValueCollection qs)
         {
             return await _repository.GetList(qs);
         }

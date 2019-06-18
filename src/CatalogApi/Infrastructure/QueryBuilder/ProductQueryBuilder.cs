@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Features.Indexed;
 using CatalogApi.Infrastructure.QueryBuilder.OrderClauseStrategy;
+using System.Collections.Specialized;
 
 namespace CatalogApi.Infrastructure.QueryBuilder
 {
@@ -27,25 +28,30 @@ namespace CatalogApi.Infrastructure.QueryBuilder
             _orderStrategyFactory = orderStrategyFactory;
             _specificationBuilder = specificationBuilder;
         }
-        public async Task<IList<Product>> Build(IDictionary<string, string> qs = null)
+        public async Task<IList<Product>> Build(NameValueCollection qs = null)
         {
             // include
             _query = _context.Products
                 .Include(p => p.SubImages)
                 .Include(p => p.Reviews).AsQueryable();
 
-            // where clause using specification
-            if (qs != null && qs.Keys.Intersect(QueryConstants.ToList()).Count() > 0)
-                _query = _query.Where(_specificationBuilder.Build(qs)).AsQueryable();
-
             // order clause using strategy
-            if (qs != null && qs.ContainsKey(QueryConstants.Sort))
-            {
-                int sortId = Convert.ToInt32(qs[QueryConstants.Sort]);
-                IOrderClauseStrategy orderStrategy = _orderStrategyFactory[(SortConstants)sortId];
+            // if qs[Sort] is not defined, assign 0 as default 
+            int sortId = (qs[QueryConstants.Sort] == null) ? 0 : Convert.ToInt32(qs[QueryConstants.Sort]);
 
-                _query = orderStrategy.GetOrderClause(_query); 
-            }
+            SortConstants sortConst = (SortConstants)sortId;
+
+            IOrderClauseStrategy orderStrategy = _orderStrategyFactory[sortConst];
+
+            _query = orderStrategy.GetOrderClause(_query);
+
+            // remove Sort name and value from qs 
+            qs.Remove(QueryConstants.Sort);
+
+            // where clause using specification
+            // add Where clause only when qs include others rather than sort
+            if (qs.Count != 0)
+                _query = _query.Where(_specificationBuilder.Build(qs)).AsQueryable();
 
             return await _query.ToListAsync();
         }

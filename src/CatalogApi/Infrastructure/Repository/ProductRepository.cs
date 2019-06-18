@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace CatalogApi.Infrastructure.Repository
         }
 
 
-        public async Task<IList<ProductDTO>> GetList(IDictionary<string, string> qs)
+        public async Task<IList<ProductDTO>> GetList(NameValueCollection qs)
         {
             IList<Product> results = await _queryBuilder.Build(qs);
 
