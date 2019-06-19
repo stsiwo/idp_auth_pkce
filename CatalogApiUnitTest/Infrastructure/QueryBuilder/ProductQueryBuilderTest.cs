@@ -42,12 +42,7 @@ namespace CatalogApiUnitTest.Infrastructure.Repository
         public async void Build_IQueryable_ShouldConstructedWithoutWhereAndOrderByClause() 
         {
             // arrange 
-            // 0. DbContextOptionsBuilder (use in-memory)
-            var optionsBuilder = new DbContextOptionsBuilder<CatalogApiDbContext>().UseInMemoryDatabase("testDB");
-            // 1. CatalogApiDbContext (use real implementation)  
-            CatalogApiDbContext contextStub = new CatalogApiDbContext(optionsBuilder.Options);
-
-
+            // 1. CatalogApiDbContext (use inmemory one)
 
 
             // act 

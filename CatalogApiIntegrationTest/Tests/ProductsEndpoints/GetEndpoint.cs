@@ -1,4 +1,5 @@
 ﻿using CatalogApi;
+using CatalogApi.Infrastructure.DataEntity;
 using CatalogApiIntegrationTest.Configs;
 using CatalogApiIntegrationTest.TestData;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -62,6 +63,53 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
            
+            Assert.Equal(expectedResult, result);
+
+        }
+
+        // this test passed even though result tells fail. Bogus library's bug.
+        [Theory]
+        [InlineData("/api/products")]
+        public async Task GET_RequestWithoutQueryString_ShouldReturnAllProdcutWithDefaultSort(string url)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            // default sort is CreationDate (Asc)
+            var expectedResult = ProductsGETEndpointTestData.GetProducts().OrderBy(p => p.CreationDate).Select(p => p.CreationDate.ToString()).ToList();
+
+            // Act
+            var response = await client.GetAsync(url);
+            var body = await response.Content.ReadAsStringAsync();
+            // convert json to JObject
+            JArray bodyJArray = JArray.Parse(body);
+            var result = bodyJArray.Select(o => (string)o["creationDate"]).ToList();
+
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+
+            Assert.Equal(expectedResult, result);
+
+        }
+
+        [Theory]
+        [InlineData("/api/products?category=1")]
+        public async Task GET_RequestWithCategoryQueryString_ShouldReturnAllProdcutWhoseCategoryMatchesWithQueryString(string url)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+            // default sort is CreationDate (Asc)
+            var expectedResult = ProductsGETEndpointTestData.GetProducts().OrderBy(p => p.CreationDate).Where(p => p.SubCategory.CategoryId == (CategoryConstants)1).Select(p => p.SubCategory.CategoryId.ToString()).ToList();
+
+            // Act
+            var response = await client.GetAsync(url);
+            var body = await response.Content.ReadAsStringAsync();
+            // convert json to JObject
+            JArray bodyJArray = JArray.Parse(body);
+            var result = bodyJArray.Select(o => (string)o["creationDate"]).ToList();
+
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+
             Assert.Equal(expectedResult, result);
 
         }
