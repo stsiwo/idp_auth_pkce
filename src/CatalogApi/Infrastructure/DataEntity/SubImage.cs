@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,7 @@ namespace CatalogApi.Infrastructure.DataEntity
         [Column("product_id", TypeName = "uuid")]
         public string ProductId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("ProductId")]
         public Product Product { get; set; }
     }

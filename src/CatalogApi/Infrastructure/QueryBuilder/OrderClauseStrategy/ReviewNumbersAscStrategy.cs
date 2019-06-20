@@ -10,7 +10,7 @@ namespace CatalogApi.Infrastructure.QueryBuilder.OrderClauseStrategy
     {
         public IQueryable<Product> GetOrderClause(IQueryable<Product> query)
         {
-            return query.OrderBy(p => p.Reviews.Count);
+            return query.OrderByDescending(p => p.Reviews.Count);
         }
     }
 }
