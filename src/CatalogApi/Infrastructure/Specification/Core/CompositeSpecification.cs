@@ -27,10 +27,6 @@ namespace CatalogApi.Infrastructure.Specification.Core
             return new OrSpecification<T>(this, specification);
         }
 
-        public Func<T, bool> CompileToDelegate()
-        {
-            return this.ToExpression().Compile();
-        }
         //        public ISpecification<T> Not(ISpecification<T> specification)
         //        {
         //            return new NotSpecification<T>(this, specification);

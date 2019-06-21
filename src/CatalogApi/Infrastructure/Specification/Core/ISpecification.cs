@@ -16,8 +16,6 @@ namespace CatalogApi.Infrastructure.Specification.Core
 
         ISpecification<T> Or(ISpecification<T> specification);
 
-        Func<T, bool> CompileToDelegate();
-
         //ISpecification<T> Not(ISpecification<T> specification);
     }
 }

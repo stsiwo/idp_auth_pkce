@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CatalogApi.Infrastructure.Specification.Builder
@@ -19,6 +20,6 @@ namespace CatalogApi.Infrastructure.Specification.Builder
             this._BaseSpecification = baseSpecification;
         }
 
-        public abstract Func<T, bool> Build(NameValueCollection qs);
+        public abstract Expression<Func<T, bool>> Build(NameValueCollection qs);
     }
 }

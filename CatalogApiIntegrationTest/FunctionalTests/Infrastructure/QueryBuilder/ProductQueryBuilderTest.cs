@@ -1,17 +1,12 @@
 ﻿using Autofac;
-using Autofac.Features.Indexed;
-using CatalogApi.DI;
 using CatalogApi.Infrastructure;
 using CatalogApi.Infrastructure.DataEntity;
 using CatalogApi.Infrastructure.QueryBuilder;
-using CatalogApi.Infrastructure.QueryBuilder.OrderClauseStrategy;
-using CatalogApi.Infrastructure.Specification.Builder;
+using CatalogApiIntegrationTest.Extensioins;
 using CatalogApiIntegrationTest.FunctionalTests.Fixtures.PerTest;
 using CatalogApiIntegrationTest.TestData;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,23 +16,31 @@ using Xunit.Abstractions;
 
 namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
 {
-    public class ProductQueryBuilderTest  
+    public class ProductQueryBuilderTest
     {
         private ContainerBuilder _builder;
         private readonly ITestOutputHelper _output;
+        private CatalogApiDbContext _context;
 
         public ProductQueryBuilderTest(ITestOutputHelper output)
         {
             _output = output;
             _builder = DISetup.GetAutofacContainerBuilder();
-
+            _context = null; 
         }
 
         private async Task<CatalogApiDbContext> SetupInitialDB(CatalogApiDbContext context)
         {
+            // this make sure clearing up the data from previous test
+            context.Database.EnsureDeleted();
+            // recreate database for current test
             context.Database.EnsureCreated();
             // 1.2. seed test data
-            context.AddRange(ProductsGETEndpointTestData.GetProducts());
+            // wrap test data with TestAsyncEnumerable: this is for enabling test data with async (IQueryable implement IAsyncEnumerable)
+            IQueryable<Product> productsTestData = new TestAsyncEnumerable<Product>(ProductsGETEndpointTestData.GetProducts());
+            
+            // wrap with Async IQueryable and add it to context
+            context.AddRange(productsTestData);
             await context.SaveChangesAsync();
 
             return context;
@@ -53,9 +56,9 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var scope = container.BeginLifetimeScope())
             {
                 // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
                 // expectedResult
                 var expectedResult = ProductsGETEndpointTestData.GetProducts().Count;
 
@@ -79,10 +82,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string noQueryString = "";
@@ -106,10 +109,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string dateAscSortQueryString = "?sort=0";
@@ -132,10 +135,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string dateDescSortQueryString = "?sort=1";
@@ -158,10 +161,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string priceAscSortQueryString = "?sort=2";
@@ -184,10 +187,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string priceDescSortQueryString = "?sort=3";
@@ -210,10 +213,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string nameAscSortQueryString = "?sort=4";
@@ -238,10 +241,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string nameDescSortQueryString = "?sort=5";
@@ -266,10 +269,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string ReviewAscSortQueryString = "?sort=6";
@@ -294,10 +297,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string ReviewDescSortQueryString = "?sort=7";
@@ -322,10 +325,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string ReviewScoreAscSortQueryString = "?sort=8";
@@ -350,10 +353,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             using (var container = _builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
-                // resolve context
-                CatalogApiDbContext context = scope.Resolve<CatalogApiDbContext>();
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
                 // seed initial data in inmemory
-                context = await SetupInitialDB(context);
+                _context = await SetupInitialDB(_context);
 
                 // 3. qs dummy
                 string ReviewScoreDescSortQueryString = "?sort=9";
@@ -368,6 +371,32 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
 
                 // assert
                 Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => p.a <= p.b));
+            }
+        }
+
+        [Fact]
+        public async void Build_CategoryQueryString_ShouldReturnAllProductsWhoseCategoryMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDB(_context);
+
+                // 3. qs dummy
+                string CategoryQueryString = "?category=0";
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(CategoryQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                var result = products.All(p => (int)p.SubCategory.CategoryId == 0);
+
+                // assert
+                Assert.True(result);
             }
         }
     }

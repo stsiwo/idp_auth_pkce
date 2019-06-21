@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CatalogApi.Infrastructure.Specification.Builder
@@ -14,24 +15,25 @@ namespace CatalogApi.Infrastructure.Specification.Builder
     public class ProductSpecificationBuilder : SpecificationBuilder<Product>
     {
         IIndex<QueryStringConstants, ISpecificationFactory<ISpecification<Product>>> _specificationFactory;
-        public ProductSpecificationBuilder(ISpecification<Product> specification) : base(specification)
+        public ProductSpecificationBuilder(ISpecification<Product> specification, IIndex<QueryStringConstants, ISpecificationFactory<ISpecification<Product>>> specificationFactory) : base(specification)
         {
+            _specificationFactory = specificationFactory;
 
         }
-        public override Func<Product, bool> Build(NameValueCollection qs)
+        public override Expression<Func<Product, bool>> Build(NameValueCollection qs)
         {
             // 1. map query string dictionary with specification
-            foreach (KeyValuePair<string, string> query in qs)
+            foreach (string key in qs)
             {
-                QueryStringConstants queryKey = QueryStringDictionary.Content[query.Key];
+                QueryStringConstants queryKey = QueryStringDictionary.Content[key];
 
-                ISpecification<Product> specification = _specificationFactory[queryKey].Create(query.Value);
+                ISpecification<Product> specification = _specificationFactory[queryKey].Create(qs[key]);
 
-                this._BaseSpecification.And(specification);
+                this._BaseSpecification = this._BaseSpecification.And(specification);
             }
 
             // 2. compile to Delegate
-            return this._BaseSpecification.CompileToDelegate();
+            return this._BaseSpecification.ToExpression();
 
         }
 

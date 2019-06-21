@@ -22,7 +22,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Fixtures.PerTest
             builder.RegisterModule<ProductSpecificationFactoryModule>();
             builder.RegisterModule<OrderClauseStrategyModule>();
             builder.RegisterModule<SingletonModule>();
-            builder.RegisterType<CatalogApiDbContext>().WithParameter("options", new DbContextOptionsBuilder<CatalogApiDbContext>().UseInMemoryDatabase("testDB").Options);
+            builder.RegisterType<CatalogApiDbContext>()
+                .WithParameter("options", new DbContextOptionsBuilder<CatalogApiDbContext>()
+                .UseInMemoryDatabase("testDB").Options)
+                .InstancePerLifetimeScope();
 
             return builder;
         }

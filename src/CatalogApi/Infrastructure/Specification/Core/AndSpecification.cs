@@ -28,8 +28,10 @@ namespace CatalogApi.Infrastructure.Specification.Core
              * when you need to compile combined Expression into Delete:
              * need to review: https://stackoverflow.com/questions/15589239/linq-expressions-variable-p-of-type-referenced-from-scope-but-it-is-not-defi/15592610
              **/
+             // Invoke method is just invoking the expression with specified argument (in this case, use left specficiation's 'p' argument)
             BinaryExpression andExpression = Expression.AndAlso(leftExpression.Body, Expression.Invoke(rightExpression, leftExpression.Parameters.Single()));
 
+            // create expression tree and return it
             return Expression.Lambda<Func<T, bool>>(andExpression, leftExpression.Parameters.Single());
         }
 

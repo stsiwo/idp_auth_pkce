@@ -92,7 +92,7 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
         }
 
         [Theory]
-        [InlineData("/api/products?category=1")]
+        [InlineData("/api/products?keyword=Metal")]
         public async Task GET_RequestWithCategoryQueryString_ShouldReturnAllProdcutWhoseCategoryMatchesWithQueryString(string url)
         {
             // Arrange
@@ -105,12 +105,14 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
             var body = await response.Content.ReadAsStringAsync();
             // convert json to JObject
             JArray bodyJArray = JArray.Parse(body);
-            var result = bodyJArray.Select(o => (string)o["creationDate"]).ToList();
+            var result = bodyJArray.ToList();
+
+            _output.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
 
-            Assert.Equal(expectedResult, result);
+            Assert.Equal("1", "2");
 
         }
     }
