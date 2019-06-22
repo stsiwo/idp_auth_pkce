@@ -5,6 +5,7 @@ using CatalogApi.Infrastructure.QueryBuilder;
 using CatalogApiIntegrationTest.Extensioins;
 using CatalogApiIntegrationTest.FunctionalTests.Fixtures.PerTest;
 using CatalogApiIntegrationTest.TestData;
+using CatalogApiIntegrationTest.TestData.Entity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Specialized;
@@ -36,8 +37,7 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             // recreate database for current test
             context.Database.EnsureCreated();
             // 1.2. seed test data
-            // wrap test data with TestAsyncEnumerable: this is for enabling test data with async (IQueryable implement IAsyncEnumerable)
-            IQueryable<Product> productsTestData = new TestAsyncEnumerable<Product>(ProductsGETEndpointTestData.GetProducts());
+            var productsTestData = ProductFaker.GetProductList(50); 
             
             // wrap with Async IQueryable and add it to context
             context.AddRange(productsTestData);
@@ -60,7 +60,7 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
                 // seed initial data in inmemory
                 _context = await SetupInitialDB(_context);
                 // expectedResult
-                var expectedResult = ProductsGETEndpointTestData.GetProducts().Count;
+                var expectedResult = ProductFaker.GetProductList(50).Count; 
 
                 // 3. qs dummy
                 NameValueCollection qsDummy = HttpUtility.ParseQueryString("");
@@ -397,6 +397,34 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
 
                 // assert
                 Assert.True(result);
+            }
+        }
+
+        [Fact]
+        public async void Build_SubCategoryQueryString_ShouldReturnAllProductsWhoseSubCategoryMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDB(_context);
+
+                // 3. qs dummy
+                string SubCategoryQueryString = "?subcategory=40";
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(SubCategoryQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                var result = products.All(p => (int)p.SubCategory.Id == 40);
+
+                _output.WriteLine(JsonConvert.SerializeObject(products, Formatting.Indented));
+
+                // assert
+                Assert.True(false);
             }
         }
     }

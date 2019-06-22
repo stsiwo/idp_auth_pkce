@@ -13,9 +13,12 @@ namespace CatalogApiIntegrationTest.TestData.Entity
         {
             int totalCategories = Enum.GetNames(typeof(CategoryConstants)).Length;
             var categories = CategoryFaker.GetCategoryList(totalCategories);
+            int categoryId = 0;
+            int subCategoryId = 0;
+
 
             var subCategoryFaker = new Faker<SubCategory>()
-                .RuleFor(s => s.Id, f => f.PickRandom<SubCategoryConstants>())
+                .RuleFor(s => s.Id, f => (SubCategoryConstants)subCategoryId++)
                 .RuleFor(s => s.Title, (f, c) =>
                 {
                     var _cons = (SubCategoryConstants)c.Id;
@@ -23,7 +26,12 @@ namespace CatalogApiIntegrationTest.TestData.Entity
                 })
                 .RuleFor(s => s.Description, f => f.Random.Words(f.Random.Number(1,400)))
                 .RuleFor(s => s.ImageURL, f => f.Image.PicsumUrl())
-                .RuleFor(s => s.Category, f => f.PickRandom(categories))
+                .RuleFor(s => s.Category, f => 
+                {
+                    var category = categories.Where(c => (int)c.Id == categoryId).FirstOrDefault();
+                    categoryId = (categoryId >= totalCategories - 1) ? 0 : categoryId + 1;
+                    return category;
+                })
                 .RuleFor(s => s.CategoryId, (f, s) => s.Category.Id);
 
             return subCategoryFaker;

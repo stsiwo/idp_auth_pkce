@@ -1,5 +1,7 @@
-﻿using CatalogApiIntegrationTest.TestData.Entity;
+﻿using CatalogApi.Infrastructure.DataEntity;
+using CatalogApiIntegrationTest.TestData.Entity;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
@@ -56,6 +58,21 @@ namespace CatalogApiIntegrationTest.TestData
         }
 
         [Fact]
+        public void GetSubCategoryFaker_AllCategoryId_ShouldBeIncluded() 
+        {
+            int totalSubCategories = Enum.GetNames(typeof(SubCategoryConstants)).Length;
+            var subCategories = SubCategoryFaker.GetSubCategoryList(totalSubCategories);
+
+            _output.WriteLine(JsonConvert.SerializeObject(subCategories, Formatting.Indented));
+
+            var result = subCategories.GroupBy(s => s.CategoryId).OrderBy(g => g.Key).Select(g => (int)g.Key);
+            var totalCategoryNumbers = Enum.GetNames(typeof(CategoryConstants)).Length;
+            var categoryIdList = Enumerable.Range(0, totalCategoryNumbers);
+
+            Assert.Equal(JsonConvert.SerializeObject(result), JsonConvert.SerializeObject(categoryIdList));
+        }
+
+        [Fact]
         public void GetSubCategoryFaker_CategoryId_ShouldMatchWithCategoryFakerId() 
         {
             var subCategories = SubCategoryFaker.GetSubCategoryList(100);
@@ -89,6 +106,20 @@ namespace CatalogApiIntegrationTest.TestData
             var result = products.All(p => p.SubCategory.Id == p.SubCategoryId);
 
             Assert.True(result);
+        }
+
+        [Fact]
+        public void GetProductFaker_AllSubCategoryId_ShouldBeIncluded() 
+        {
+            var products = ProductFaker.GetProductList(100); 
+
+            var result = products.GroupBy(p => p.SubCategoryId).OrderBy(g => g.Key).Select(g => (int)g.Key);
+            var totalSubCategoryNumbers = Enum.GetNames(typeof(SubCategoryConstants)).Length;
+            var subCategoryIdList = Enumerable.Range(0, totalSubCategoryNumbers);
+
+            _output.WriteLine(JsonConvert.SerializeObject(subCategoryIdList));
+
+            Assert.Equal(JsonConvert.SerializeObject(result), JsonConvert.SerializeObject(subCategoryIdList));
         }
     }
 }

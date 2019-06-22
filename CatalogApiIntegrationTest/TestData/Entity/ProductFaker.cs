@@ -16,6 +16,7 @@ namespace CatalogApiIntegrationTest.TestData.Entity
             var subCategories = SubCategoryFaker.GetSubCategoryList(totalSubCategories);
             var subImageFaker = SubImageFaker.GetSubImageFaker();
             var reviewFaker = ReviewFaker.GetReviewFaker();
+            var subCategoryId = 0;
 
             var productFaker = new Faker<Product>()
                 .RuleFor(p => p.Id, f => Guid.NewGuid().ToString())
@@ -24,7 +25,13 @@ namespace CatalogApiIntegrationTest.TestData.Entity
                 .RuleFor(p => p.MainImageURL, f => f.Image.PicsumUrl())
                 .RuleFor(p => p.SubImages, f => subImageFaker.Generate(f.Random.Number(0, 4)))
                 .RuleFor(p => p.Price, f => Decimal.Parse(f.Commerce.Price(100m, 100000m), NumberStyles.Currency))
-                .RuleFor(p => p.SubCategory, f => f.PickRandom(subCategories))
+                .RuleFor(p => p.SubCategory, f => 
+                {
+                    var subCategory =  subCategories.Where(c => (int)c.Id == subCategoryId).FirstOrDefault();
+                    subCategoryId = (subCategoryId >= totalSubCategories - 1) ? 0 : subCategoryId + 1;
+                    return subCategory;
+
+                })
                 .RuleFor(p => p.SubCategoryId, (f, p) => p.SubCategory.Id) 
                 .RuleFor(p => p.Reviews, (f, p) => reviewFaker.Generate(f.Random.Number(0, 10)))
                 .RuleFor(p => p.CreationDate, f => f.Date.Past())
