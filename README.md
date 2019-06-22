@@ -58,3 +58,5 @@ identity server test with spa and Authorization Code type and PKCE
       - enforce null check
   * **IQueryable without Where method** : memory burst?? this is because all data in db moves into memory if data is huge, memory got bloated and throws exception.
       - use pagination or Where clause to limit how many data are moved into memory
+  * **Increment operator inside LINQ Where clause**: don't do it
+      - Where clause iterate all items in a list so increment operator will increment at the same time when it iterates
