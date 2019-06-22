@@ -18,7 +18,7 @@ namespace CatalogApi.Infrastructure.Specification.Products
         }
         public override Expression<Func<Product, bool>> ToExpression()
         {
-            return product => Convert.ToInt16(product.Reviews.Average(r => (int) r.Score)) == (int)this._Score;
+            return product => Convert.ToInt16(product.Reviews.DefaultIfEmpty().Average(r => (int) r.Score)) == (int)this._Score;
         }
     }
 }

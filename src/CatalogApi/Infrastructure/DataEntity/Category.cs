@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,6 +26,7 @@ namespace CatalogApi.Infrastructure.DataEntity
         [Column("image_url")]
         public String ImageURL { get; set; }
 
+        [JsonIgnore]
         public List<SubCategory> SubCategories { get; set; }
 
     }

@@ -121,5 +121,22 @@ namespace CatalogApiIntegrationTest.TestData
 
             Assert.Equal(JsonConvert.SerializeObject(result), JsonConvert.SerializeObject(subCategoryIdList));
         }
+
+        // this might fail sometimes because of Random Generator
+        [Fact]
+        public void GetReviewFaker_AmountBeyondMaxReview_ShouldBeFallBackToMaxReviewAmount() 
+        {
+            var reviews = ReviewFaker.GetReviewList(12);
+            Random rnd = new Random();
+            int numberOfInstance = rnd.Next(1, 10);
+
+            var randomReviewList = reviews.OrderBy(r => Guid.NewGuid()).Take(numberOfInstance);
+
+            _output.WriteLine(JsonConvert.SerializeObject(randomReviewList, Formatting.Indented));
+            _output.WriteLine(randomReviewList.Count().ToString());
+
+            Assert.NotEqual(reviews.First().Id.ToString(), randomReviewList.FirstOrDefault().Id.ToString());
+        }
+
     }
 }

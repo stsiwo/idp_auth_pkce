@@ -1,16 +1,17 @@
 ﻿using Bogus;
 using CatalogApi.Infrastructure.DataEntity;
+using CatalogApiIntegrationTest.TestData.Entity;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CatalogApiIntegrationTest.TestData.Entity
+namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder.Data
 {
-    public class ProductFaker
+    public static class AllQueryStringProductTestData
     {
-        public static Faker<Product> GetProductFaker()
+        public static IList<Product> GetProducts()
         {
             int totalSubCategories = Enum.GetNames(typeof(SubCategoryConstants)).Length;
             var subCategories = SubCategoryFaker.GetSubCategoryList(totalSubCategories);
@@ -32,7 +33,7 @@ namespace CatalogApiIntegrationTest.TestData.Entity
 
                 })
                 .RuleFor(p => p.SubCategoryId, (f, p) => p.SubCategory.Id) 
-                .RuleFor(p => p.Reviews, (f, p) => ReviewFaker.GetRandomReviewList(f.Random.Number(0, 10)))
+                .RuleFor(p => p.Reviews, (f, p) => ReviewFaker.GetReviewList(3))
                 .RuleFor(p => p.CreationDate, f => f.Date.Past())
                 .FinishWith((f, p) => 
                 {
@@ -48,20 +49,12 @@ namespace CatalogApiIntegrationTest.TestData.Entity
                     } 
                 }); 
 
-            return productFaker;
-        }
-
-        public static IList<Product> GetProductList(int amount)
-        {
-
-            var faker = GetProductFaker();
-
             Product SeededProduct(int seed)
             {
-                return faker.UseSeed(seed).Generate();
+                return productFaker.UseSeed(seed).Generate();
             }
 
-            var products = Enumerable.Range(1,amount)
+            var products = Enumerable.Range(1,1)
                 .Select(SeededProduct)
                 .ToList();
 

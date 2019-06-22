@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -33,6 +34,7 @@ namespace CatalogApi.Infrastructure.DataEntity
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
+        [JsonIgnore]
         public List<Product> Products { get; set; }
     }
 

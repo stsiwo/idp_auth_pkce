@@ -22,6 +22,25 @@ namespace CatalogApiIntegrationTest.TestData.Entity
             return reviewFaker;
         }
 
+        public static IList<Review> GetRandomReviewList(int max)
+        {
+            var faker = GetReviewFaker();
+
+            Review SeededReview(int seed)
+            {
+                return faker.UseSeed(seed).Generate();
+            }
+
+            Random rnd = new Random();
+            int maxNumberOfInstances = rnd.Next(0, max);
+
+            var reviews = Enumerable.Range(1, maxNumberOfInstances)
+                .Select(SeededReview)
+                .ToList();
+
+            return reviews;  
+        }
+
         public static IList<Review> GetReviewList(int amount)
         {
             var faker = GetReviewFaker();
@@ -31,11 +50,12 @@ namespace CatalogApiIntegrationTest.TestData.Entity
                 return faker.UseSeed(seed).Generate();
             }
 
-            var reviews = Enumerable.Range(1,amount)
+            var reviews = Enumerable.Range(1, amount)
                 .Select(SeededReview)
                 .ToList();
 
             return reviews;  
         }
+        
     }
 }

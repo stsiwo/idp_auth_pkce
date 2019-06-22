@@ -4,6 +4,7 @@ using CatalogApi.Infrastructure.DataEntity;
 using CatalogApi.Infrastructure.QueryBuilder;
 using CatalogApiIntegrationTest.Extensioins;
 using CatalogApiIntegrationTest.FunctionalTests.Fixtures.PerTest;
+using CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder.Data;
 using CatalogApiIntegrationTest.TestData;
 using CatalogApiIntegrationTest.TestData.Entity;
 using Newtonsoft.Json;
@@ -38,6 +39,21 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
             context.Database.EnsureCreated();
             // 1.2. seed test data
             var productsTestData = ProductFaker.GetProductList(50); 
+            
+            // wrap with Async IQueryable and add it to context
+            context.AddRange(productsTestData);
+            await context.SaveChangesAsync();
+
+            return context;
+        }
+        private async Task<CatalogApiDbContext> SetupInitialDBForAllQueryString(CatalogApiDbContext context)
+        {
+            // this make sure clearing up the data from previous test
+            context.Database.EnsureDeleted();
+            // recreate database for current test
+            context.Database.EnsureCreated();
+            // 1.2. seed test data
+            var productsTestData = AllQueryStringProductTestData.GetProducts(); 
             
             // wrap with Async IQueryable and add it to context
             context.AddRange(productsTestData);
@@ -96,9 +112,10 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
                 var products = await productQueryBuilder.Build(qsDummy);
                 var result = products.Select(p => p.CreationDate).ToList();
 
+                _output.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
 
                 // assert
-                Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => p.a.Date < p.b.Date));
+                Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => DateTime.Compare(p.a.Date, p.b.Date) <= 0));
             }
         }
 
@@ -124,7 +141,7 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
                 var result = products.Select(p => p.CreationDate).ToList();
 
                 // assert
-                Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => p.a.Date < p.b.Date));
+                Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => p.a.Date <= p.b.Date));
             }
         }
 
@@ -150,7 +167,7 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
                 var result = products.Select(p => p.CreationDate).ToList();
 
                 // assert
-                Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => p.a.Date > p.b.Date));
+                Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => p.a.Date >= p.b.Date));
             }
         }
 
@@ -396,6 +413,7 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
                 var result = products.All(p => (int)p.SubCategory.CategoryId == 0);
 
                 // assert
+                Assert.NotEmpty(products);
                 Assert.True(result);
             }
         }
@@ -424,7 +442,187 @@ namespace CatalogApiIntegrationTest.FunctionalTests.Infrastructure.QueryBuilder
                 _output.WriteLine(JsonConvert.SerializeObject(products, Formatting.Indented));
 
                 // assert
-                Assert.True(false);
+                Assert.NotEmpty(products);
+                Assert.True(result);
+            }
+        }
+
+        [Fact]
+        public async void Build_KeyWordQueryString_ShouldReturnAllProductsWhoseKeyWordMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDB(_context);
+
+                // 2.2. dummy keyword
+                string keywordDummy = "Table";
+
+                // 3. qs dummy
+                string KeyWordQueryString = "?keyword=" + keywordDummy;
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(KeyWordQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                var result = products.All(p => p.Name.Contains(keywordDummy) || p.Description.Contains(keywordDummy)); 
+                _output.WriteLine(JsonConvert.SerializeObject(products, Formatting.Indented));
+
+                // assert
+                Assert.NotEmpty(products);
+                Assert.True(result);
+            }
+        }
+
+        [Fact]
+        public async void Build_ReviewScoreQueryString_ShouldReturnAllProductsWhoseReviewScoreMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDB(_context);
+
+                // 2.2. dummy reviewScore
+                int reviewScoreDummy = 4;
+
+                // 3. qs dummy
+                string ReviewScoreQueryString = "?reviewscore=" + reviewScoreDummy;
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(ReviewScoreQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                var averageList = products.Select(p => p.Reviews.DefaultIfEmpty().Average(r => (int)r.Score));
+                var result = products.All(p => Math.Round(p.Reviews.DefaultIfEmpty().Average(r => (int)r.Score)) == reviewScoreDummy); 
+                //_output.WriteLine(JsonConvert.SerializeObject(averageList));
+                //_output.WriteLine(JsonConvert.SerializeObject(_context.Products, Formatting.Indented));
+
+                // assert
+                Assert.NotEmpty(products);
+                Assert.True(result);
+            }
+        }
+
+        [Fact]
+        public async void Build_MaxPriceQueryString_ShouldReturnAllProductsWhoseMaxPriceMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDB(_context);
+
+                // 2.2. dummy maxprice
+                decimal maxpriceDummy = 30000m;
+
+                // 3. qs dummy
+                string MaxPriceQueryString = "?maxprice=" + maxpriceDummy;
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(MaxPriceQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                //var averageList = products.Select(p => p.Reviews.DefaultIfEmpty().Average(r => (int)r.Score));
+                var result = products.All(p => p.Price < maxpriceDummy); 
+                //_output.WriteLine(JsonConvert.SerializeObject(averageList));
+
+                // assert
+                Assert.NotEmpty(products);
+                Assert.True(result);
+            }
+        }
+
+        [Fact]
+        public async void Build_MinPriceQueryString_ShouldReturnAllProductsWhoseMinPriceMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDB(_context);
+
+                // 2.2. dummy minprice
+                decimal minpriceDummy = 30000m;
+
+                // 3. qs dummy
+                string MinPriceQueryString = "?minprice=" + minpriceDummy;
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(MinPriceQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                //var averageList = products.Select(p => p.Reviews.DefaultIfEmpty().Average(r => (int)r.Score));
+                var result = products.All(p => p.Price > minpriceDummy); 
+                _output.WriteLine(JsonConvert.SerializeObject(products, Formatting.Indented));
+
+                // assert
+                Assert.NotEmpty(products);
+                Assert.True(result);
+            }
+        }
+
+        [Fact]
+        public async void Build_AllQueryString_ShouldReturnAllProductsWhoseAllMatchTheQueryString()
+        {
+            // 2.1. resolve dependency
+            using (var container = _builder.Build())
+            using (var scope = container.BeginLifetimeScope())
+            {
+                // resolve _context
+                CatalogApiDbContext _context = scope.Resolve<CatalogApiDbContext>();
+                // seed initial data in inmemory
+                _context = await SetupInitialDBForAllQueryString(_context);
+
+                // 2.2. dummy all
+                int categoryIdDummy = 0;
+                int subCategoryIdDummy = 0;
+                string keywordDummy = "collaborative";
+                int reviewscoreDummy = 5;
+                decimal maxpriceDummy = 70000m;
+                decimal minpriceDummy = 60000m;
+
+                // 3. qs dummy
+                string AllQueryString = "?category=" + categoryIdDummy
+                    + "&subcategory=" + subCategoryIdDummy
+                    + "&keyword=" + keywordDummy
+                    + "&reviewscore=" + reviewscoreDummy
+                    + "&maxprice=" + maxpriceDummy
+                    + "&minprice=" + minpriceDummy;
+
+                NameValueCollection qsDummy = HttpUtility.ParseQueryString(AllQueryString);
+
+                // act
+                IQueryBuilder<Product> productQueryBuilder = scope.Resolve<IQueryBuilder<Product>>();
+                var products = await productQueryBuilder.Build(qsDummy);
+                //var averageList = products.Select(p => p.Reviews.DefaultIfEmpty().Average(r => (int)r.Score));
+                var result = products.All(p => 
+                {
+                    return ((int)p.SubCategory.CategoryId == categoryIdDummy
+                        && (int)p.SubCategory.Id == subCategoryIdDummy 
+                        && p.Name.Contains(keywordDummy) || p.Description.Contains(keywordDummy)
+                        && Math.Round(p.Reviews.DefaultIfEmpty().Average(r => (int)r.Score)) == reviewscoreDummy
+                        && p.Price < maxpriceDummy
+                        && p.Price > minpriceDummy);
+                });
+                _output.WriteLine(JsonConvert.SerializeObject(_context.Products, Formatting.Indented));
+
+                // assert
+                Assert.NotEmpty(products);
+                Assert.True(result);
             }
         }
     }
