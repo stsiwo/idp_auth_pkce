@@ -55,6 +55,7 @@ namespace CatalogApi
             containerBuilder.RegisterModule<SpecificationModule>();
             containerBuilder.RegisterModule<ProductSpecificationFactoryModule>();
             containerBuilder.RegisterModule<OrderClauseStrategyModule>();
+            containerBuilder.RegisterModule<ProductQueryStringValidatorModule>();
             containerBuilder.RegisterModule<SingletonModule>();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();

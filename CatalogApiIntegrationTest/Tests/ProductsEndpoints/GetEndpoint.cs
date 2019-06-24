@@ -87,32 +87,54 @@ namespace CatalogApiIntegrationTest.Tests.ProductsEndpoints
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
 
-            Assert.Equal(expectedResult, result);
+            Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => Convert.ToDateTime(p.a) <= Convert.ToDateTime(p.b)));
 
         }
 
         [Theory]
-        [InlineData("/api/products?keyword=Metal")]
-        public async Task GET_RequestWithCategoryQueryString_ShouldReturnAllProdcutWhoseCategoryMatchesWithQueryString(string url)
+        [InlineData("/api/products?sort=2")]
+        public async Task GET_RequestPriceAscSortQueryString_ShouldReturnAllProdcutWithTheSortOrder(string url)
         {
             // Arrange
             var client = _factory.CreateClient();
-            // default sort is CreationDate (Asc)
-            var expectedResult = ProductsGETEndpointTestData.GetProducts().OrderBy(p => p.CreationDate).Where(p => p.SubCategory.CategoryId == (CategoryConstants)1).Select(p => p.SubCategory.CategoryId.ToString()).ToList();
 
             // Act
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
             // convert json to JObject
             JArray bodyJArray = JArray.Parse(body);
-            var result = bodyJArray.ToList();
-
+            var products = bodyJArray.ToList();
+            var result = products.Select(o => (string)o["price"]);
             _output.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
 
             // Assert
             response.EnsureSuccessStatusCode(); // Status Code 200-299
 
-            Assert.Equal("1", "2");
+            Assert.True(result.Zip(result.Skip(1), (a, b) => new { a, b }).All(p => Convert.ToDecimal(p.a) <= Convert.ToDecimal(p.b)));
+
+        }
+
+        [Theory]
+        [InlineData("/api/products?minprice=3000")]
+        public async Task GET_RequestWithCategoryQueryString_ShouldReturnAllProdcutWhoseCategoryMatchesWithQueryString(string url)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act
+            var response = await client.GetAsync(url);
+            var body = await response.Content.ReadAsStringAsync();
+            // convert json to JObject
+            JArray bodyJArray = JArray.Parse(body);
+            var products = bodyJArray.ToList();
+            var result = products.All(p => Convert.ToDecimal(p["price"]) > 3000m);
+
+            _output.WriteLine(JsonConvert.SerializeObject(products, Formatting.Indented));
+
+            // Assert
+            response.EnsureSuccessStatusCode(); // Status Code 200-299
+
+            Assert.True(result);
 
         }
     }
