@@ -11,6 +11,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Bogus" Version="27.0.1" />
     <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -20,6 +21,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\CatalogApi\CatalogApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="FunctionalTests\Infrastructure\QueryBuilder\Data\" />
   </ItemGroup>
 
 </Project>

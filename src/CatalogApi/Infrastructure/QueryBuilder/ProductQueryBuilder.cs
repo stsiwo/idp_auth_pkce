@@ -33,6 +33,7 @@ namespace CatalogApi.Infrastructure.QueryBuilder
             // include
             _query = _context.Products
                 .Include(p => p.SubImages)
+                .Include(p => p.SubCategory)
                 .Include(p => p.Reviews).AsQueryable();
 
             // order clause using strategy

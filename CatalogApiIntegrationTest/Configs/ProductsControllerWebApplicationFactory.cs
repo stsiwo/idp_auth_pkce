@@ -1,6 +1,7 @@
 ﻿using CatalogApi;
 using CatalogApi.Infrastructure;
 using CatalogApiIntegrationTest.TestData;
+using CatalogApiIntegrationTest.TestData.Entity;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -76,7 +77,7 @@ namespace CatalogApiIntegrationTest.Configs
                         try
                         {
                             // Seed the database with test data.
-                            db.Products.AddRange(ProductsGETEndpointTestData.GetProducts());
+                            db.Products.AddRange(ProductFaker.GetProductList(50));
                             db.SaveChanges();
                         }
                         catch (Exception ex)

@@ -62,8 +62,11 @@ namespace CatalogApi.UI.Controllers
 
         // DI for IGetProductsService
         [HttpGet]
-        public async Task<ActionResult<ProductDTO>> Get([FromQuery] string queryString = "")
+        public async Task<ActionResult<ProductDTO>> Get()
         {
+            // get qs from request
+            string queryString = (HttpContext.Request.QueryString != null) ? HttpContext.Request.QueryString.ToString() : "";
+
             _logger.LogDebug("Get Endpoint: {@Query}", queryString);
 
             // validate query string
