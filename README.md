@@ -8,6 +8,7 @@ identity server test with spa and Authorization Code type and PKCE
     - **XSS policy and SQL Injection policy**: make sure all input are sanitize and enforce validation (html, js, backend, data stored in db)
       - need to validate or escape any user input before those are put into LINQ event if you use parameterized query (like @id, @keyword) or query builder method (like Where, OrderBy ...) of Entity Framework: don't use raw query!!!
     - **XSRF policy**: use token for every post request
+    - **Open Redirect policy**: 
     - **OWASP**: use free version to make sure there is no any security hole.
   * **2. performance**:
     - 
