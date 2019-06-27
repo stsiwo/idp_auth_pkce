@@ -9,6 +9,8 @@ identity server test with spa and Authorization Code type and PKCE
       - need to validate or escape any user input before those are put into LINQ event if you use parameterized query (like @id, @keyword) or query builder method (like Where, OrderBy ...) of Entity Framework: don't use raw query!!!
     - **XSRF policy**: use token for every post request
     - **OWASP**: use free version to make sure there is no any security hole.
+  * **2. performance**:
+    - 
 
 ### Idp features
   * **Idp.1**: ~~change login inputs~~<br>
