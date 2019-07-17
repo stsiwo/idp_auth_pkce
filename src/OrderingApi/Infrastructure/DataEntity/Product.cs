@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CatalogApi.Infrastructure.DataEntity
+namespace OrderingApi.Infrastructure.DataEntity
 {
-    [Table("product")]
     public class Product : IDataEntity
     {
         [Key]
@@ -27,25 +26,27 @@ namespace CatalogApi.Infrastructure.DataEntity
         public String MainImageURL { get; set; }
 
         [Required]
-        [Column("sub_category_id")]
-        public SubCategoryConstants SubCategoryId { get; set; }
-
-        // need to add Stock and AvailableStock (= Stock - total # of product in every Cart)
-
-        [Required]
         [Column("price")]
         public decimal Price { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("creation_date", TypeName = "timestamp with time zone")]
-        public DateTime CreationDate { get; set; }
+        [Required]
+        [Column("stock")]
+        public int Stock { get; set; }
 
-        public List<SubImage> SubImages { get; set; }
+        [Required]
+        [Column("available_stock")]
+        public int AvailableStock { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        [Column("cart_id")]
+        public string CartId { get; set; }
 
-        [ForeignKey("SubCategoryId")]
-        public SubCategory SubCategory { get; set; }
+        [ForeignKey("CartId")]
+        public Cart Cart { get; set; }
 
+        [Column("order_id")]
+        public string OrderId { get; set; }
+
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
     }
 }
