@@ -59,16 +59,16 @@ identity server test with spa and Authorization Code type and PKCE
       
 ### Resource Server (OrderingApi: DDD) features
   * **1**: implement Infrastructure Layer.
-    - DataEntity
+    - ~~DataEntity~~
     - DbContext
       - use Fluent API to implement database stuff to decouple DataEntity (.Net) and database-related logic in DbContext (ideally)
-      - if Value Object, use "Owned Entity"
+      - ~~Value Object, use "Owned Entity"~~
       - indexing (database query optimization)
     - configure database connection (dev: sqlite and production: postgresql)
     - Repositories
     - Unit of Work
     - Unit Testing
-      - DataEntity Testing (with Bogus Faker): test each DataEntity and its relationship using Bogus. create test data for each DataEntity
+      - ~~DataEntity Testing (with Bogus Faker): test each DataEntity and its relationship using Bogus. create test data for each DataEntity~~
   * **2**: implement Domain Layer.
     - Aggregates
     - Value Objects
