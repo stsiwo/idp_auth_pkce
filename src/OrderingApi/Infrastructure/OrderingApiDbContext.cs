@@ -77,6 +77,10 @@ namespace OrderingApi.Infrastructure
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Value Objects (OwnedEntity): create columns for each property of Address Value Object inside User table
+            modelBuilder.Entity<User>().OwnsOne(u => u.Address);
+
+
             // define db index 
             // #REFACTOR
         }

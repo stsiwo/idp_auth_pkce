@@ -13,19 +13,15 @@ namespace OrderingApi.Infrastructure.DataEntity
         [Column("id", TypeName = "uuid")]
         public string Id { get; set; }
 
-        [Required]
         [Column("first_name")]
         public string FirstName { get; set; }
 
-        [Required]
         [Column("last_name")]
         public string LastName { get; set; }
 
-        [Required]
         [Column("address")]
         public Address Address { get; set; }
 
-        [Required]
         [Column("phone_number")]
         public string PhoneNumber { get; set; }
 
