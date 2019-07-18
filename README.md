@@ -11,7 +11,7 @@ identity server test with spa and Authorization Code type and PKCE
     - **Open Redirect policy**: 
     - **OWASP**: use free version to make sure there is no any security hole.
   * **2. performance**:
-    - 
+    - **DB Indexing**
 
 ### Idp features
   * **Idp.1**: ~~change login inputs~~<br>
@@ -23,8 +23,8 @@ identity server test with spa and Authorization Code type and PKCE
     - add register page link (if a user does not have account for my idp)<br>
   * **Idp.4**: ~~is it possible without consent page?~~<br>
     - currently clients and users are internal so don't need consent at all.
-### Resource Server (CatalogApi) features
-    - don't apply DDD since this api only does query stuff.
+### Resource Server (CatalogApi: CRUD) features
+    - need to fix "CRUD" to "DDD" because of implementation of Admin role to update products
   * **1**: implement Infrastructure Layer.
     - ~~DataEntity~~
     - DbContext
@@ -57,8 +57,7 @@ identity server test with spa and Authorization Code type and PKCE
       - WebApplicationFactory to create TestServer and Client (request)
       - validate the resonse 
       
-### Resource Server (OrderingApi) features
-    - apply DDD
+### Resource Server (OrderingApi: DDD) features
   * **1**: implement Infrastructure Layer.
     - DataEntity
     - DbContext
