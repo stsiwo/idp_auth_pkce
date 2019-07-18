@@ -56,6 +56,36 @@ identity server test with spa and Authorization Code type and PKCE
       - use Bogus to create test data
       - WebApplicationFactory to create TestServer and Client (request)
       - validate the resonse 
+      
+### Resource Server (OrderingApi) features
+    - apply DDD
+  * **1**: implement Infrastructure Layer.
+    - DataEntity
+    - DbContext
+      - use Fluent API to implement database stuff to decouple DataEntity (.Net) and database-related logic in DbContext (ideally)
+      - if Value Object, use "Owned Entity"
+      - indexing (database query optimization)
+    - configure database connection (dev: sqlite and production: postgresql)
+    - Repositories
+    - Unit of Work
+    - Unit Testing
+      - DataEntity Testing (with Bogus Faker): test each DataEntity and its relationship using Bogus. create test data for each DataEntity
+  * **2**: implement Domain Layer.
+    - Aggregates
+    - Value Objects
+    - Entities
+    - Services
+  * **3**: implement Application Layer.
+    - Command Handlers (not App Service like traditional one)
+  * **4**: implement UI (web api) Layer.
+    - Controller
+    - Validation of query string, form data, and so on
+    - Commands: using MediatR. (this case, I don't use "Services" at App Layer)
+  * **5**: implement Events.
+    - Domain Events (within the same BC: communication with different Aggregates): use MediatR 
+    - Integration Events (across multiple BC: communication with different BCs): use MediatR and RabbitMQ
+      - after a Domain Event is dispatched, an Integration Event is sent to another BCs
+      
 # Error handlings and tips
   * **NullReferenceException**: reference variable is not initiated (not primitive)
       - enforce null check
