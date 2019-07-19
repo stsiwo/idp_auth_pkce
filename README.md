@@ -64,7 +64,8 @@ identity server test with spa and Authorization Code type and PKCE
       - use Fluent API to implement database stuff to decouple DataEntity (.Net) and database-related logic in DbContext (ideally)
       - ~~Value Object, use "Owned Entity"~~
       - indexing (database query optimization)
-    - configure database connection (dev: sqlite and production: postgresql)
+    - configure database connection (dev: sqlite and production: postgresql?)
+      - migrate dbContext to make sure it works
     - Repositories
     - Unit of Work
     - Unit Testing
@@ -85,6 +86,10 @@ identity server test with spa and Authorization Code type and PKCE
     - Integration Events (across multiple BC: communication with different BCs): use MediatR and RabbitMQ
       - after a Domain Event is dispatched, an Integration Event is sent to another BCs
       
+# Common Commands list
+  * **Migration EF Core**: 
+    - Add-Migration InitialCreate
+    - Update-Database
 # Error handlings and tips
   * **NullReferenceException**: reference variable is not initiated (not primitive)
       - enforce null check
