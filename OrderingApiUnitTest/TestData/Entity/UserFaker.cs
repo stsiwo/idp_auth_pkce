@@ -15,7 +15,7 @@ namespace OrderingApiUnitTest.TestData.Entity
                 .RuleFor(u => u.Id, f => Guid.NewGuid().ToString())
                 .RuleFor(u => u.FirstName, f => f.Name.FirstName())
                 .RuleFor(u => u.LastName, f => f.Name.LastName())
-                .RuleFor(u => u.Address, f => new Address(f.Address.StreetAddress(), f.Address.City(), f.Address.State(), f.Address.Country(), f.Address.ZipCode()))
+                .RuleFor(u => u.HomeAddress, f => new Address(f.Address.StreetAddress(), f.Address.City(), f.Address.State(), f.Address.Country(), f.Address.ZipCode()))
                 .RuleFor(u => u.PhoneNumber, f => f.Phone.PhoneNumber())
                 .RuleFor(u => u.Orders, f => OrderFaker.GetRandomOrderList(5))
                 .RuleFor(u => u.Cart, f => CartFaker.GetCartList(1).FirstOrDefault())

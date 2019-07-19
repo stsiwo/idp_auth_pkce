@@ -8,7 +8,7 @@ using OrderingApi.Infrastructure;
 namespace OrderingApi.Migrations
 {
     [DbContext(typeof(OrderingApiDbContext))]
-    [Migration("20190719044105_Initial")]
+    [Migration("20190719163152_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -153,14 +153,29 @@ namespace OrderingApi.Migrations
 
             modelBuilder.Entity("OrderingApi.Infrastructure.DataEntity.User", b =>
                 {
-                    b.OwnsOne("OrderingApi.Infrastructure.DataEntity.Address", "Address", b1 =>
+                    b.OwnsOne("OrderingApi.Infrastructure.DataEntity.Address", "HomeAddress", b1 =>
                         {
                             b1.Property<string>("UserId");
+
+                            b1.Property<string>("City")
+                                .HasColumnName("home_address_city");
+
+                            b1.Property<string>("Country")
+                                .HasColumnName("home_address_country");
+
+                            b1.Property<string>("PostalCode")
+                                .HasColumnName("home_address_postal_code");
+
+                            b1.Property<string>("State")
+                                .HasColumnName("home_address_state");
+
+                            b1.Property<string>("Street")
+                                .HasColumnName("home_address_street");
 
                             b1.ToTable("Users");
 
                             b1.HasOne("OrderingApi.Infrastructure.DataEntity.User")
-                                .WithOne("Address")
+                                .WithOne("HomeAddress")
                                 .HasForeignKey("OrderingApi.Infrastructure.DataEntity.Address", "UserId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });

@@ -19,8 +19,7 @@ namespace OrderingApi.Infrastructure.DataEntity
         [Column("last_name")]
         public string LastName { get; set; }
 
-        [Column("address")]
-        public Address Address { get; set; }
+        public Address HomeAddress { get; set; }
 
         [Column("phone_number")]
         public string PhoneNumber { get; set; }

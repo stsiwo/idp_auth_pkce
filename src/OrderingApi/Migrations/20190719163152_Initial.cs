@@ -13,6 +13,11 @@ namespace OrderingApi.Migrations
                     id = table.Column<string>(type: "uuid", nullable: false),
                     first_name = table.Column<string>(nullable: true),
                     last_name = table.Column<string>(nullable: true),
+                    home_address_street = table.Column<string>(nullable: true),
+                    home_address_city = table.Column<string>(nullable: true),
+                    home_address_state = table.Column<string>(nullable: true),
+                    home_address_country = table.Column<string>(nullable: true),
+                    home_address_postal_code = table.Column<string>(nullable: true),
                     phone_number = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

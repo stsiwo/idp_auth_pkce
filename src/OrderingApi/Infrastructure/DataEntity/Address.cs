@@ -7,11 +7,11 @@ namespace OrderingApi.Infrastructure.DataEntity
 {
     public class Address
     {
-        public readonly string Street;
-        public readonly string City;
-        public readonly string State;
-        public readonly string Country;
-        public readonly string PostalCode;
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+        public string PostalCode { get; set; }
 
         public Address()
         {

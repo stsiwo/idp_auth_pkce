@@ -26,6 +26,13 @@ namespace OrderingApi.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Value Objects (OwnedEntity): create columns for each property of Address Value Object inside User table
+            modelBuilder.Entity<User>().OwnsOne(u => u.HomeAddress).Property(h => h.Street).HasColumnName("home_address_street");
+            modelBuilder.Entity<User>().OwnsOne(u => u.HomeAddress).Property(h => h.City).HasColumnName("home_address_city");
+            modelBuilder.Entity<User>().OwnsOne(u => u.HomeAddress).Property(h => h.State).HasColumnName("home_address_state");
+            modelBuilder.Entity<User>().OwnsOne(u => u.HomeAddress).Property(h => h.Country).HasColumnName("home_address_country");
+            modelBuilder.Entity<User>().OwnsOne(u => u.HomeAddress).Property(h => h.PostalCode).HasColumnName("home_address_postal_code");
+
             // User ===1:0...1=== Cart
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Cart)
@@ -82,8 +89,7 @@ namespace OrderingApi.Infrastructure
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Value Objects (OwnedEntity): create columns for each property of Address Value Object inside User table
-            modelBuilder.Entity<User>().OwnsOne(u => u.Address);
+            
 
 
             // define db index 
