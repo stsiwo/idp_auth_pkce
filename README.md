@@ -90,6 +90,7 @@ identity server test with spa and Authorization Code type and PKCE
   * **Migration EF Core**: 
     - Add-Migration InitialCreate: add named migration (not update db)
     - Update-Database 0 : clear up all migration you did in the past in db
+    - Update-Database: update database using the lastest migration
     - Remove-Migration: remove the last migration
 # Error handlings and tips
   * **NullReferenceException**: reference variable is not initiated (not primitive)
