@@ -64,8 +64,8 @@ identity server test with spa and Authorization Code type and PKCE
       - use Fluent API to implement database stuff to decouple DataEntity (.Net) and database-related logic in DbContext (ideally)
       - ~~Value Object, use "Owned Entity"~~
       - indexing (database query optimization)
-    - configure database connection (dev: sqlite and production: postgresql?)
-      - migrate dbContext to make sure it works
+    - ~~configure database connection (dev: sqlite and production: postgresql?)~~
+      - ~~migrate dbContext to make sure it works~~
     - Repositories
     - Unit of Work
     - Unit Testing
