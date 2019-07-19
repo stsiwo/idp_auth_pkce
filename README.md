@@ -88,8 +88,9 @@ identity server test with spa and Authorization Code type and PKCE
       
 # Common Commands list
   * **Migration EF Core**: 
-    - Add-Migration InitialCreate
-    - Update-Database
+    - Add-Migration InitialCreate: add named migration (not update db)
+    - Update-Database 0 : clear up all migration you did in the past in db
+    - Remove-Migration: remove the last migration
 # Error handlings and tips
   * **NullReferenceException**: reference variable is not initiated (not primitive)
       - enforce null check
