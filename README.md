@@ -97,3 +97,6 @@ identity server test with spa and Authorization Code type and PKCE
       - use pagination or Where clause to limit how many data are moved into memory
   * **Increment operator inside LINQ Where clause**: don't do it
       - Where clause iterate all items in a list so increment operator will increment at the same time when it iterates
+  * **Add Migration to a specific Project in a Solution (multiple projects exist)**
+      - if you encounter an error such as "make sure it is referenced by start up project ...", which means that the project you want to add migration is not the start up project (maybe another project in the solution is the one). so you need to change the start up project as the one you want to add migration to.
+        - right click the project in solution explorer then click "set as start up"
