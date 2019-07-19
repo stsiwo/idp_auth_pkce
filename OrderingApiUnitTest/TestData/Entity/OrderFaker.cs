@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using OrderingApi.Domain.OrderAgg;
+using Domain = OrderingApi.Domain.OrderAgg;
 using OrderingApi.Infrastructure.DataEntity;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace OrderingApiUnitTest.TestData.Entity
         {
             var orderFaker = new Faker<Order>()
                 .RuleFor(c => c.Id, f => Guid.NewGuid().ToString())
-                .RuleFor(c => c.Status, f => (OrderStatusConstants)f.Random.Number(Enum.GetNames(typeof(OrderStatusConstants)).Length - 1))
+                .RuleFor(c => c.Status, f => (Domain.OrderStatusConstants)f.Random.Number(Enum.GetNames(typeof(Domain.OrderStatusConstants)).Length - 1))
                 .RuleFor(c => c.Products, f => ProductFaker.GetRandomProductList(20))
                 .FinishWith((f, o) =>
                 {

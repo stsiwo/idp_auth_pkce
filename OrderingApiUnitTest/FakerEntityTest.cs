@@ -106,5 +106,12 @@ namespace OrderingApiUnitTest
             Assert.True(products.Count <= 1);
 
         }
+
+        [Fact] 
+        public void Default_Primitive_Type_Check()
+        {
+            Assert.Equal("a", default(string));
+
+        }
     }
 }

@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <Folder Include="Application\" />
-    <Folder Include="Domain\CartAgg\" />
     <Folder Include="Domain\UserAgg\" />
+    <Folder Include="Infrastructure\Repository\" />
     <Folder Include="UI\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
