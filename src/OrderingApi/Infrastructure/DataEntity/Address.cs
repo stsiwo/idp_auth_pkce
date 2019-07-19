@@ -13,6 +13,10 @@ namespace OrderingApi.Infrastructure.DataEntity
         public readonly string Country;
         public readonly string PostalCode;
 
+        public Address()
+        {
+
+        }
         public Address(string street, string city, string state, string country, string postalCode)
         {
             Street = street;

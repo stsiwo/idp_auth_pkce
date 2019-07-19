@@ -14,6 +14,11 @@ namespace OrderingApi.Infrastructure
         {
         }
 
+        public OrderingApiDbContext()
+        {
+
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<Order> Orders { get; set; }
