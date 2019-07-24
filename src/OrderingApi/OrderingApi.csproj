@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Application\" />
-    <Folder Include="Domain\UserAgg\" />
+    <Folder Include="DI\Domain\Validator\Specification\Builder\" />
     <Folder Include="Infrastructure\Repository\" />
     <Folder Include="UI\" />
     <Folder Include="wwwroot\" />

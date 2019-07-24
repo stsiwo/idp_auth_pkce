@@ -27,5 +27,18 @@ namespace OrderingApi.Domain.ProductAgg
         public CartId CartId { get; set; } 
 
         public OrderId OrderId { get; set; }
+
+        // creationDate method can be implemented with ProductId ValueObject
+//        public DateTime CreationDate()
+//        {
+//            return ProductId.CreationDate();
+//        }
+
+        public Product(
+                
+            )
+        {
+
+        }
     }
 }

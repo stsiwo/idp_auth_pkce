@@ -26,4 +26,8 @@
     <ProjectReference Include="..\src\OrderingApi\OrderingApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DI\" />
+  </ItemGroup>
+
 </Project>

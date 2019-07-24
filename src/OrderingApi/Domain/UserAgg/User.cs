@@ -16,5 +16,7 @@ namespace OrderingApi.Domain.UserAgg
         public Phone Phone { get; set; }
         public CartId CartId { get; set; }
         public IList<OrderId> OrderIds { get; set; } 
+
+
     }
 }
