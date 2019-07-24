@@ -9,5 +9,6 @@ namespace OrderingApi.Domain.TestAgg
     public class Test : IEntity
     {
         public string Password { get; set; }
+        public decimal Price { get; set; }
     }
 }
