@@ -11,8 +11,9 @@ identity server test with spa and Authorization Code type and PKCE
     - **Open Redirect policy**: 
     - **OWASP**: use free version to make sure there is no any security hole.
   * **2. performance**:
-    - **DB Indexing**
-
+    - **DB**
+      - Indexing
+      - Lazyness (NHibernate)
 ### Idp features
   * **Idp.1**: ~~change login inputs~~<br>
     - now: username & password => correct: email & password (size user name might be duplicated)<br>
