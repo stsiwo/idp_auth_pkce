@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Domain.OrderAgg
 {
-    public class Order : IAggregateEntity
+    public class Order : IEntity, IAggregate
     {
         public OrderId OrderId { get; set; }
 

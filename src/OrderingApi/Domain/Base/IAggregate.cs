@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Domain.Base
 {
-    public interface IAggregateEntity
+    public interface IAggregate
     {
-       // currently marker interface 
+        // marker interface for Aggregate
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Domain.Validator
 {
-    public class EntityValidatorBase<T, F> : IEntityValidator<T, F> 
+    public abstract class EntityValidatorBase<T, F> : IEntityValidator<T, F> 
         where T : IEntity
         where F : IFieldValidationRule<T>
     {
