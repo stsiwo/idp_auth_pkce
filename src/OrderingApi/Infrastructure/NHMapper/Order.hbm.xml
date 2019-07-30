@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Domain.OrderAgg" assembly="OrderingApi">
+
+  <!--table name: orders (not order because it causes sqlite syntax error)-->
+  <class name="Order" table="orders">
+
+    <id name="Id" column="id" type="Guid" />
+
+    <!--Order:0..N:1:User-->
+    <many-to-one name="User" column="user_id" not-null="true"/> 
+
+    <!--Order:1...N:1...M:Product-->
+    <set name="Products" table="order_order_product" cascade="all-delete-orphan">
+      <key column="order_id"/>
+      <many-to-many column="order_product_id" class="OrderProduct"/>
+    </set>
+
+  </class>
+
+</hibernate-mapping>

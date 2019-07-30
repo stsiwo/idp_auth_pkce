@@ -7,7 +7,7 @@ namespace OrderingApiUnitTest.NHibernate.Entity.CartAgg
 {
     public class Product : IEntity
     {
-        public virtual ProductId Id { get; set; } 
+        public virtual Guid Id { get; set; } 
         public virtual string Name { get; set; }
 
         public virtual Price Price { get; set; }

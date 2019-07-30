@@ -1,21 +1,32 @@
 ﻿using OrderingApi.Domain.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace OrderingApi.Domain.UserAgg
 {
-    public class Name : IValueObject
+    public class Name : ValueObject
     {
-        public readonly string FullName;
+        public virtual string FirstName { get; private set; }
+        public virtual string LastName { get; private set; }
 
-        public readonly string LastName;
-
-        public Name(string fullName, string lastName)
+        // for NHibernate (mandatory)
+        public Name()
         {
-            FullName = fullName;
+
+        }
+
+        public Name(string firstName, string lastName)
+        {
+            FirstName = firstName;
             LastName = lastName;
         }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return FirstName;
+            yield return LastName;
+        }
+
     }
 }

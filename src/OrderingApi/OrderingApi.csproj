@@ -5,6 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="hibernate.cfg.xml" />
+    <None Remove="Infrastructure\NHMapper\Cart.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\CartProduct.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\Order.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\OrderProduct.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\User.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Infrastructure\NHMapper\OrderProduct.hbm.xml" />
+    <EmbeddedResource Include="Infrastructure\NHMapper\Order.hbm.xml" />
+    <EmbeddedResource Include="Infrastructure\NHMapper\CartProduct.hbm.xml" />
+    <EmbeddedResource Include="Infrastructure\NHMapper\Cart.hbm.xml" />
+    <EmbeddedResource Include="Infrastructure\NHMapper\User.hbm.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Application\" />
     <Folder Include="DI\Domain\Validator\Specification\Builder\" />
     <Folder Include="Infrastructure\Repository\" />
@@ -16,17 +36,17 @@
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="AutoMapper" Version="8.1.1" />
-    <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="FluentNHibernate" Version="2.1.2" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.8" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="NHibernate" Version="5.2.5" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.111" />
   </ItemGroup>
 
 </Project>

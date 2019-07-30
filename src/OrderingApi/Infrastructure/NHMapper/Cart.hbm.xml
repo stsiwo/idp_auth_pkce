@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Domain.CartAgg" assembly="OrderingApi">
+
+  <class name="Cart" table="cart">
+
+    <id name="Id" column="id" type="Guid" />
+
+    <one-to-one name="User" property-ref="Cart"/>
+
+    <set name="Products" table="cart_cart_product" cascade="all-delete-orphan">
+      <key column="cart_id"/>
+      <many-to-many column="cart_product_id"
+          class="CartProduct"/>
+    </set>
+
+  </class>
+
+</hibernate-mapping>

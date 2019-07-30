@@ -6,15 +6,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using OrderingApi.DI;
-using OrderingApi.Infrastructure;
 
 namespace OrderingApi
 {
@@ -30,12 +25,6 @@ namespace OrderingApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext <OrderingApiDbContext>(options => 
-            {
-                options.UseSqlite(Configuration.GetConnectionString("OrderingApiConnection"));
-                options.EnableSensitiveDataLogging();
-            });
-
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => 

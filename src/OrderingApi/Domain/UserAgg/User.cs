@@ -10,13 +10,17 @@ namespace OrderingApi.Domain.UserAgg
 {
     public class User : IEntity, IAggregate
     {
-        public UserId UserId { get; set; }
-        public Name Name { get; set; } 
-        public Address HomeAddress { get; set; } 
-        public Phone Phone { get; set; }
-        public CartId CartId { get; set; }
-        public IList<OrderId> OrderIds { get; set; } 
+        public virtual Guid Id { get; set; }
+        public virtual Name Name { get; set; } 
+        public virtual Address HomeAddress { get; set; } 
+        public virtual Phone Phone { get; set; }
+        public virtual Cart Cart { get; set; }
+        public virtual ISet<Order> Orders { get; set; }
 
+        public User()
+        {
+            Orders = new HashSet<Order>();
+        }
 
     }
 }

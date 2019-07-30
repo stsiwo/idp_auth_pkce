@@ -9,7 +9,7 @@ namespace OrderingApiUnitTest.NHibernate.Entity.UserAgg
 {
     public class User : IEntity, IAggregate
     {
-        public virtual UserId Id { get; set; }
+        public virtual Guid Id { get; set; }
         public virtual Name Name { get; set; } 
         public virtual Address HomeAddress { get; set; } 
         public virtual Phone Phone { get; set; }
@@ -21,7 +21,7 @@ namespace OrderingApiUnitTest.NHibernate.Entity.UserAgg
             Orders = new List<Order>();
         }
 
-        public User(UserId id, Name name, Address homeAddress, Phone phone)
+        public User(Guid id, Name name, Address homeAddress, Phone phone)
         {
             Id = id;
             Name = name;

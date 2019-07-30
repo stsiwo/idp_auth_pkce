@@ -1,18 +1,28 @@
 ﻿using OrderingApi.Domain.Base;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace OrderingApi.Domain.UserAgg
 {
-    public class Phone : IValueObject
+    public class Phone : ValueObject
     {
-        public readonly string Number;
+        public virtual string HomeNumber { get; private set; }
 
-        public Phone(string number)
+        // for NHibernate (mandatory)
+        public Phone()
         {
-            Number = number;
+
+        }
+
+        public Phone(string homeNumber)
+        {
+            HomeNumber = homeNumber;
+        }
+
+        protected override IEnumerable<object> GetAtomicValues()
+        {
+            yield return HomeNumber;
         }
     }
 }

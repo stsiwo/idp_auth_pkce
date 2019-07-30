@@ -1,5 +1,4 @@
 ﻿using OrderingApi.Domain.Base;
-using OrderingApi.Domain.ProductAgg;
 using OrderingApi.Domain.UserAgg;
 using System;
 using System.Collections.Generic;
@@ -10,8 +9,13 @@ namespace OrderingApi.Domain.CartAgg
 {
     public class Cart : IEntity, IAggregate
     {
-        public CartId CartId { get; set; }
-        public UserId UserId { get; set; }
-        public IList<Product> Products { get; set; }
+        public virtual Guid Id { get; set; }
+        public virtual User User { get; set; }
+        public virtual ISet<CartProduct> Products { get; set; }
+
+        public Cart()
+        {
+            Products = new HashSet<CartProduct>();
+        }
     }
 }

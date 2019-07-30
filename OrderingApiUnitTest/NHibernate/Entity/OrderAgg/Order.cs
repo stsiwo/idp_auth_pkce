@@ -8,7 +8,7 @@ namespace OrderingApiUnitTest.NHibernate.Entity.OrderAgg
 {
     public class Order : IEntity, IAggregate
     {
-        public virtual OrderId Id { get; set; }
+        public virtual Guid Id { get; set; }
 
         public virtual OrderStatusConstants Status { get; set; }
 
@@ -21,7 +21,7 @@ namespace OrderingApiUnitTest.NHibernate.Entity.OrderAgg
             Products = new List<Product>(); 
         }
 
-        public Order(OrderId id, OrderStatusConstants status, User user, IList<Product> products)
+        public Order(Guid id, OrderStatusConstants status, User user, IList<Product> products)
         {
             Id = id;
             Status = status;
