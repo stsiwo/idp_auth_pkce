@@ -7,5 +7,6 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 {
     public interface IPublisher : IContext
     {
+        string GetExchangeName();
     }
 }

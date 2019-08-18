@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OrderingApi.Application.DomainEvent;
 using OrderingApi.Infrastructure.RabbitMQ.Config;
+using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
 using OrderingApi.Infrastructure.RabbitMQ.Message;
 using RabbitMQ.Client;
 using System;
@@ -21,12 +22,15 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
 
         private IMapper _mapper;
 
-        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper)
+        private IPublisher _publisher; 
+
+        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, IPublisher publisher)
         {
             _channel = channelFactory[ConnectionTypeConstants.Publisher];
             _mapper = mapper;
+            _publisher = publisher;
         }
-        public void Send<D>(D message) where D : IDomainEvent
+        public void Send<D>(D message, string routingKey) where D : IDomainEvent
         {
             var camelCaseSerializer = new JsonSerializer()
             {
@@ -49,14 +53,12 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-            Console.WriteLine("sending rmq message: {0}", JsonConvert.SerializeObject(jsonMessage, Formatting.Indented));
-
             // json (message) => byte[]; 
             var body = Encoding.UTF8.GetBytes(jsonMessage);
 
             // send message
-            _channel.BasicPublish(exchange: ExchangeNameConstants.OrderingApiPublisherExchange,
-                                 routingKey: RoutingKeyConstants.ToCartCreatedDomainEventSubscribers,
+            _channel.BasicPublish(exchange: _publisher.GetExchangeName(), 
+                                 routingKey: routingKey, 
                                  basicProperties: properties,
                                  body: body);
 

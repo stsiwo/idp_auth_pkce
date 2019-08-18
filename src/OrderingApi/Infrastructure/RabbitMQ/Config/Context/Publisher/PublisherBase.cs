@@ -33,5 +33,10 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         {
             channel.ConfirmSelect();
         }
+
+        public string GetExchangeName()
+        {
+            return ExchangeName;
+        }
     }
 }
