@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerAspNetIdentit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogApi", "src\CatalogApi\CatalogApi.csproj", "{3B6CCFA2-DA72-414D-88BF-96F4857570DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogApiIntegrationTest", "CatalogApiIntegrationTest\CatalogApiIntegrationTest.csproj", "{5821EBDC-6630-4FD8-B81C-AD0FF549BDA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogApiIntegrationTest", "CatalogApiIntegrationTest\CatalogApiIntegrationTest.csproj", "{5821EBDC-6630-4FD8-B81C-AD0FF549BDA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogApiUnitTest", "CatalogApiUnitTest\CatalogApiUnitTest.csproj", "{F550921C-448A-4E0B-A8FB-9312EC8921EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatalogApiUnitTest", "CatalogApiUnitTest\CatalogApiUnitTest.csproj", "{F550921C-448A-4E0B-A8FB-9312EC8921EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderingApi", "src\OrderingApi\OrderingApi.csproj", "{71FDE8B5-6E09-4B3B-86EB-04D570F67F00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderingApi", "src\OrderingApi\OrderingApi.csproj", "{71FDE8B5-6E09-4B3B-86EB-04D570F67F00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderingApiUnitTest", "OrderingApiUnitTest\OrderingApiUnitTest.csproj", "{A6CB9FF4-BE14-4DDF-B13D-2189AA5C670C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderingApiUnitTest", "OrderingApiUnitTest\OrderingApiUnitTest.csproj", "{A6CB9FF4-BE14-4DDF-B13D-2189AA5C670C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
