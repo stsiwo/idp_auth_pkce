@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 {
-    public class OrderingApiPublisher : PublisherBase
+    public class OrderingApiPublisher : PublisherBase, ICurrentPublisher
     {
         public OrderingApiPublisher() : base(ExchangeNameConstants.OrderingApiPublisherExchange, RoutingKeyConstants.ToOrderingApi)
         {

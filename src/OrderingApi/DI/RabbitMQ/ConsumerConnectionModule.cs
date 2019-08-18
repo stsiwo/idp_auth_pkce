@@ -27,10 +27,10 @@ namespace OrderingApi.DI.RabbitMQ
                 .Keyed<IModel>(ConnectionTypeConstants.Consumer)
                 .SingleInstance();
 
+
             // callbacks
             // => start consumer channel when app started (technically, when Autofac container is built)
             builder.RegisterBuildCallback(c => c.ResolveKeyed<IModel>(ConnectionTypeConstants.Consumer));
-
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
+﻿using Autofac.Features.Metadata;
+using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Consumer
 {
     public class OrderingApiConsumer : ConsumerBase
     {
-        public OrderingApiConsumer(IEnumerable<PublisherBase> publishers) : base(publishers, QueueNameConstants.OrderingApiConsumerQueue)
+        public OrderingApiConsumer(IEnumerable<IPublisher> publishers) : base(publishers, QueueNameConstants.OrderingApiConsumerQueue)
         {
         }
     }

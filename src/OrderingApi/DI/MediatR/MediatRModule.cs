@@ -24,8 +24,6 @@ namespace OrderingApi.DI.MediatR
                 return t => c.Resolve(t);
             });
 
-            // try assembly scanning; this might not work properly (make sure and delete this comment if works)
-            builder.RegisterAssemblyTypes(typeof(Program).Assembly).AsImplementedInterfaces();
         }
     }
 }

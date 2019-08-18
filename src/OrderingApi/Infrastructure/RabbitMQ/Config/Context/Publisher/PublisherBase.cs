@@ -8,9 +8,9 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 {
     public class PublisherBase : IPublisher
     {
-        public string ExchangeName { get; private set; }
+        public string ExchangeName { get; }
 
-        public string RoutingKey { get; private set; }
+        public string RoutingKey { get; }
 
         public PublisherBase(string exchangeName, string routingKey)
         {
@@ -32,11 +32,6 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         private void EnablePublisherConfirm(IModel channel)
         {
             channel.ConfirmSelect();
-        }
-
-        public string GetExchangeName()
-        {
-            return ExchangeName;
         }
     }
 }

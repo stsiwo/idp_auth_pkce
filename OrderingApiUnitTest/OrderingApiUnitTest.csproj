@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DI\" />
     <Folder Include="DB_Data\" />
   </ItemGroup>
 

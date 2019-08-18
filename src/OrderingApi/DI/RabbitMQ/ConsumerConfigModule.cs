@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Consumer;
 using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
 using System;
@@ -19,32 +20,32 @@ namespace OrderingApi.DI.RabbitMQ
                 // consumer config (ContextA as consumer)
                 builder.RegisterType<OrderingApiConsumer>()
                     .As<IConsumer>()
-                    .InstancePerDependency();
+                    .SingleInstance();
 
                 // ContextA consumer needs the other publishers of different contexts
                 builder.RegisterType<CatalogApiPublisher>()
-                    .As<PublisherBase>()
-                    .InstancePerDependency();
+                    .As<IPublisher>()
+                    .SingleInstance();
 
                 builder.RegisterType<IdentityApiPublisher>()
-                    .As<PublisherBase>()
-                    .InstancePerDependency();
+                    .As<IPublisher>()
+                    .SingleInstance();
             }
             else if (currentContext.Equals("CatalogApi"))
             {
                 // consumer config (ContextA as consumer)
                 builder.RegisterType<CatalogApiConsumer>()
                     .As<IConsumer>()
-                    .InstancePerDependency();
+                    .SingleInstance();
 
                 // ContextA consumer needs the other publishers of different contexts
                 builder.RegisterType<OrderingApiPublisher>()
-                    .As<PublisherBase>()
-                    .InstancePerDependency();
+                    .As<IPublisher>()
+                    .SingleInstance();
 
                 builder.RegisterType<IdentityApiPublisher>()
-                    .As<PublisherBase>()
-                    .InstancePerDependency();
+                    .As<IPublisher>()
+                    .SingleInstance();
 
             }
             else if (currentContext.Equals("IdentityServerAspNetIdentity"))
@@ -52,16 +53,16 @@ namespace OrderingApi.DI.RabbitMQ
                 // consumer config (ContextA as consumer)
                 builder.RegisterType<IdentityApiConsumer>()
                     .As<IConsumer>()
-                    .InstancePerDependency();
+                    .SingleInstance();
 
                 // ContextA consumer needs the other publishers of different contexts
                 builder.RegisterType<OrderingApiPublisher>()
-                    .As<PublisherBase>()
-                    .InstancePerDependency();
+                    .As<IPublisher>()
+                    .SingleInstance();
 
                 builder.RegisterType<CatalogApiPublisher>()
-                    .As<PublisherBase>()
-                    .InstancePerDependency();
+                    .As<IPublisher>()
+                    .SingleInstance();
             }
 
 

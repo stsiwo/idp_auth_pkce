@@ -22,13 +22,13 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
 
         private IMapper _mapper;
 
-        private IPublisher _publisher; 
+        private ICurrentPublisher _publisher; 
 
-        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, IPublisher publisher)
+        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, ICurrentPublisher publisher)
         {
             _channel = channelFactory[ConnectionTypeConstants.Publisher];
             _mapper = mapper;
-            _publisher = publisher;
+            _publisher = publisher; 
         }
         public void Send<D>(D message, string routingKey) where D : IDomainEvent
         {
@@ -57,7 +57,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
             var body = Encoding.UTF8.GetBytes(jsonMessage);
 
             // send message
-            _channel.BasicPublish(exchange: _publisher.GetExchangeName(), 
+            _channel.BasicPublish(exchange: _publisher.ExchangeName, 
                                  routingKey: routingKey, 
                                  basicProperties: properties,
                                  body: body);

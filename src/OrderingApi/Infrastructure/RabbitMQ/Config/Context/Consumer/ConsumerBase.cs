@@ -1,4 +1,5 @@
-﻿using OrderingApi.Application.DomainEvent;
+﻿using Autofac.Features.Metadata;
+using OrderingApi.Application.DomainEvent;
 using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
 using RabbitMQ.Client;
 using System;
@@ -10,13 +11,13 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Consumer
 {
     public class ConsumerBase : IConsumer
     {
-        private IEnumerable<PublisherBase> _publishers;
+        private IEnumerable<IPublisher> _publishers;
 
         private string _queueName;
 
         private static Array _eventIds = Enum.GetValues(typeof(DomainEventTypeConstants));
 
-        public ConsumerBase(IEnumerable<PublisherBase> publishers, string queueName)
+        public ConsumerBase(IEnumerable<IPublisher> publishers, string queueName)
         {
             _publishers = publishers;
             _queueName = queueName;
@@ -26,16 +27,21 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Consumer
             // declare a queue for this consumer 
             channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false);
 
-            foreach (PublisherBase publisher in _publishers)
+            foreach (IPublisher publisher in _publishers)
             {
                 // declare each publishder's exchange on this consumer channel
                 publisher.DeclareExchangeIn(channel);
 
-                // bind the exchange to the queue with routingKey for all or point-to-point delivery
+                // bind the exchange to the queue with routingKey for point-to-point delivery
                 channel.QueueBind(queue: _queueName,
                                   exchange: publisher.ExchangeName,
                                   routingKey: publisher.RoutingKey);
+                // bind this excahnge to the queue with routing key all; when message's RK is "all" => the message must be delivered to this queue 
+                channel.QueueBind(queue: _queueName,
+                                  exchange: publisher.ExchangeName,
+                                  routingKey: RoutingKeyConstants.ToAll);
 
+                // bind this exchange to the queue with routing key of all events
                 foreach (DomainEventTypeConstants eventId in _eventIds)
                 {
                     channel.QueueBind(queue: _queueName,

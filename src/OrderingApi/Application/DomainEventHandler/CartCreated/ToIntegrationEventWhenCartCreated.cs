@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OrderingApi.Application.DomainEvent;
+using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Sender;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace OrderingApi.Application.DomainEventHandler.CartCreated
         public Task Handle(CartCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
             // send this domain event to messaging bus (rabbitmq)
-            _rmqSender.Send(notification);
+            _rmqSender.Send(notification, RoutingKeyConstants.ToCartCreatedDomainEventSubscribers);
 
             return Task.CompletedTask;
         }
