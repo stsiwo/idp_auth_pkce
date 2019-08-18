@@ -10,5 +10,10 @@ namespace OrderingApi.Application.DomainEvent
     public class CartCreatedDomainEvent : DomainEventBase, INotification 
     {
         public string CartId { get; set; }
+
+        public CartCreatedDomainEvent(string cartId)
+        {
+            CartId = cartId;
+        }
     }
 }

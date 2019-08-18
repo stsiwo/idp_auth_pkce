@@ -15,9 +15,9 @@ namespace OrderingApi.Application.DomainEventHandler.CartCreated
 
         public Task Handle(CartCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            log.Debug("handling assign cart to user when cart created");
+            log.Debug("handling assign cart to user when cart created (arrived at local event handler)");
 
             return Task.CompletedTask;
         }
     }
-}
+} 

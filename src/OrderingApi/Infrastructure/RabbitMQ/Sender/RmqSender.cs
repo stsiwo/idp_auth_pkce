@@ -1,5 +1,6 @@
 ﻿using Autofac.Features.Indexed;
 using AutoMapper;
+using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
@@ -23,6 +24,8 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
         private IMapper _mapper;
 
         private ICurrentPublisher _publisher; 
+
+        private static readonly ILog log = LogManager.GetLogger(typeof(RmqSender));
 
         public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, ICurrentPublisher publisher)
         {
@@ -52,6 +55,9 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
+
+            log.Debug("the message is about sent: ");
+            log.Debug(jsonMessage);
 
             // json (message) => byte[]; 
             var body = Encoding.UTF8.GetBytes(jsonMessage);
