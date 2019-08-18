@@ -73,10 +73,10 @@ identity server test with spa and Authorization Code type and PKCE
     - Unit Testing
       - ~~DataEntity Testing (with Bogus Faker): test each DataEntity and its relationship using Bogus. create test data for each DataEntity~~
   * **2**: implement Domain Layer.
-    - Aggregates
-    - Value Objects
-    - Entities
-    - Services
+    - ~~Aggregates~~
+    - ~~Value Objects~~
+    - ~~Entities~~
+    - ~~Services~~
   * **3**: implement Application Layer.
     - Command Handlers (not App Service like traditional one)
   * **4**: implement UI (web api) Layer.
