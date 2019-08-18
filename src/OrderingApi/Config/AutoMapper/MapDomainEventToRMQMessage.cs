@@ -25,6 +25,9 @@ namespace OrderingApi.Config.AutoMapper
                 // this is message id (not event id)
                 .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
                 .ForMember(dest => dest.DomainEventType, opt => opt.MapFrom(src => src.GetDomainEventType()))
+                // get current project name as sender
+                .ForMember(dest => dest.Sender, opt => opt.MapFrom(src => System.Reflection.Assembly.GetEntryAssembly().GetName().Name))
+                .ForMember(dest => dest.OccuredOn, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => JObject.FromObject(src, camelCaseSerializer)));
 
             CreateMap<CartCreatedDomainEvent, RmqMessage>();

@@ -12,6 +12,10 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Message
 
         public int DomainEventType { get; set; }
 
+        public string Sender { get; set; }
+
+        public string OccuredOn { get; set; }
+
         public JObject Content { get; set; }
 
     }
