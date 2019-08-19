@@ -15,6 +15,7 @@ namespace OrderingApi.DI.RabbitMQ
         {
             var currentContext = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
 
+            // #CONTEXT
             if (currentContext.Equals("OrderingApi"))
             {
                 // consumer config (ContextA as consumer)

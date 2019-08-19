@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.DomainEvent
 {
+    // #EVENT
     public abstract class DomainEventBase : IDomainEvent
     {
         public string DomainEventId { get; set; }
 
         public int DomainEventType { get; set; }
 
-        public int GetDomainEventType()
-        {
-            return DomainEventType;
-        }
+        public string DomainEventName { get; set; } 
+
+        public DateTime OccurredOn { get; set; } 
     }
 }

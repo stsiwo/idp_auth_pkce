@@ -8,6 +8,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config
 {
     public class RoutingKeyConstants
     {
+        // #CONTEXT
         // need to add new event routing key when new event
         public static string ToCartCreatedDomainEventSubscribers = "api.all.event." + (int)DomainEventTypeConstants.CartCreatedDomainEvent;
         public static string ToAll = "api.*";

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 {
+    // #CONTEXT
     public class PublisherBase : IPublisher
     {
         public string ExchangeName { get; }

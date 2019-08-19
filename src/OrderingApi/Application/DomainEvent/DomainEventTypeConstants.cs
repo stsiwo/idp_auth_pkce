@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.DomainEvent
 {
+    // #EVENT
     public enum DomainEventTypeConstants
     {
         CartCreatedDomainEvent = 0,

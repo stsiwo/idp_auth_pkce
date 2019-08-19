@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Domain.Base" assembly="OrderingApi">
+
+  <class name="StoredEvent" table="event_store">
+
+    <id name="Id" column="id" type="Guid" />
+
+    <property name="Name" column="name" type="String"/>
+
+    <property name="DomainEventType" column="domain_event_type" type="Int64"/>
+
+    <property name="OccurredOn" column="occurred_on" type="DateTime"/>
+
+    <property name="Payload" column="payload" type="String"/>
+
+
+
+  </class>
+
+</hibernate-mapping>

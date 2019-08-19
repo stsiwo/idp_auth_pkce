@@ -1,6 +1,8 @@
 ﻿using log4net;
 using MediatR;
 using OrderingApi.Application.DomainEvent;
+using OrderingApi.Application.Repository;
+using OrderingApi.Domain.CartAgg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,13 @@ namespace OrderingApi.Application.DomainEventHandler.CartCreated
     public class AssignCartToUserWhenCartCreated : INotificationHandler<CartCreatedDomainEvent>
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(AssignCartToUserWhenCartCreated));
+
+        private IRepository<Cart> _repository;
+
+        public AssignCartToUserWhenCartCreated(IRepository<Cart> repository)
+        {
+            _repository = repository;
+        }
 
         public Task Handle(CartCreatedDomainEvent notification, CancellationToken cancellationToken)
         {

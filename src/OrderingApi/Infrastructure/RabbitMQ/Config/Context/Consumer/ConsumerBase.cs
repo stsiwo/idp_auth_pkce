@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Consumer
 {
+    // #CONTEXT
     public class ConsumerBase : IConsumer
     {
         private IEnumerable<IPublisher> _publishers;

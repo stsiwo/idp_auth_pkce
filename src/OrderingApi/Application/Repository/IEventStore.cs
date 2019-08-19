@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.Repository
 {
-    public interface IRepository<T>
-        where T : IAggregate
+    public interface IEventStore
     {
-        T Create(T e);
-
-        T Find(Guid id);
-
-        Task<T> FindAsync(Guid id);
+        void Store(IDomainEvent e);
     }
 }

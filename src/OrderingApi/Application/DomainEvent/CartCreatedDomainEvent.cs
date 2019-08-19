@@ -11,6 +11,10 @@ namespace OrderingApi.Application.DomainEvent
     {
         public string CartId { get; set; }
 
+        public CartCreatedDomainEvent()
+        {
+
+        }
         public CartCreatedDomainEvent(string cartId)
         {
             CartId = cartId;

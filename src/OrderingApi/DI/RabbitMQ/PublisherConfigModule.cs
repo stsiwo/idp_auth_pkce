@@ -14,6 +14,7 @@ namespace OrderingApi.DI.RabbitMQ
         {
             var currentContext = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
 
+            // #CONTEXT
             // publisher config (ContextA as publisher)
             if (currentContext.Equals("OrderingApi"))
             {

@@ -13,6 +13,11 @@ using OrderingApi.Domain.UserAgg;
 using System.Threading;
 using MediatR;
 using OrderingApi.UI.Command;
+using System.Transactions;
+using OrderingApi.Domain.Base;
+using OrderingApi.Application.Repository;
+using OrderingApi.Application.DomainEvent;
+using OrderingApi.Infrastructure.Repository.StoredEventTranslator;
 
 namespace OrderingApi.Controllers
 {
@@ -24,9 +29,15 @@ namespace OrderingApi.Controllers
 
         private IMediator _mediator;
 
-        public ValuesController(IMediator mediator)
+        private IEventStore _eventStore;
+
+        private IStoredEventTranslator _storedEventTranslator;
+
+        public ValuesController(IMediator mediator, IEventStore eventStore, IStoredEventTranslator storedEventTranslator)
         {
             _mediator = mediator;
+            _eventStore = eventStore;
+            _storedEventTranslator = storedEventTranslator;
         }
 
         //GET api/values
@@ -37,6 +48,32 @@ namespace OrderingApi.Controllers
             _mediator.Send(new CreateCartCommand("test-command"));
 
             log.Debug("start sending response ...");
+            return new string[] { "value1", "value2"};
+        }
+
+        //GET api/values/event
+        [HttpGet("event")]
+        public ActionResult<IEnumerable<string>> Event()
+        {
+            var nhConfig = new Configuration().Configure();
+            var sessionFactory = nhConfig.BuildSessionFactory();
+
+            using (var session = sessionFactory.OpenSession())
+            using (var tx = session.BeginTransaction())
+            {
+                new SchemaExport(nhConfig).Execute(true, true, false, session.Connection, null);
+
+                IDomainEvent domainEvent = new CartCreatedDomainEvent()
+                {
+                    DomainEventId = Guid.NewGuid().ToString(),
+                    DomainEventType = (int)DomainEventTypeConstants.CartCreatedDomainEvent,
+                    DomainEventName = "CartCreated",
+                    OccurredOn = DateTime.Now,
+                    CartId = "test-cart-id"
+                };
+                session.Save(_storedEventTranslator.TranslateToStoredEvent(domainEvent));
+                tx.Commit();
+            }
             return new string[] { "value1", "value2"};
         }
 

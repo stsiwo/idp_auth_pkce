@@ -1,4 +1,5 @@
 ﻿using NHibernate;
+using OrderingApi.Application.DomainEvent;
 using OrderingApi.Application.Repository;
 using OrderingApi.Domain.Base;
 using System;
@@ -17,7 +18,7 @@ namespace OrderingApi.Infrastructure.Repository
         {
             _session = session;
         }
-        public T Create(T e)
+        public virtual T Create(T e)
         {
             return (T)_session.Save(e);
         }

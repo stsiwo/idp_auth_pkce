@@ -7,6 +7,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config
 {
     public class QueueNameConstants
     {
+        // #CONTEXT
         // add enum when new queue
         public static string CatalogApiConsumerQueue = "catalog-api-queue";
         public static string OrderingApiConsumerQueue = "ordering-api-queue";

@@ -10,6 +10,7 @@
     <None Remove="Infrastructure\NHMapper\CartProduct.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\Order.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\OrderProduct.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\StoredEvent.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\User.hbm.xml" />
   </ItemGroup>
 
@@ -21,10 +22,14 @@
     <EmbeddedResource Include="Infrastructure\NHMapper\Order.hbm.xml" />
     <EmbeddedResource Include="Infrastructure\NHMapper\CartProduct.hbm.xml" />
     <EmbeddedResource Include="Infrastructure\NHMapper\Cart.hbm.xml" />
+    <EmbeddedResource Include="Infrastructure\NHMapper\StoredEvent.hbm.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Infrastructure\NHMapper\User.hbm.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Config\AOP\" />
     <Folder Include="DI\Domain\Validator\Specification\Builder\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -32,6 +37,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="MediatR" Version="7.0.0" />
