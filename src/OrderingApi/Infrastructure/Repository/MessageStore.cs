@@ -21,7 +21,7 @@ namespace OrderingApi.Infrastructure.Repository
             return (RmqMessage)_session.Save(message);
         }
 
-        public RmqMessage GetByDeliveryTag(int deliveryTag)
+        public RmqMessage GetByDeliveryTag(ulong deliveryTag)
         {
             return (RmqMessage)_session.CreateCriteria<RmqMessage>()
                 .Add(Expression.Eq("DeliveryTag", deliveryTag))
@@ -36,8 +36,8 @@ namespace OrderingApi.Infrastructure.Repository
         public void Update(RmqMessage updatedMessage)
         {
             _session.Update(updatedMessage);
-            //  don't need call flush() to apply the change for persistent
-            // because tx.commit takes this responsibility of that. 
+            // #DOUBT : need to transaction for message store?? or indivisual is ok??
+            _session.Flush();
         }
     }
 }

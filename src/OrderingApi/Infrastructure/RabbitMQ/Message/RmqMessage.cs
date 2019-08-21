@@ -18,9 +18,10 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Message
 
         public virtual JObject Content { get; set; }
 
-        public virtual int DeliveryTag { get; set; }
+        public virtual ulong DeliveryTag { get; set; }
 
         public virtual MessageStatusConstants Status { get; set; }
+        public virtual string StatusReason { get; set; }
 
         public RmqMessage()
         {

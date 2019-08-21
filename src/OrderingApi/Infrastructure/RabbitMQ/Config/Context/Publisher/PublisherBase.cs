@@ -1,4 +1,6 @@
-﻿using RabbitMQ.Client;
+﻿using OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler;
+using OrderingApi.Infrastructure.Repository;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +15,40 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 
         public string RoutingKey { get; }
 
-        public PublisherBase(string exchangeName, string routingKey)
+        private readonly IMessageStore _messageStore;
+
+        private UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker;
+
+        private UpdateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker _updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker;
+
+        private StoreUnroutableMessageWhenPublisherGetReturnedMessageFromBroker _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker;
+
+        public PublisherBase(string exchangeName, 
+            string routingKey, 
+            IMessageStore messageStore, 
+            UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker,
+            UpdateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker,
+            StoreUnroutableMessageWhenPublisherGetReturnedMessageFromBroker storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker)
         {
             ExchangeName = exchangeName;
             RoutingKey = routingKey;
+            _messageStore = messageStore;
+            _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker = updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker;
+            _updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker = updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker;
+            _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker = storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker;
         }
         public void Configure(IModel channel)
         {
             EnablePublisherConfirm(channel);
 
-            SubscribePublisherConfirmReceivedFromBrokerEvent(channel);
+            // "pc acks" event handler
+            SubscribePublisherConfirmAcksReceivedFromBrokerEvent(channel);
+
+            // "pc nacks" event handler
+            SubscribePublisherConfirmNacksReceivedFromBrokerEvent(channel);
+
+            // "basic.return" event handler
+            SubscribePublisherGetReturnedMessageFromBrokerEvent(channel);
 
             DeclareExchangeIn(channel);
         }
@@ -37,8 +63,32 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
             channel.ConfirmSelect();
         }
 
-        private void SubscribePublisherConfirmReceivedFromBrokerEvent(IModel channel)
+        // event handler of "BasicAcksEvent": signal of that broker could successfuly handle the message (Publisher Confirm Ack)
+        private void SubscribePublisherConfirmAcksReceivedFromBrokerEvent(IModel channel)
         {
+            channel.BasicAcks += ((sender, e) =>
+            {
+                _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker.Handler(sender, e, _messageStore);
+            });
+        }
+
+        // envet handler of "BasicNacksEvent": signal of that broker could NOT handle message 
+        private void SubscribePublisherConfirmNacksReceivedFromBrokerEvent(IModel channel)
+        {
+            channel.BasicNacks += ((sender, e) =>
+            {
+                _updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker.Handler(sender, e, _messageStore);
+            });
+        }
+
+        // envet handler of "BasicReturnEvent": signal of that there was no routable message (no match of RoutingKey); no one receive this message 
+        // * must "mandatory" flag = true
+        private void SubscribePublisherGetReturnedMessageFromBrokerEvent(IModel channel)
+        {
+            channel.BasicNacks += ((sender, e) =>
+            {
+                _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker.Handler(sender, e, _messageStore);
+            });
         }
 
         // also need to impl re-send message when broker return nack to this publisher client

@@ -14,9 +14,11 @@
 
     <property name="Content" column="content" type="OrderingApi.Infrastructure.NHMapper.CustomType.RmqMessageContentCustomType, OrderingApi"/>
 
-    <property name="DeliveryTag" column="delivery_tag" type="Int32"/>
+    <property name="DeliveryTag" column="delivery_tag" type="UInt64"/>
 
     <property name="Status" column="status" type="OrderingApi.Infrastructure.RabbitMQ.Message.MessageStatusConstants, OrderingApi"/>
+
+    <property name="StatusReason" column="status_reason" type="String"/>
 
   </class>
 

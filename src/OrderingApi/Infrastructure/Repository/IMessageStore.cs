@@ -10,11 +10,10 @@ namespace OrderingApi.Infrastructure.Repository
     {
         RmqMessage GetByMessageId(Guid id);
 
-        RmqMessage GetByDeliveryTag(int deliveryTag);
+        RmqMessage GetByDeliveryTag(ulong deliveryTag);
 
         RmqMessage Create(RmqMessage message);
 
         void Update(RmqMessage updatedMessage);
-
     }
 }
