@@ -22,6 +22,8 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         {
             EnablePublisherConfirm(channel);
 
+            SubscribePublisherConfirmReceivedFromBrokerEvent(channel);
+
             DeclareExchangeIn(channel);
         }
 
@@ -34,5 +36,12 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         {
             channel.ConfirmSelect();
         }
+
+        private void SubscribePublisherConfirmReceivedFromBrokerEvent(IModel channel)
+        {
+        }
+
+        // also need to impl re-send message when broker return nack to this publisher client
+        // #REFACTOR
     }
 }

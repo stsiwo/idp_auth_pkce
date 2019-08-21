@@ -27,7 +27,7 @@ namespace OrderingApi.Config.AutoMapper.RmqMessaging
                 .ForMember(dest => dest.DomainEventType, opt => opt.MapFrom(src => src.DomainEventType))
                 // get current project name as sender
                 .ForMember(dest => dest.Sender, opt => opt.MapFrom(src => System.Reflection.Assembly.GetEntryAssembly().GetName().Name))
-                .ForMember(dest => dest.OccuredOn, opt => opt.MapFrom(src => DateTime.Now))
+                .ForMember(dest => dest.OccurredOn, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => JObject.FromObject(src, camelCaseSerializer)));
 
             // #EVENT

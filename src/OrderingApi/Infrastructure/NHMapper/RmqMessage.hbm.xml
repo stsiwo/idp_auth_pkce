@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Infrastructure.RabbitMQ.Message" assembly="OrderingApi">
+
+  <class name="RmqMessage" table="message_store">
+
+    <id name="MessageId" column="id" type="Guid" />
+
+    <property name="DomainEventType" column="domain_event_type" type="Int32"/>
+
+    <property name="Sender" column="sender" type="String"/>
+
+    <property name="OccurredOn" column="occurred_on" type="DateTime"/>
+
+    <property name="Content" column="content" type="OrderingApi.Infrastructure.NHMapper.CustomType.RmqMessageContentCustomType, OrderingApi"/>
+
+    <property name="DeliveryTag" column="delivery_tag" type="Int32"/>
+
+    <property name="Status" column="status" type="OrderingApi.Infrastructure.RabbitMQ.Message.MessageStatusConstants, OrderingApi"/>
+
+  </class>
+
+</hibernate-mapping>

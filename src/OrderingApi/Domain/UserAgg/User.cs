@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Domain.UserAgg
 {
-    public class User : IEntity, IAggregate
+    public class User : EntityBase, IAggregate
     {
         public virtual Guid Id { get; set; }
         public virtual Name Name { get; set; } 

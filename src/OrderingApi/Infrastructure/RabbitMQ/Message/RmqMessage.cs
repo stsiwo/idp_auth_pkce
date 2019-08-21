@@ -8,15 +8,24 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Message
 {
     public class RmqMessage
     {
-        public string MessageId { get; set; }
+        public virtual Guid MessageId { get; set; }
 
-        public int DomainEventType { get; set; }
+        public virtual int DomainEventType { get; set; }
 
-        public string Sender { get; set; }
+        public virtual string Sender { get; set; }
 
-        public string OccuredOn { get; set; }
+        public virtual DateTime OccurredOn { get; set; }
 
-        public JObject Content { get; set; }
+        public virtual JObject Content { get; set; }
+
+        public virtual int DeliveryTag { get; set; }
+
+        public virtual MessageStatusConstants Status { get; set; }
+
+        public RmqMessage()
+        {
+
+        }
 
     }
 }

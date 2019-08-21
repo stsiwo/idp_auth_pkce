@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Domain.OrderAgg
 {
-    public class Order : IEntity, IAggregate
+    public class Order : EntityBase, IAggregate
     {
         public virtual Guid Id { get; set; }
 

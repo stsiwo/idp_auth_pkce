@@ -32,6 +32,9 @@ namespace OrderingApi.DI.Repository
                 .As<IEventStore>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<MessageStore>()
+                .As<IMessageStore>()
+                .InstancePerLifetimeScope();
         }
     }
 }

@@ -13,5 +13,7 @@ namespace OrderingApi.Application.DomainEvent
         int DomainEventType { get;  }
 
         DateTime OccurredOn { get; }
+
+        string DomainEventRoutingKey { get; }
     }
 }

@@ -14,6 +14,8 @@ namespace OrderingApi.Application.DomainEvent
 
         public string DomainEventName { get; set; } 
 
-        public DateTime OccurredOn { get; set; } 
+        public DateTime OccurredOn { get; set; }
+
+        public string DomainEventRoutingKey { get; set; } 
     }
 }

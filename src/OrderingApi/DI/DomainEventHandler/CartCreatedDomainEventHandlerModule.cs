@@ -17,9 +17,6 @@ namespace OrderingApi.DI.DomainEventHandler
                 .As<INotificationHandler<CartCreatedDomainEvent>>()
                 .InstancePerDependency();
 
-            builder.RegisterType<ToIntegrationEventWhenCartCreated>()
-                .As<INotificationHandler<CartCreatedDomainEvent>>()
-                .InstancePerDependency();
         }
     }
 }

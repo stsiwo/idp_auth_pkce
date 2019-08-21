@@ -65,6 +65,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
             // send message
             _channel.BasicPublish(exchange: _publisher.ExchangeName, 
                                  routingKey: routingKey, 
+                                 mandatory: true,
                                  basicProperties: properties,
                                  body: body);
 

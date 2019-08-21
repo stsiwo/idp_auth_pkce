@@ -1,12 +1,15 @@
 ﻿using log4net;
 using MediatR;
 using OrderingApi.Application.DomainEvent;
+using OrderingApi.Infrastructure.MSTransactionScope;
+using OrderingApi.Infrastructure.RabbitMQ.Sender;
 using OrderingApi.UI.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace OrderingApi.Application.CommandHandler
 {
@@ -16,19 +19,36 @@ namespace OrderingApi.Application.CommandHandler
 
         private static readonly ILog log = LogManager.GetLogger(typeof(CreateCartCommandHandler));
 
-        public CreateCartCommandHandler(IMediator mediator)
+        private readonly DispatchIntegrationEventWhenTransactionCompletedEvent _dispatchIntegrationEventWhenTransactionCompletedEvent;
+
+        private readonly IRmqSender _rmqSender;
+
+        public CreateCartCommandHandler(IMediator mediator, DispatchIntegrationEventWhenTransactionCompletedEvent dispatchIntegrationEventWhenTransactionCompletedEvent, IRmqSender rmqSender)
         {
             _mediator = mediator;
+            _dispatchIntegrationEventWhenTransactionCompletedEvent = dispatchIntegrationEventWhenTransactionCompletedEvent;
+            _rmqSender = rmqSender;
         }
 
         public Task<int> Handle(CreateCartCommand request, CancellationToken cancellationToken)
         {
+            using(TransactionScope scope = new TransactionScope())
+            {
 
-            log.Debug("start handling command ...");
+                log.Debug("start handling command ...");
 
-            log.Debug("start dispatch event...");
-            _mediator.Publish(new CartCreatedDomainEvent("test-dispatch"));
+                log.Debug("start dispatch event...");
 
+                IDomainEvent domainEvent = new CartCreatedDomainEvent("test-dispatch");
+
+                _mediator.Publish(domainEvent);
+
+                Transaction.Current.TransactionCompleted += new TransactionCompletedEventHandler((sender, e) =>
+                {
+                    _dispatchIntegrationEventWhenTransactionCompletedEvent.Handler(sender, e, _rmqSender, domainEvent);
+                });
+                scope.Complete();
+            }
             return Task.FromResult(1);
         }
     }
