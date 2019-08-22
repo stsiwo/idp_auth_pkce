@@ -7,6 +7,8 @@ using OrderingApi.Domain.CartAgg;
 using OrderingApi.Domain.OrderAgg;
 using OrderingApi.Domain.UserAgg;
 using OrderingApi.Infrastructure.Repository;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Consuming;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Publishing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,12 @@ namespace OrderingApi.DI.Repository
 
             builder.RegisterType<PublishedMessageStore>()
                 .As<IPublishedMessageStore>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ConsumedMessageStore>()
+                .As<IConsumedMessageStore>()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();

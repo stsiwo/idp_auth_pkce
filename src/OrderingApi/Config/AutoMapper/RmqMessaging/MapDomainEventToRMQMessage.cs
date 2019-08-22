@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Config.AutoMapper.RmqMessaging
 {
-    public class MapDomainEventToRmqMessage : Profile
+    public class MapDomainEventToRmqPublishMessage : Profile
     {
-        public MapDomainEventToRmqMessage()
+        public MapDomainEventToRmqPublishMessage()
         {
             var camelCaseSerializer = new JsonSerializer()
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
-            CreateMap<IDomainEvent, RmqMessage>()
+            CreateMap<IDomainEvent, RmqPublishMessage>()
                 .IncludeAllDerived()
                 // this is message id (not event id)
                 .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => Guid.NewGuid()))
@@ -31,7 +31,7 @@ namespace OrderingApi.Config.AutoMapper.RmqMessaging
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => JObject.FromObject(src, camelCaseSerializer)));
 
             // #EVENT
-            CreateMap<CartCreatedDomainEvent, RmqMessage>();
+            CreateMap<CartCreatedDomainEvent, RmqPublishMessage>();
         }
     }
 }

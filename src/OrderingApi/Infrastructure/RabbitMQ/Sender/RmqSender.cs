@@ -9,6 +9,7 @@ using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
 using OrderingApi.Infrastructure.RabbitMQ.Message;
 using OrderingApi.Infrastructure.Repository;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Publishing;
 using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,8 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
             var properties = _channel.CreateBasicProperties();
             properties.Persistent = true;
 
-            // map message to RmqMessage object
-            RmqMessage rmqMessage = _mapper.Map<RmqMessage>(message);
+            // map message to RmqPublishMessage object
+            RmqPublishMessage rmqMessage = _mapper.Map<RmqPublishMessage>(message);
 
             // set delivery tag 
             rmqMessage.DeliveryTag = _channel.NextPublishSeqNo;
@@ -61,7 +62,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
                 _publishedMessageStore.Commit(tx);
             }
 
-            // RmqMessage => JObject (message)
+            // RmqPublishMessage => JObject (message)
             JObject rmqMessageJObject = JObject.FromObject(rmqMessage, camelCaseSerializer);
 
             // JObject (message) => json 

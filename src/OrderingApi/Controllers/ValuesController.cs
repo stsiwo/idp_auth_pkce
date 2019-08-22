@@ -22,6 +22,7 @@ using OrderingApi.Infrastructure.RabbitMQ.Message;
 using Newtonsoft.Json.Linq;
 using OrderingApi.Infrastructure.Repository;
 using NHibernate;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Publishing;
 
 namespace OrderingApi.Controllers
 {
@@ -73,7 +74,7 @@ namespace OrderingApi.Controllers
             using (var session = sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
             {
-                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                RmqPublishMessage msg = session.Get<RmqPublishMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
                 msg.Sender = "update-1";
                 tx.Commit();
             }
@@ -81,7 +82,7 @@ namespace OrderingApi.Controllers
             using (var session = sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
             {
-                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                RmqPublishMessage msg = session.Get<RmqPublishMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
                 msg.Sender = "update-2";
                 tx.Commit();
             }
@@ -105,7 +106,7 @@ namespace OrderingApi.Controllers
         {
             using (var tx = session.BeginTransaction())
             {
-                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                RmqPublishMessage msg = session.Get<RmqPublishMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
                 Thread.Sleep(1000);
                 msg.Sender = "first-update"; 
                 tx.Commit();
@@ -116,7 +117,7 @@ namespace OrderingApi.Controllers
         {
             using (var tx = session.BeginTransaction())
             {
-                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                RmqPublishMessage msg = session.Get<RmqPublishMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
                 msg.Sender = "second-update"; 
                 tx.Commit();
             }
@@ -192,7 +193,7 @@ namespace OrderingApi.Controllers
                     CartId = "test-cart-id"
                 };
 
-                RmqMessage msg = new RmqMessage()
+                RmqPublishMessage msg = new RmqPublishMessage()
                 {
                     MessageId = Guid.NewGuid(),
                     DomainEventType = 0,
@@ -207,7 +208,7 @@ namespace OrderingApi.Controllers
                 session.Flush();
                 session.Clear();
 
-                RmqMessage found = session.Get<RmqMessage>(msg.MessageId);
+                RmqPublishMessage found = session.Get<RmqPublishMessage>(msg.MessageId);
                 result = JsonConvert.SerializeObject(found, Formatting.Indented);
 
                 tx.Commit();
@@ -219,7 +220,7 @@ namespace OrderingApi.Controllers
         [HttpGet("msg/read/dt")]
         public ActionResult<string> Read()
         {
-            RmqMessage found = _publishedMessageStore.GetByDeliveryTag(1);
+            RmqPublishMessage found = _publishedMessageStore.GetByDeliveryTag(1);
             return JsonConvert.SerializeObject(found, Formatting.Indented); 
         }
 
@@ -227,7 +228,7 @@ namespace OrderingApi.Controllers
         [HttpGet("msg/read/id")]
         public ActionResult<string> GetById()
         {
-            RmqMessage msg2 = _publishedMessageStore.GetByMessageId(Guid.Parse("c742759a-dbe1-4f54-a97a-dd96feb5deb7"));
+            RmqPublishMessage msg2 = _publishedMessageStore.GetByMessageId(Guid.Parse("c742759a-dbe1-4f54-a97a-dd96feb5deb7"));
 
             return JsonConvert.SerializeObject(msg2, Formatting.Indented); 
         }
@@ -236,14 +237,14 @@ namespace OrderingApi.Controllers
         [HttpGet("msg/update")]
         public ActionResult<string> Update()
         {
-            RmqMessage found = _publishedMessageStore.GetByDeliveryTag(1);
+            RmqPublishMessage found = _publishedMessageStore.GetByDeliveryTag(1);
 
             found.Status = MessageStatusConstants.Success;
             found.Sender = "updated sender";
 
             _publishedMessageStore.Update(found);
 
-            RmqMessage updated = _publishedMessageStore.GetByMessageId(found.MessageId);
+            RmqPublishMessage updated = _publishedMessageStore.GetByMessageId(found.MessageId);
             
             return JsonConvert.SerializeObject(updated, Formatting.Indented); 
         }

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OrderingApi.Infrastructure.RabbitMQ.Message;
 using OrderingApi.Infrastructure.Repository;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Publishing;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
             {
                 string body = Encoding.UTF8.GetString(e.Body);
 
-                RmqMessage returnedMessage = JsonConvert.DeserializeObject<RmqMessage>(body);
+                RmqPublishMessage returnedMessage = JsonConvert.DeserializeObject<RmqPublishMessage>(body);
 
-                RmqMessage foundMessage = publishedMessageStore.GetByMessageId(returnedMessage.MessageId);
+                RmqPublishMessage foundMessage = publishedMessageStore.GetByMessageId(returnedMessage.MessageId);
 
                 foundMessage.Status = MessageStatusConstants.Unroutable;
                 foundMessage.StatusReason = e.ReplyText;

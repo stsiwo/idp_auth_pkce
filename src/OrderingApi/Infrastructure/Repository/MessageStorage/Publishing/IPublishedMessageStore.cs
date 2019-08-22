@@ -5,17 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderingApi.Infrastructure.Repository
+namespace OrderingApi.Infrastructure.Repository.MessageStorage.Publishing
 {
-    public interface IPublishedMessageStore
+    public interface IPublishedMessageStore : IMessageStore<RmqPublishMessage>
     {
-        RmqMessage GetByMessageId(Guid id);
-
-        RmqMessage GetByDeliveryTag(ulong deliveryTag);
-
-        Guid Create(RmqMessage message);
-
-        void Update(RmqMessage updatedMessage);
+        RmqPublishMessage GetByDeliveryTag(ulong deliveryTag);
 
         ITransaction BeginTransaction();
 

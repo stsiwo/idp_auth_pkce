@@ -12,6 +12,8 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Message
         Success, // ack received
         Failed, // nack received
         Unroutable, // message returned
-        NoExchangeFound // 404 reply code
+        NoExchangeFound, // 404 reply code
+        Processed, // consumer processed this message
+        NotProcessed, // consumer could not process this message
     }
 }

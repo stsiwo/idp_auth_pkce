@@ -1,5 +1,6 @@
 ﻿using OrderingApi.Infrastructure.RabbitMQ.Message;
 using OrderingApi.Infrastructure.Repository;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Publishing;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
         {
             using(var tx = publishedMessageStore.BeginTransaction())
             {
-                RmqMessage targetMessage = publishedMessageStore.GetByDeliveryTag(e.DeliveryTag);
+                RmqPublishMessage targetMessage = publishedMessageStore.GetByDeliveryTag(e.DeliveryTag);
 
                 targetMessage.Status = MessageStatusConstants.Success;
 

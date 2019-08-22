@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace OrderingApi.Infrastructure.NHMapper.CustomType
 {
     // Enum <=> string 
-    public class RmqMessageStatusCustomType : IUserType
+    public class RmqPublishMessageStatusCustomType : IUserType
     {
         public new bool Equals(object x, object y)
         {

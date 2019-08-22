@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Infrastructure.RabbitMQ.Message
 {
-    public class RmqMessage
+    public abstract class RmqMessageBase : IRmqMessage
     {
         public virtual Guid MessageId { get; set; }
         public virtual int Version { get; set; }
@@ -23,11 +23,5 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Message
 
         public virtual MessageStatusConstants Status { get; set; }
         public virtual string StatusReason { get; set; }
-
-        public RmqMessage()
-        {
-
-        }
-
     }
 }

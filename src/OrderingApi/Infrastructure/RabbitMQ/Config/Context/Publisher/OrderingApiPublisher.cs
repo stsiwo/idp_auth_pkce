@@ -1,5 +1,6 @@
 ﻿using OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler;
 using OrderingApi.Infrastructure.Repository;
+using OrderingApi.Infrastructure.Repository.MessageStorage.Publishing;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -8,9 +8,10 @@
     <None Remove="hibernate.cfg.xml" />
     <None Remove="Infrastructure\NHMapper\Cart.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\CartProduct.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\ConsumedMessageStore.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\Order.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\OrderProduct.hbm.xml" />
-    <None Remove="Infrastructure\NHMapper\RmqMessage.hbm.xml" />
+    <None Remove="Infrastructure\NHMapper\PublishedMessageStore.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\StoredEvent.hbm.xml" />
     <None Remove="Infrastructure\NHMapper\User.hbm.xml" />
   </ItemGroup>
@@ -23,7 +24,10 @@
     <EmbeddedResource Include="Infrastructure\NHMapper\Order.hbm.xml" />
     <EmbeddedResource Include="Infrastructure\NHMapper\CartProduct.hbm.xml" />
     <EmbeddedResource Include="Infrastructure\NHMapper\Cart.hbm.xml" />
-    <EmbeddedResource Include="Infrastructure\NHMapper\RmqMessage.hbm.xml">
+    <EmbeddedResource Include="Infrastructure\NHMapper\ConsumedMessageStore.hbm.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Infrastructure\NHMapper\PublishedMessageStore.hbm.xml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Infrastructure\NHMapper\StoredEvent.hbm.xml">

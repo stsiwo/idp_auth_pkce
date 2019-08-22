@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Infrastructure.NHMapper.CustomType
 {
-    // RmqMessage class's Content (JObject) <=> content in db (json string) 
+    // RmqPublishMessage class's Content (JObject) <=> content in db (json string) 
     public class RmqMessageContentCustomType : IUserType
     {
 

@@ -6,7 +6,7 @@ using NHibernate;
 using NHibernate.Criterion;
 using OrderingApi.Infrastructure.RabbitMQ.Message;
 
-namespace OrderingApi.Infrastructure.Repository
+namespace OrderingApi.Infrastructure.Repository.MessageStorage.Publishing
 {
     public class PublishedMessageStore : IPublishedMessageStore
     {
@@ -27,21 +27,21 @@ namespace OrderingApi.Infrastructure.Repository
             transaction.Commit();
         }
 
-        public Guid Create(RmqMessage message)
+        public Guid Create(RmqPublishMessage message)
         {
             return (Guid)_session.Save(message);
         }
 
-        public RmqMessage GetByDeliveryTag(ulong deliveryTag)
+        public RmqPublishMessage GetByDeliveryTag(ulong deliveryTag)
         {
-            return (RmqMessage)_session.CreateCriteria<RmqMessage>()
+            return (RmqPublishMessage)_session.CreateCriteria<RmqPublishMessage>()
                 .Add(Expression.Eq("DeliveryTag", deliveryTag))
                 .UniqueResult();
         }
 
-        public RmqMessage GetByMessageId(Guid id)
+        public RmqPublishMessage GetByMessageId(Guid id)
         {
-            return (RmqMessage)_session.Get<RmqMessage>(id);
+            return (RmqPublishMessage)_session.Get<RmqPublishMessage>(id);
         }
 
         public void Rollback(ITransaction transaction)
@@ -49,7 +49,7 @@ namespace OrderingApi.Infrastructure.Repository
             transaction.Rollback();
         }
 
-        public void Update(RmqMessage updatedMessage)
+        public void Update(RmqPublishMessage updatedMessage)
         {
             _session.Update(updatedMessage);
         }
