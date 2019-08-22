@@ -14,14 +14,21 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
     {
         public void Handler(object sender, BasicReturnEventArgs e, IMessageStore messageStore)
         {
-            string body = Encoding.UTF8.GetString(e.Body);
+            using(var tx = messageStore.BeginTransaction())
+            {
+                string body = Encoding.UTF8.GetString(e.Body);
 
-            RmqMessage returnedMessage = JsonConvert.DeserializeObject<RmqMessage>(body);
+                RmqMessage returnedMessage = JsonConvert.DeserializeObject<RmqMessage>(body);
 
-            returnedMessage.Status = MessageStatusConstants.Unroutable;
-            returnedMessage.StatusReason = e.ReplyText;
+                RmqMessage foundMessage = messageStore.GetByMessageId(returnedMessage.MessageId);
 
-            messageStore.Update(returnedMessage);
+                foundMessage.Status = MessageStatusConstants.Unroutable;
+                foundMessage.StatusReason = e.ReplyText;
+
+                messageStore.Update(foundMessage);
+
+                messageStore.Commit(tx);
+            }
         }
     }
 }

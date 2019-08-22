@@ -16,9 +16,20 @@ namespace OrderingApi.Infrastructure.Repository
         {
             _session = session;
         }
-        public RmqMessage Create(RmqMessage message)
+
+        public ITransaction BeginTransaction()
         {
-            return (RmqMessage)_session.Save(message);
+            return _session.BeginTransaction();
+        }
+
+        public void Commit(ITransaction transaction)
+        {
+            transaction.Commit();
+        }
+
+        public Guid Create(RmqMessage message)
+        {
+            return (Guid)_session.Save(message);
         }
 
         public RmqMessage GetByDeliveryTag(ulong deliveryTag)
@@ -33,11 +44,14 @@ namespace OrderingApi.Infrastructure.Repository
             return (RmqMessage)_session.Get<RmqMessage>(id);
         }
 
+        public void Rollback(ITransaction transaction)
+        {
+            transaction.Rollback();
+        }
+
         public void Update(RmqMessage updatedMessage)
         {
             _session.Update(updatedMessage);
-            // #DOUBT : need to transaction for message store?? or indivisual is ok??
-            _session.Flush();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OrderingApi.Infrastructure.RabbitMQ.Message;
+﻿using NHibernate;
+using OrderingApi.Infrastructure.RabbitMQ.Message;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,14 @@ namespace OrderingApi.Infrastructure.Repository
 
         RmqMessage GetByDeliveryTag(ulong deliveryTag);
 
-        RmqMessage Create(RmqMessage message);
+        Guid Create(RmqMessage message);
 
         void Update(RmqMessage updatedMessage);
+
+        ITransaction BeginTransaction();
+
+        void Commit(ITransaction transaction);
+
+        void Rollback(ITransaction transaction);
     }
 }

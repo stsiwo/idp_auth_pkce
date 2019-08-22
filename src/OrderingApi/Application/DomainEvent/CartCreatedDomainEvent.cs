@@ -1,5 +1,6 @@
 ﻿using log4net;
 using MediatR;
+using OrderingApi.Infrastructure.RabbitMQ.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace OrderingApi.Application.DomainEvent
         public CartCreatedDomainEvent(string cartId)
         {
             CartId = cartId;
+            DomainEventRoutingKey = RoutingKeyConstants.ToCartCreatedDomainEventSubscribers;
         }
     }
 }

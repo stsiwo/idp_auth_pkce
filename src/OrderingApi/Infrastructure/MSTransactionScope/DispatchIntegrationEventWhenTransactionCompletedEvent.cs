@@ -15,7 +15,7 @@ namespace OrderingApi.Infrastructure.MSTransactionScope
         {
 
             // send this domain event to messaging bus (rabbitmq)
-           // rmqSender.Send(domainEvent, domainEvent.DomainEventRoutingKey); 
+           rmqSender.Send(domainEvent, domainEvent.DomainEventRoutingKey); 
 
 
         }

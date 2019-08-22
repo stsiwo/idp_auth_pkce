@@ -8,6 +8,7 @@ using OrderingApi.Application.DomainEvent;
 using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher;
 using OrderingApi.Infrastructure.RabbitMQ.Message;
+using OrderingApi.Infrastructure.Repository;
 using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
@@ -23,15 +24,18 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
 
         private IMapper _mapper;
 
-        private ICurrentPublisher _publisher; 
+        private ICurrentPublisher _publisher;
+
+        private IMessageStore _messageStore;
 
         private static readonly ILog log = LogManager.GetLogger(typeof(RmqSender));
 
-        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, ICurrentPublisher publisher)
+        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, ICurrentPublisher publisher, IMessageStore messageStore)
         {
             _channel = channelFactory[ConnectionTypeConstants.Publisher];
             _mapper = mapper;
-            _publisher = publisher; 
+            _publisher = publisher;
+            _messageStore = messageStore;
         }
         public void Send<D>(D message, string routingKey) where D : IDomainEvent
         {
@@ -46,6 +50,16 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
 
             // map message to RmqMessage object
             RmqMessage rmqMessage = _mapper.Map<RmqMessage>(message);
+
+            // set delivery tag 
+            rmqMessage.DeliveryTag = _channel.NextPublishSeqNo;
+
+            using(var tx = _messageStore.BeginTransaction())
+            {
+                _messageStore.Create(rmqMessage);
+
+                _messageStore.Commit(tx);
+            }
 
             // RmqMessage => JObject (message)
             JObject rmqMessageJObject = JObject.FromObject(rmqMessage, camelCaseSerializer);
@@ -68,6 +82,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
                                  mandatory: true,
                                  basicProperties: properties,
                                  body: body);
+
 
         }
     }

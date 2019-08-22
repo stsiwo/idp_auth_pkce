@@ -2,6 +2,7 @@
 using MediatR;
 using OrderingApi.Application.DomainEvent;
 using OrderingApi.Infrastructure.MSTransactionScope;
+using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Sender;
 using OrderingApi.UI.Command;
 using System;
@@ -34,12 +35,18 @@ namespace OrderingApi.Application.CommandHandler
         {
             using(TransactionScope scope = new TransactionScope())
             {
-
                 log.Debug("start handling command ...");
 
                 log.Debug("start dispatch event...");
 
-                IDomainEvent domainEvent = new CartCreatedDomainEvent("test-dispatch");
+                IDomainEvent domainEvent = new CartCreatedDomainEvent()
+                {
+                    DomainEventId = Guid.NewGuid().ToString(),
+                    DomainEventName = "CartCreated",
+                    DomainEventRoutingKey = RoutingKeyConstants.ToCartCreatedDomainEventSubscribers,
+                    DomainEventType = 0,
+                    CartId = "test-cart-id"
+                };
 
                 _mediator.Publish(domainEvent);
 

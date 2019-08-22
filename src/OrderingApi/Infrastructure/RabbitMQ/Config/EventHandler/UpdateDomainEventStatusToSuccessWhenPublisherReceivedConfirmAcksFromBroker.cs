@@ -12,9 +12,14 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
     {
         public void Handler(object sender, BasicAckEventArgs e, IMessageStore messageStore)
         {
-            RmqMessage targetMessage = messageStore.GetByDeliveryTag(e.DeliveryTag);
+            using(var tx = messageStore.BeginTransaction())
+            {
+                RmqMessage targetMessage = messageStore.GetByDeliveryTag(e.DeliveryTag);
 
-            targetMessage.Status = MessageStatusConstants.Success;
+                targetMessage.Status = MessageStatusConstants.Success;
+
+                messageStore.Commit(tx);
+            }
         }
     }
 }

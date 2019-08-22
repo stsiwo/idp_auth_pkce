@@ -6,6 +6,8 @@
 
     <id name="MessageId" column="id" type="Guid" />
 
+    <version name="Version" column="version" />
+
     <property name="DomainEventType" column="domain_event_type" type="Int32"/>
 
     <property name="Sender" column="sender" type="String"/>

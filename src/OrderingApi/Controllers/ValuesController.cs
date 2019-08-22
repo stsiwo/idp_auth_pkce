@@ -21,6 +21,7 @@ using OrderingApi.Infrastructure.Repository.StoredEventTranslator;
 using OrderingApi.Infrastructure.RabbitMQ.Message;
 using Newtonsoft.Json.Linq;
 using OrderingApi.Infrastructure.Repository;
+using NHibernate;
 
 namespace OrderingApi.Controllers
 {
@@ -38,24 +39,109 @@ namespace OrderingApi.Controllers
 
         private IMessageStore _messageStore;
 
-        public ValuesController(IMediator mediator, IEventStore eventStore, IStoredEventTranslator storedEventTranslator, IMessageStore messageStore)
+        private ISession _session;
+
+        public ValuesController(IMediator mediator, IEventStore eventStore, IStoredEventTranslator storedEventTranslator, IMessageStore messageStore, ISession session)
         {
             _mediator = mediator;
             _eventStore = eventStore;
             _storedEventTranslator = storedEventTranslator;
             _messageStore = messageStore;
+            _session = session;
         }
 
-        //GET api/values
+        //GET api/values/updatedb
+        // use this url when you modify table or database to sync
         [HttpGet]
         public ActionResult<string> Get()
         {
-
             log.Debug("start sending command ...");
+
             _mediator.Send(new CreateCartCommand("test-command"));
 
             log.Debug("start sending response ...");
-            return nameof(MessageStatusConstants.Success); 
+
+            return "hey"; 
+        }
+
+        [HttpGet("mst")]
+        public ActionResult<string> MultiSessionTest()
+        {
+            var nhConfig = new Configuration().Configure();
+            var sessionFactory = nhConfig.BuildSessionFactory();
+
+            using (var session = sessionFactory.OpenSession())
+            using (var tx = session.BeginTransaction())
+            {
+                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                msg.Sender = "update-1";
+                tx.Commit();
+            }
+
+            using (var session = sessionFactory.OpenSession())
+            using (var tx = session.BeginTransaction())
+            {
+                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                msg.Sender = "update-2";
+                tx.Commit();
+            }
+
+            return "multi session test";
+        }
+
+        [HttpGet("mtt")]
+        public ActionResult<string> MultiThreadsTest()
+        {
+            var t1 = Task.Run(() => DBWork1(_session));
+            var t2 = Task.Run(() => DBWork2(_session));
+
+            t1.Wait();
+            t2.Wait();
+
+            return "multi session test";
+        }
+
+        private void DBWork1(ISession session)
+        {
+            using (var tx = session.BeginTransaction())
+            {
+                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                Thread.Sleep(1000);
+                msg.Sender = "first-update"; 
+                tx.Commit();
+            }
+        }
+
+        private void DBWork2(ISession session)
+        {
+            using (var tx = session.BeginTransaction())
+            {
+                RmqMessage msg = session.Get<RmqMessage>(Guid.Parse("c7cc9aae-0c81-433d-97cd-b827db8b49ca"));
+                msg.Sender = "second-update"; 
+                tx.Commit();
+            }
+        }
+        //GET api/values/updatedb
+        // use this url when you modify table or database to sync
+        [HttpGet("updatedb")]
+        public ActionResult<string> UpdateDb()
+        {
+            var nhConfig = new Configuration().Configure();
+            var sessionFactory = nhConfig.BuildSessionFactory();
+
+            using (var session = sessionFactory.OpenSession())
+            using (var tx = session.BeginTransaction())
+            {
+                new SchemaExport(nhConfig).Execute(true, true, false, session.Connection, null);
+
+                log.Debug("start sending command ...");
+
+                //_mediator.Send(new CreateCartCommand("test-command"));
+
+                log.Debug("start sending response ...");
+                tx.Commit();
+            }
+            return "hey"; 
         }
 
         //GET api/values/event

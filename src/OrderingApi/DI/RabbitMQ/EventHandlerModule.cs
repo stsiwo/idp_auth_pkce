@@ -18,6 +18,14 @@ namespace OrderingApi.DI.RabbitMQ
             // "pc acks" event handler
             builder.RegisterType<UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker>()
                 .SingleInstance();
+
+            // "pc nacks" event handler
+            builder.RegisterType<UpdateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker>()
+                .SingleInstance();
+
+            // "basic return" event handler
+            builder.RegisterType<StoreUnroutableMessageWhenPublisherGetReturnedMessageFromBroker>()
+                .SingleInstance();
         }
     }
 }

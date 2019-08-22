@@ -85,7 +85,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         // * must "mandatory" flag = true
         private void SubscribePublisherGetReturnedMessageFromBrokerEvent(IModel channel)
         {
-            channel.BasicNacks += ((sender, e) =>
+            channel.BasicReturn += ((sender, e) =>
             {
                 _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker.Handler(sender, e, _messageStore);
             });

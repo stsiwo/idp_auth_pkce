@@ -23,7 +23,7 @@ namespace OrderingApi.Config.AutoMapper.RmqMessaging
             CreateMap<IDomainEvent, RmqMessage>()
                 .IncludeAllDerived()
                 // this is message id (not event id)
-                .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => Guid.NewGuid().ToString()))
+                .ForMember(dest => dest.MessageId, opt => opt.MapFrom(src => Guid.NewGuid()))
                 .ForMember(dest => dest.DomainEventType, opt => opt.MapFrom(src => src.DomainEventType))
                 // get current project name as sender
                 .ForMember(dest => dest.Sender, opt => opt.MapFrom(src => System.Reflection.Assembly.GetEntryAssembly().GetName().Name))

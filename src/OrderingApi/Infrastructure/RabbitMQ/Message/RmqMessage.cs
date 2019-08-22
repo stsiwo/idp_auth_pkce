@@ -9,6 +9,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Message
     public class RmqMessage
     {
         public virtual Guid MessageId { get; set; }
+        public virtual int Version { get; set; }
 
         public virtual int DomainEventType { get; set; }
 
