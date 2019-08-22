@@ -10,15 +10,15 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
 {
     public class UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker
     {
-        public void Handler(object sender, BasicAckEventArgs e, IMessageStore messageStore)
+        public void Handler(object sender, BasicAckEventArgs e, IPublishedMessageStore publishedMessageStore)
         {
-            using(var tx = messageStore.BeginTransaction())
+            using(var tx = publishedMessageStore.BeginTransaction())
             {
-                RmqMessage targetMessage = messageStore.GetByDeliveryTag(e.DeliveryTag);
+                RmqMessage targetMessage = publishedMessageStore.GetByDeliveryTag(e.DeliveryTag);
 
                 targetMessage.Status = MessageStatusConstants.Success;
 
-                messageStore.Commit(tx);
+                publishedMessageStore.Commit(tx);
             }
         }
     }

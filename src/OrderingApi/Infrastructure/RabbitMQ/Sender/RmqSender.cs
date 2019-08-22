@@ -26,16 +26,16 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
 
         private ICurrentPublisher _publisher;
 
-        private IMessageStore _messageStore;
+        private IPublishedMessageStore _publishedMessageStore;
 
         private static readonly ILog log = LogManager.GetLogger(typeof(RmqSender));
 
-        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, ICurrentPublisher publisher, IMessageStore messageStore)
+        public RmqSender(IIndex<ConnectionTypeConstants, IModel> channelFactory, IMapper mapper, ICurrentPublisher publisher, IPublishedMessageStore publishedMessageStore)
         {
             _channel = channelFactory[ConnectionTypeConstants.Publisher];
             _mapper = mapper;
             _publisher = publisher;
-            _messageStore = messageStore;
+            _publishedMessageStore = publishedMessageStore;
         }
         public void Send<D>(D message, string routingKey) where D : IDomainEvent
         {
@@ -54,11 +54,11 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Sender
             // set delivery tag 
             rmqMessage.DeliveryTag = _channel.NextPublishSeqNo;
 
-            using(var tx = _messageStore.BeginTransaction())
+            using(var tx = _publishedMessageStore.BeginTransaction())
             {
-                _messageStore.Create(rmqMessage);
+                _publishedMessageStore.Create(rmqMessage);
 
-                _messageStore.Commit(tx);
+                _publishedMessageStore.Commit(tx);
             }
 
             // RmqMessage => JObject (message)

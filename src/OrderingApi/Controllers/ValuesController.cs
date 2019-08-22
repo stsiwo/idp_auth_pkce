@@ -37,16 +37,16 @@ namespace OrderingApi.Controllers
 
         private IStoredEventTranslator _storedEventTranslator;
 
-        private IMessageStore _messageStore;
+        private IPublishedMessageStore _publishedMessageStore;
 
         private ISession _session;
 
-        public ValuesController(IMediator mediator, IEventStore eventStore, IStoredEventTranslator storedEventTranslator, IMessageStore messageStore, ISession session)
+        public ValuesController(IMediator mediator, IEventStore eventStore, IStoredEventTranslator storedEventTranslator, IPublishedMessageStore publishedMessageStore, ISession session)
         {
             _mediator = mediator;
             _eventStore = eventStore;
             _storedEventTranslator = storedEventTranslator;
-            _messageStore = messageStore;
+            _publishedMessageStore = publishedMessageStore;
             _session = session;
         }
 
@@ -219,7 +219,7 @@ namespace OrderingApi.Controllers
         [HttpGet("msg/read/dt")]
         public ActionResult<string> Read()
         {
-            RmqMessage found = _messageStore.GetByDeliveryTag(1);
+            RmqMessage found = _publishedMessageStore.GetByDeliveryTag(1);
             return JsonConvert.SerializeObject(found, Formatting.Indented); 
         }
 
@@ -227,7 +227,7 @@ namespace OrderingApi.Controllers
         [HttpGet("msg/read/id")]
         public ActionResult<string> GetById()
         {
-            RmqMessage msg2 = _messageStore.GetByMessageId(Guid.Parse("c742759a-dbe1-4f54-a97a-dd96feb5deb7"));
+            RmqMessage msg2 = _publishedMessageStore.GetByMessageId(Guid.Parse("c742759a-dbe1-4f54-a97a-dd96feb5deb7"));
 
             return JsonConvert.SerializeObject(msg2, Formatting.Indented); 
         }
@@ -236,14 +236,14 @@ namespace OrderingApi.Controllers
         [HttpGet("msg/update")]
         public ActionResult<string> Update()
         {
-            RmqMessage found = _messageStore.GetByDeliveryTag(1);
+            RmqMessage found = _publishedMessageStore.GetByDeliveryTag(1);
 
             found.Status = MessageStatusConstants.Success;
             found.Sender = "updated sender";
 
-            _messageStore.Update(found);
+            _publishedMessageStore.Update(found);
 
-            RmqMessage updated = _messageStore.GetByMessageId(found.MessageId);
+            RmqMessage updated = _publishedMessageStore.GetByMessageId(found.MessageId);
             
             return JsonConvert.SerializeObject(updated, Formatting.Indented); 
         }

@@ -15,7 +15,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 
         public string RoutingKey { get; }
 
-        private readonly IMessageStore _messageStore;
+        private readonly IPublishedMessageStore _publishedMessageStore;
 
         private UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker;
 
@@ -25,14 +25,14 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
 
         public PublisherBase(string exchangeName, 
             string routingKey, 
-            IMessageStore messageStore, 
+            IPublishedMessageStore publishedMessageStore, 
             UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker,
             UpdateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker,
             StoreUnroutableMessageWhenPublisherGetReturnedMessageFromBroker storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker)
         {
             ExchangeName = exchangeName;
             RoutingKey = routingKey;
-            _messageStore = messageStore;
+            _publishedMessageStore = publishedMessageStore;
             _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker = updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker;
             _updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker = updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker;
             _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker = storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker;
@@ -68,7 +68,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         {
             channel.BasicAcks += ((sender, e) =>
             {
-                _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker.Handler(sender, e, _messageStore);
+                _updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker.Handler(sender, e, _publishedMessageStore);
             });
         }
 
@@ -77,7 +77,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         {
             channel.BasicNacks += ((sender, e) =>
             {
-                _updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker.Handler(sender, e, _messageStore);
+                _updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker.Handler(sender, e, _publishedMessageStore);
             });
         }
 
@@ -87,7 +87,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
         {
             channel.BasicReturn += ((sender, e) =>
             {
-                _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker.Handler(sender, e, _messageStore);
+                _storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker.Handler(sender, e, _publishedMessageStore);
             });
         }
 

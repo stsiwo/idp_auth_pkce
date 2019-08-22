@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Infrastructure.Repository
 {
-    public interface IMessageStore
+    public interface IPublishedMessageStore
     {
         RmqMessage GetByMessageId(Guid id);
 

@@ -42,8 +42,8 @@ namespace OrderingApi.DI.Repository
                 .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<MessageStore>()
-                .As<IMessageStore>()
+            builder.RegisterType<PublishedMessageStore>()
+                .As<IPublishedMessageStore>()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();

@@ -12,22 +12,22 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
 {
     public class StoreUnroutableMessageWhenPublisherGetReturnedMessageFromBroker 
     {
-        public void Handler(object sender, BasicReturnEventArgs e, IMessageStore messageStore)
+        public void Handler(object sender, BasicReturnEventArgs e, IPublishedMessageStore publishedMessageStore)
         {
-            using(var tx = messageStore.BeginTransaction())
+            using(var tx = publishedMessageStore.BeginTransaction())
             {
                 string body = Encoding.UTF8.GetString(e.Body);
 
                 RmqMessage returnedMessage = JsonConvert.DeserializeObject<RmqMessage>(body);
 
-                RmqMessage foundMessage = messageStore.GetByMessageId(returnedMessage.MessageId);
+                RmqMessage foundMessage = publishedMessageStore.GetByMessageId(returnedMessage.MessageId);
 
                 foundMessage.Status = MessageStatusConstants.Unroutable;
                 foundMessage.StatusReason = e.ReplyText;
 
-                messageStore.Update(foundMessage);
+                publishedMessageStore.Update(foundMessage);
 
-                messageStore.Commit(tx);
+                publishedMessageStore.Commit(tx);
             }
         }
     }

@@ -8,11 +8,11 @@ using OrderingApi.Infrastructure.RabbitMQ.Message;
 
 namespace OrderingApi.Infrastructure.Repository
 {
-    public class MessageStore : IMessageStore
+    public class PublishedMessageStore : IPublishedMessageStore
     {
         protected ISession _session;
 
-        public MessageStore(ISession session)
+        public PublishedMessageStore(ISession session)
         {
             _session = session;
         }

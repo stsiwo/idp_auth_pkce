@@ -11,7 +11,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
     {
         public CatalogApiPublisher
             (
-                IMessageStore messageStore
+                IPublishedMessageStore publishedMessageStore
                 , UpdateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker
                 , UpdateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker
                 , StoreUnroutableMessageWhenPublisherGetReturnedMessageFromBroker storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker
@@ -20,7 +20,7 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.Context.Publisher
             (
                 ExchangeNameConstants.CatalogApiPublisherExchange
                 , RoutingKeyConstants.ToCatalogApi
-                , messageStore
+                , publishedMessageStore
                 , updateDomainEventStatusToSuccessWhenPublisherReceivedConfirmAcksFromBroker 
                 , updateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker
                 , storeUnroutableMessageWhenPublisherGetReturnedMessageFromBroker

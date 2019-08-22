@@ -10,15 +10,15 @@ namespace OrderingApi.Infrastructure.RabbitMQ.Config.EventHandler
 {
     public class UpdateDomainEventStatusToFailureWhenPublisherReceivedConfirmNacksFromBroker
     {
-        public void Handler(object sender, BasicNackEventArgs e, IMessageStore messageStore)
+        public void Handler(object sender, BasicNackEventArgs e, IPublishedMessageStore publishedMessageStore)
         {
-            using(var tx = messageStore.BeginTransaction())
+            using(var tx = publishedMessageStore.BeginTransaction())
             {
-                RmqMessage targetMessage = messageStore.GetByDeliveryTag(e.DeliveryTag);
+                RmqMessage targetMessage = publishedMessageStore.GetByDeliveryTag(e.DeliveryTag);
 
                 targetMessage.Status = MessageStatusConstants.Failed;
 
-                messageStore.Commit(tx);
+                publishedMessageStore.Commit(tx);
             }
         }
     }
