@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Microsoft.Extensions.Configuration;
 using OrderingApi.Application.DomainEvent;
+using OrderingApi.Config.AOP;
 using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Config.AntiCorruption;
 using OrderingApi.Infrastructure.RabbitMQ.Config.AntiCorruption.Translator;
@@ -20,6 +22,8 @@ namespace OrderingApi.DI.RabbitMQ
             // domain event translator (IIndex: keyed search lookup)
             builder.RegisterType<CartCreatedDomainEventTranslator>()
                 .Keyed<IDomainEventTranslator>(DomainEventTypeConstants.CartCreatedDomainEvent)
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerDependency();
 
             // domain event adapter 

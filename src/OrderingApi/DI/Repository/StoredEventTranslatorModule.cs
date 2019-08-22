@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
+using OrderingApi.Config.AOP;
 using OrderingApi.Infrastructure.Repository.StoredEventTranslator;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,8 @@ namespace OrderingApi.DI.Repository
         {
             builder.RegisterType<StoredEventTranslatorBase>()
                 .As<IStoredEventTranslator>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
         }
     }

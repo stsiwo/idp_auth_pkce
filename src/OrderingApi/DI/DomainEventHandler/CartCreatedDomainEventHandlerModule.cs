@@ -1,7 +1,9 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using MediatR;
 using OrderingApi.Application.DomainEvent;
 using OrderingApi.Application.DomainEventHandler.CartCreated;
+using OrderingApi.Config.AOP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace OrderingApi.DI.DomainEventHandler
         {
             builder.RegisterType<AssignCartToUserWhenCartCreated>()
                 .As<INotificationHandler<CartCreatedDomainEvent>>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerDependency();
 
         }

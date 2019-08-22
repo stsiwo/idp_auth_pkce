@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using MediatR;
 using OrderingApi.Application.CommandHandler;
+using OrderingApi.Config.AOP;
 using OrderingApi.UI.Command;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,8 @@ namespace OrderingApi.DI.CommandHandler
         {
             builder.RegisterType<CreateCartCommandHandler>()
                 .As<IRequestHandler<CreateCartCommand, int>>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerDependency();
         }
     }

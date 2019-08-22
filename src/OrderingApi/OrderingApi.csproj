@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Config\AOP\" />
     <Folder Include="DI\Domain\Validator\Specification\Builder\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

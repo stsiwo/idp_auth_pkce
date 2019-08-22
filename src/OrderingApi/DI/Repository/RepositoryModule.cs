@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using OrderingApi.Application.Repository;
+using OrderingApi.Config.AOP;
 using OrderingApi.Domain.Base;
 using OrderingApi.Domain.CartAgg;
 using OrderingApi.Domain.OrderAgg;
@@ -18,22 +20,32 @@ namespace OrderingApi.DI.Repository
         {
             builder.RegisterType<CartRepository>()
                 .As<IRepository<Cart>>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<OrderRepository>()
                 .As<IRepository<Order>>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<UserRepository>()
                 .As<IRepository<User>>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EventStore>()
                 .As<IEventStore>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<MessageStore>()
                 .As<IMessageStore>()
+                .EnableInterfaceInterceptors()
+                .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerLifetimeScope();
         }
     }
