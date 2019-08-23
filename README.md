@@ -10,6 +10,7 @@ identity server test with spa and Authorization Code type and PKCE
     - **XSRF policy**: use token for every post request
     - **Open Redirect policy**: 
     - **DDoS or DoS**: distributed Denial of Service and Denial of Service 
+    - **Disable Content Negotiation**: ?? need??
     - **OWASP**: use free version to make sure there is no any security hole.
   * **2. performance**:
     - **DB**
