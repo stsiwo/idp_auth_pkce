@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="hibernate.cfg.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Infrastructure\NHMapper\OrderProduct.hbm.xml" />
     <EmbeddedResource Include="Infrastructure\NHMapper\Order.hbm.xml" />

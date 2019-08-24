@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using OrderingApi.Config.AOP.ASPFilter;
 using OrderingApi.DI;
 using OrderingApi.DI.RabbitMQ;
 using OrderingApi.Infrastructure.RabbitMQ.Config;
@@ -39,9 +40,7 @@ namespace OrderingApi
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-            });
+            services.AddScoped<TestFilter>();
 
             var myAssembly = typeof(Startup).Assembly;
 
