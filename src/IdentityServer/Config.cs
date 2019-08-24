@@ -5,6 +5,7 @@
 using IdentityServer4.Models;
 using System.Collections.Generic;
 using IdentityServer4.Test;
+using IdentityServer4;
 
 namespace IdentityServer
 {
@@ -12,7 +13,7 @@ namespace IdentityServer
     {
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            return new IdentityResource[]
+            return new List<IdentityResource> 
             {
                 new IdentityResources.OpenId()
             };
@@ -25,10 +26,33 @@ namespace IdentityServer
 
         public static IEnumerable<Client> GetClients()
         {
-            return new Client[] { };
+            return new List<Client>
+            {
+                new Client
+                {
+                    ClientId = "spa.react",
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    RequirePkce = true,
+                    RequireClientSecret = true,
+
+                    RedirectUris = { "http://localhost:8080/callback" },
+                    PostLogoutRedirectUris = { "http://localhost:8080" },
+                    AllowedCorsOrigins = { "http://localhost:8080" },
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId
+                    }
+                }
+            };
         }
 
-        public static IEnumerable<TestUser> GetTestUsers()
+        public static List<TestUser> GetTestUsers()
         {
             return new List<TestUser>
             {

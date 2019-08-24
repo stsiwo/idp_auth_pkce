@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OrderingApi.Domain.Validator.FieldValidationRule.TestAgg.PasswordFieldValidationRule" Collapsed="true">
+    <Position X="8.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\FieldValidationRule\TestAgg\PasswordFieldValidationRule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.FieldValidationRule.TestAgg.PriceFieldValidationRule" Collapsed="true">
+    <Position X="10.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\FieldValidationRule\TestAgg\PriceFieldValidationRule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.FieldValidationRule.FieldValidationRuleBase&lt;T&gt;" Collapsed="true">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAgACAAAAAAAAAAAAEAAAAACAAEAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\FieldValidationRule\FieldValidationRuleBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Notification.DefaultValidationNotification" Collapsed="true">
+    <Position X="4.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Notification\DefaultValidationNotification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Notification.ValidationNotificationBase" Collapsed="true">
+    <Position X="4.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAIAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Domain\Validator\Notification\ValidationNotificationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.Builder.TestAgg.TestPasswordSpecificationBuilder" Collapsed="true">
+    <Position X="8.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Builder\TestAgg\TestPasswordSpecificationBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.Builder.TestAgg.TestPriceSpecificationBuilder" Collapsed="true">
+    <Position X="11" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Builder\TestAgg\TestPriceSpecificationBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.Builder.SpecificationBuilderBase&lt;T, S&gt;" Collapsed="true">
+    <Position X="9.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAAACAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Builder\SpecificationBuilderBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.Core.AndSpecification&lt;T&gt;" Collapsed="true">
+    <Position X="11.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQhAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Core\AndSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.Core.SpecificationBase&lt;T&gt;" Collapsed="true">
+    <Position X="9.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Core\SpecificationBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.TestAgg.Password.HasNumericSpecification" Collapsed="true">
+    <Position X="8.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\TestAgg\Password\HasNumericSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.TestAgg.Password.HasSpecialCharSpecification" Collapsed="true">
+    <Position X="6.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\TestAgg\Password\HasSpecialCharSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.TestAgg.Price.LessThan5000Specification" Collapsed="true">
+    <Position X="11.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\TestAgg\Price\LessThan5000Specification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.TestAgg.Price.MoreThan1000Specification" Collapsed="true">
+    <Position X="13.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\TestAgg\Price\MoreThan1000Specification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.Specification.UserAgg.Password.HasNumericSpecification" Collapsed="true">
+    <Position X="16.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\UserAgg\Password\HasNumericSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.TestAgg.TestEntityValidator" Collapsed="true">
+    <Position X="2" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\TestAgg\TestEntityValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OrderingApi.Domain.Validator.EntityValidatorBase&lt;T, F&gt;" Collapsed="true">
+    <Position X="2" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAABAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\EntityValidatorBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.495" />
+  </Class>
+  <Struct Name="OrderingApi.Domain.Validator.Notification.ValidationError" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAAAAAAAAAIAAAAAAIAAAgiA=</HashCode>
+      <FileName>Domain\Validator\Notification\ValidationError.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="OrderingApi.Domain.Validator.IEntityValidator&lt;T, F&gt;" Collapsed="true">
+    <Position X="2" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\IEntityValidator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.FieldValidationRule.TestAgg.ITestFieldValidationRule" Collapsed="true">
+    <Position X="6.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\FieldValidationRule\TestAgg\ITestFieldValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.FieldValidationRule.IFieldValidationRule&lt;T&gt;" Collapsed="true">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAgACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\FieldValidationRule\IFieldValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.Notification.IValidationNotification" Collapsed="true">
+    <Position X="4.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Domain\Validator\Notification\IValidationNotification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.Specification.Builder.ISpecificationBuilder&lt;T, S&gt;" Collapsed="true">
+    <Position X="9.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Builder\ISpecificationBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.Specification.Core.ISpecification&lt;T&gt;" Collapsed="true">
+    <Position X="9.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\Core\ISpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.Specification.TestAgg.Password.ITestPasswordSpecification" Collapsed="true">
+    <Position X="7.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\TestAgg\Password\ITestPasswordSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.Specification.TestAgg.Price.ITestPriceSpecification" Collapsed="true">
+    <Position X="13.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\TestAgg\Price\ITestPriceSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="OrderingApi.Domain.Validator.Specification.UserAgg.Password.IUserPasswordSpecification" Collapsed="true">
+    <Position X="16.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Validator\Specification\UserAgg\Password\IUserPasswordSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

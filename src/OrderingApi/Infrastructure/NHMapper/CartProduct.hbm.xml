@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Domain.CartAgg" assembly="OrderingApi">
+
+  <class name="CartProduct" table="carted_product">
+
+    <id name="Id" column="id" type="Guid" />
+
+    <component name="Name" class="OrderingApi.Domain.CartAgg.ProductName">
+      <property name="FullName" column="full_name"/>
+    </component>
+
+    <component name="Description" class="OrderingApi.Domain.CartAgg.ProductDescription">
+      <property name="FullDescription" column="full_description"/>
+    </component>
+
+    <component name="MainImageUrl" class="OrderingApi.Domain.CartAgg.ProductMainImageUrl">
+      <property name="Url" column="main_image_url"/>
+    </component>
+
+    <component name="Price" class="OrderingApi.Domain.CartAgg.ProductPrice">
+      <property name="StandardPrice" column="standard_price"/>
+    </component>
+
+    <component name="Stock" class="OrderingApi.Domain.CartAgg.ProductStock">
+      <property name="CurrentStock" column="current_stock"/>
+      <property name="AvailableStock" column="available_stock"/>
+    </component>
+
+    <set name="Carts" inverse="true" table="cart_cart_product">
+      <key column="cart_product_id"/>
+      <many-to-many column="cart_id"
+          class="Cart"/>
+    </set> 
+
+  </class>
+
+</hibernate-mapping>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Domain.OrderAgg" assembly="OrderingApi">
+
+  <class name="OrderProduct" table="ordered_product">
+
+    <id name="Id" column="id" type="Guid" />
+
+    <component name="Name" class="OrderingApi.Domain.OrderAgg.ProductName">
+      <property name="FullName" column="full_name"/>
+    </component>
+
+    <component name="Price" class="OrderingApi.Domain.OrderAgg.ProductPrice">
+      <property name="StandardPrice" column="standard_price"/>
+    </component>
+
+    <component name="Stock" class="OrderingApi.Domain.OrderAgg.ProductStock">
+      <property name="CurrentStock" column="current_stock"/>
+      <property name="AvailableStock" column="available_stock"/>
+    </component>
+
+    <!--Product:1...M:1...N:Order-->
+    <set name="Orders" inverse="true" table="order_order_product">
+      <key column="order_product_id"/>
+      <many-to-many column="order_id"
+          class="Order"/>
+    </set> 
+
+  </class>
+
+</hibernate-mapping>

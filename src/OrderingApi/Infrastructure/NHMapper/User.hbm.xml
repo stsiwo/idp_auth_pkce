@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+    namespace="OrderingApi.Domain.UserAgg" assembly="OrderingApi">
+
+  <class name="User" table="user">
+
+    <id name="Id" column="id" type="Guid" />
+
+    <component name="Name" class="OrderingApi.Domain.UserAgg.Name">
+      <property name="FirstName" column="first_name"/>
+      <property name="LastName" column="last_name"/>
+    </component>
+
+    <component name="HomeAddress" class="OrderingApi.Domain.UserAgg.Address">
+      <property name="Street" column="home_address_street"/>
+      <property name="City" column="home_address_city"/>
+      <property name="State" column="home_address_state"/>
+      <property name="Country" column="home_address_country"/>
+      <property name="PostalCode" column="home_address_postal_code"/>
+    </component>
+
+    <component name="Phone" class="OrderingApi.Domain.UserAgg.Phone">
+      <property name="HomeNumber" column="home_phone_number"/>
+    </component>
+
+    <!--User:1:0...1:Cart-->
+    <many-to-one name="Cart" column="cart_id" unique="true" cascade="All"/>
+
+    <!--User:1:0...M:Order-->
+    <!--set inverse:true to tell not to update link (FK) when an order object is added to Orders => link is updated when the order object is created by defnining mapping of User <many-to-one ...>-->
+    <set name="Orders" cascade="all-delete-orphan" inverse="true">
+      <key column="user_id"/>
+      <one-to-many class="OrderingApi.Domain.OrderAgg.Order"/>
+    </set>
+
+
+  </class>
+
+</hibernate-mapping>
