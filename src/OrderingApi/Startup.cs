@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using GraphiQl;
+using GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +45,9 @@ namespace OrderingApi
             services.AddScoped<TestFilter>();
 
             var myAssembly = typeof(Startup).Assembly;
+
+            // GraphQL's Dependency Resolver (DON'T FOREGET)
+            services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
 
             // autofac config 
             var containerBuilder = new ContainerBuilder();
@@ -103,6 +108,10 @@ namespace OrderingApi
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            var GraphQlPath = "/api/graphql";
+            app.UseGraphiQl(GraphQlPath);
+
         }
     }
 }
