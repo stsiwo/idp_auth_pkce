@@ -4,6 +4,7 @@ using GraphQL.Instrumentation;
 using log4net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OrderingApi.Application.DTO;
 using OrderingApi.Config.AOP.ASPFilter;
@@ -20,18 +21,19 @@ namespace OrderingApi.UI.Controllers
     [ApiController]
     public class GraphQLController : ControllerBase
     {
-        private static readonly ILog _log = LogManager.GetLogger(typeof(GraphQLController));
+        private readonly ILogger _logger;
 
         private readonly GQLSchema _gQLSchema;
 
         private readonly IDocumentExecuter _documentExecuter;
 
         private readonly DataLoaderDocumentListener _dataLoaderDocumentListener;
-        public GraphQLController(GQLSchema gQLSchema, IDocumentExecuter documentExecuter, DataLoaderDocumentListener dataLoaderDocumentListener)
+        public GraphQLController(GQLSchema gQLSchema, IDocumentExecuter documentExecuter, DataLoaderDocumentListener dataLoaderDocumentListener, ILogger<GraphQLController> logger)
         {
             _gQLSchema = gQLSchema;
             _documentExecuter = documentExecuter;
             _dataLoaderDocumentListener = dataLoaderDocumentListener;
+            _logger = logger;
         }
 
         // POST api/values
@@ -58,7 +60,7 @@ namespace OrderingApi.UI.Controllers
              **/
             //result.EnrichWithApolloTracing(start);
 
-            _log.Debug(JsonConvert.SerializeObject(result.Errors, Formatting.Indented));
+            _logger.LogDebug(JsonConvert.SerializeObject(result.Errors, Formatting.Indented));
 
             if (result.Errors?.Count > 0)
             {

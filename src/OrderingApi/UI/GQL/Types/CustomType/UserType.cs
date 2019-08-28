@@ -15,7 +15,7 @@ namespace OrderingApi.UI.GQL.Types.CustomType
         {
             Field<StringGraphType, string>().Name("id");
             Field<NameType, NameModel>().Name("name");
-            Field<AddressType, AddressModel>().Name("address");
+            Field<AddressType, AddressModel>().Name("homeAddress");
             Field<ContactType, ContactModel>().Name("contactInfo");
             Field<CartType, CartModel>().Name("cart");
             Field<ListGraphType<OrderType>, ISet<OrderModel>>().Name("orders");

@@ -14,7 +14,7 @@ namespace OrderingApi.UI.GQL.Types.CustomType
         public CartType(IDataLoaderContextAccessor dataLoaderContextAccessor /*,IPostRepository postRepository*/)
         {
             Field<StringGraphType, Guid>().Name("id");
-            Field<UserType, UserModel>().Name("users");
+            Field<UserType, UserModel>().Name("user");
             Field<ListGraphType<CartProductType>, ISet<CartProductModel>>().Name("products");
         }
     }

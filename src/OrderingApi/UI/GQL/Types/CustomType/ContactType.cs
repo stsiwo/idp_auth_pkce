@@ -13,7 +13,7 @@ namespace OrderingApi.UI.GQL.Types.CustomType
     {
         public ContactType()
         {
-            Field<StringGraphType, string>().Name("home_number");
+            Field<StringGraphType, string>().Name("homeNumber");
         }
     }
 }
