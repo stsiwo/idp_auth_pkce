@@ -69,6 +69,33 @@ namespace OrderingApi.DI.GQL
 
             builder.RegisterType<CartType>()
                 .SingleInstance();
+
+            builder.RegisterType<AddressType>()
+                .SingleInstance();
+
+            builder.RegisterType<CartProductType>()
+                .SingleInstance();
+
+            builder.RegisterType<ContactType>()
+                .SingleInstance();
+
+            builder.RegisterType<NameType>()
+                .SingleInstance();
+            
+            builder.RegisterType<OrderProductType>()
+                .SingleInstance();
+
+            builder.RegisterType<PriceType>()
+                .SingleInstance();
+
+            builder.RegisterType<ProductDescriptionType>()
+                .SingleInstance();
+
+            builder.RegisterType<ProductNameType>()
+                .SingleInstance();
+
+            builder.RegisterType<StockType>()
+                .SingleInstance();
         }
     }
 }

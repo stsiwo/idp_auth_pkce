@@ -2,6 +2,7 @@
 using GraphQL.Types;
 using OrderingApi.Domain.CartAgg;
 using OrderingApi.UI.GQL.Types.CustomType;
+using OrderingApi.UI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,17 +28,17 @@ namespace OrderingApi.UI.GQL.Types.RootType.QueryType.QueryField.CartQuery
             Arguments = new QueryArguments(
                 new QueryArgument<StringGraphType> { Name = "userId" });
 
-            Resolver = new FuncFieldResolver<IList<Cart>>(context =>
+            Resolver = new FuncFieldResolver<IList<CartModel>>(context =>
             {
-                return new List<Cart>()
+                return new List<CartModel>()
                 {
-                    new Cart()
+                    new CartModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.NewGuid().ToString(),
                     },
-                    new Cart()
+                    new CartModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.NewGuid().ToString(),
                     },
                 };
             });

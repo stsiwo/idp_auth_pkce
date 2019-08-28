@@ -10,8 +10,7 @@ namespace OrderingApi.UI.Model
     public class UserModel
     {
         public string Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public NameModel Name { get; set; }
         public AddressModel HomeAddress { get; set; }
         public ContactModel ContactInfo { get; set; }
         public CartModel Cart { get; set; }

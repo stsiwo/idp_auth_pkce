@@ -56,7 +56,7 @@ namespace OrderingApi.UI.Controllers
             /**
              * if this causes error, schema and its type configuration are wrong
              **/
-            result.EnrichWithApolloTracing(start);
+            //result.EnrichWithApolloTracing(start);
 
             _log.Debug(JsonConvert.SerializeObject(result.Errors, Formatting.Indented));
 

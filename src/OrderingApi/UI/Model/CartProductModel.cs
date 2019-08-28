@@ -10,15 +10,15 @@ namespace OrderingApi.UI.Model
     {
         public string Id { get; set; }
 
-        public ProductName Name { get; set; }
+        public ProductNameModel Name { get; set; }
 
-        public string Description { get; set; }
+        public ProductDescriptionModel Description { get; set; }
 
         public string MainImageUrl { get; set; } 
 
         public PriceModel Price { get; set; }
 
         public StockModel Stock { get; set; }
-        public ISet<Cart> Carts { get; set; } 
+        public ISet<CartModel> Carts { get; set; } 
     }
 }

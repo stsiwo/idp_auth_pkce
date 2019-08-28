@@ -2,6 +2,7 @@
 using GraphQL.Types;
 using OrderingApi.Domain.CartAgg;
 using OrderingApi.UI.GQL.Types.CustomType;
+using OrderingApi.UI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,9 @@ namespace OrderingApi.UI.GQL.Types.RootType.MutationType.MutationField.CartMutat
 
             Arguments = null;
 
-            Resolver = new FuncFieldResolver<Cart>(context => new Cart()
+            Resolver = new FuncFieldResolver<CartModel>(context => new CartModel()
             {
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid().ToString()
             });
 
             Metadata = new Dictionary<string, object>()
