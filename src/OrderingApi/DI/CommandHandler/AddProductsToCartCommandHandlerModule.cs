@@ -3,7 +3,7 @@ using Autofac.Extras.DynamicProxy;
 using MediatR;
 using OrderingApi.Application.CommandHandler;
 using OrderingApi.Config.AOP;
-using OrderingApi.UI.Command;
+using OrderingApi.Application.Command;
 using OrderingApi.UI.Model;
 using System;
 using System.Collections.Generic;

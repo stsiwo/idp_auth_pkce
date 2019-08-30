@@ -4,7 +4,7 @@ using OrderingApi.Application.DomainEvent;
 using OrderingApi.Infrastructure.MSTransactionScope;
 using OrderingApi.Infrastructure.RabbitMQ.Config;
 using OrderingApi.Infrastructure.RabbitMQ.Sender;
-using OrderingApi.UI.Command;
+using OrderingApi.Application.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;

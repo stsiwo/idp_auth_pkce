@@ -2,7 +2,7 @@
 using GraphQL.Types;
 using MediatR;
 using OrderingApi.Domain.CartAgg;
-using OrderingApi.UI.Command;
+using OrderingApi.Application.Command;
 using OrderingApi.UI.GQL.Types.CustomType;
 using OrderingApi.UI.Model;
 using System;
