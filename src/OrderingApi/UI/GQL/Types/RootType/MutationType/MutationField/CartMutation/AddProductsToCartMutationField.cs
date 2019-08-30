@@ -46,7 +46,7 @@ namespace OrderingApi.UI.GQL.Types.RootType.MutationType.MutationField.CartMutat
                     ProductIds = productIds
                 });
 
-                // MediatR Pipeline does validation of inputs and logging as AOP
+                // MediatR Pipeline does validation of inputs and logging as AOP or use GQL validation
 
                 return result;
 
