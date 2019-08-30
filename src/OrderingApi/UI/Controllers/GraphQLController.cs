@@ -42,11 +42,13 @@ namespace OrderingApi.UI.Controllers
         {
             var start = DateTime.UtcNow;
 
+            _logger.LogDebug("request: {0}", JsonConvert.SerializeObject(query, Formatting.Indented));
+
             var result = await _documentExecuter.ExecuteAsync(_ =>
             {
                 _.Schema = _gQLSchema;
                 _.Query = query.Query;
-                _.Inputs = query.Variables;
+                _.Inputs = query.Variables.ToInputs();
                 _.EnableMetrics = true;
                 _.FieldMiddleware.Use<InstrumentFieldsMiddleware>();
                 _.Listeners.Add(_dataLoaderDocumentListener);

@@ -41,60 +41,12 @@ namespace OrderingApi.DI.GQL
                 .As<IGQLMutationType>()
                 .SingleInstance();
 
-            // query fields 
-            builder.RegisterType<GetCartsQueryField>()
-                .As<IGQLQueryField>()
-                .SingleInstance();
-
-            // query fields 
-            builder.RegisterType<CreateCartMutationField>()
-                .As<IGQLMutationField>()
-                .SingleInstance();
-
             // dataloader (to avoid N+1 problem query)
             builder.RegisterType<DataLoaderContextAccessor>()
                 .As<IDataLoaderContextAccessor>()
                 .SingleInstance();
 
             builder.RegisterType<DataLoaderDocumentListener>()
-                .SingleInstance();
-
-
-            // custom type
-            builder.RegisterType<OrderType>()
-                .SingleInstance();
-
-            builder.RegisterType<UserType>()
-                .SingleInstance();
-
-            builder.RegisterType<CartType>()
-                .SingleInstance();
-
-            builder.RegisterType<AddressType>()
-                .SingleInstance();
-
-            builder.RegisterType<CartProductType>()
-                .SingleInstance();
-
-            builder.RegisterType<ContactType>()
-                .SingleInstance();
-
-            builder.RegisterType<NameType>()
-                .SingleInstance();
-            
-            builder.RegisterType<OrderProductType>()
-                .SingleInstance();
-
-            builder.RegisterType<PriceType>()
-                .SingleInstance();
-
-            builder.RegisterType<ProductDescriptionType>()
-                .SingleInstance();
-
-            builder.RegisterType<ProductNameType>()
-                .SingleInstance();
-
-            builder.RegisterType<StockType>()
                 .SingleInstance();
         }
     }
