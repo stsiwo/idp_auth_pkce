@@ -3,9 +3,12 @@ using Moq;
 using Newtonsoft.Json;
 using NHibernate;
 using NHibernate.Linq;
+using OrderingApi;
+using OrderingApi.Config.AutoMapper.UIModeling;
 using OrderingApi.Domain.CartAgg;
 using OrderingApi.Infrastructure.Query;
 using OrderingApi.UI.Model;
+using OrderingApiUnitTest.Infrastructure.DataBase;
 using OrderingApiUnitTest.TestData.Entity;
 using System;
 using System.Collections.Generic;
@@ -16,10 +19,10 @@ using Xunit.Abstractions;
 
 namespace OrderingApiUnitTest.Infrastructure.Query
 {
-    public class CartQueryTest
+    public class CartQueryTest : InMemoryDatabaseTest
     {
         private readonly ITestOutputHelper _output;
-        public CartQueryTest(ITestOutputHelper output)
+        public CartQueryTest(ITestOutputHelper output) : base(typeof(Program).Assembly)
         {
             _output = output;
         }
@@ -29,22 +32,42 @@ namespace OrderingApiUnitTest.Infrastructure.Query
         {
             // arrange
             var num = 5;
-            var cartListDummy = CartFaker.GetCartList(num).AsQueryable();
-            var cartIdsListDummy = cartListDummy.Select(c => c.Id.ToString()).ToList();
+            var cartListDummy = CartFaker.GetCartList(num);
+            var cartIdsListDummy = cartListDummy.Select(c => c.Id).ToList();
 
-            var QueryMock = new Mock<IQuery>();
-            var ISessionMock = new Mock<ISession>();
-            ISessionMock.Setup(sess => sess.Query<Cart>()).Returns(cartListDummy);
+            // save test data
+            using (var tx = session.BeginTransaction())
+            {
+                foreach (var cart in cartListDummy)
+                {
+                    session.Save(cart);
+                }
+                tx.Commit();
+            }
 
-            var MapperMock = new Mock<IMapper>();
-            MapperMock.Setup(mapper => mapper.Map<CartModel>(It.IsAny<IList<Cart>>())).Returns(new CartModel());
+            session.Clear();
 
-            var sut = new CartQuery(ISessionMock.Object, MapperMock.Object);
+            var sut = new CartQuery(session);
             // act
             var result = await sut.GetCartsByIds(cartIdsListDummy);
 
             // assert
             Assert.Equal(num, result.Count);
+        }
+
+        [Fact]
+        public async void ListContains_Test()
+        {
+            Guid id = Guid.NewGuid();
+            IList<string> list = new List<string>()
+            {
+               id.ToString(),
+               Guid.NewGuid().ToString(),
+               Guid.NewGuid().ToString(),
+               Guid.NewGuid().ToString()
+            }; 
+
+            Assert.True(list.Contains(id.ToString()));
         }
     }
 }

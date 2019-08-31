@@ -2,6 +2,7 @@
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
+using NHibernate.Proxy;
 using NHibernate.Proxy.DynamicProxy;
 using NHibernate.Tool.hbm2ddl;
 using System;
@@ -26,7 +27,7 @@ namespace OrderingApiUnitTest.Infrastructure.DataBase
                     .SetProperty(NHibernate.Cfg.Environment.Dialect, typeof(SQLiteDialect).AssemblyQualifiedName)
                     .SetProperty(NHibernate.Cfg.Environment.ConnectionDriver, typeof(SQLite20Driver).AssemblyQualifiedName)
                     .SetProperty(NHibernate.Cfg.Environment.ConnectionString, "data source=:memory:")
-                    .SetProperty(NHibernate.Cfg.Environment.ProxyFactoryFactoryClass, typeof(ProxyFactory).AssemblyQualifiedName)
+                    //.SetProperty(NHibernate.Cfg.Environment.ProxyFactoryFactoryClass, typeof(StaticProxyFactory).AssemblyQualifiedName)
                     .AddAssembly(assemblyContainingMapping);
 
                 SessionFactory = Configuration.BuildSessionFactory();
@@ -34,7 +35,7 @@ namespace OrderingApiUnitTest.Infrastructure.DataBase
 
             session = SessionFactory.OpenSession();
 
-            new SchemaExport(Configuration).Execute(true, true, false, true, session.Connection, Console.Out);
+            new SchemaExport(Configuration).Execute(true, true, false, session.Connection, Console.Out);
         }
 
         public void Dispose()

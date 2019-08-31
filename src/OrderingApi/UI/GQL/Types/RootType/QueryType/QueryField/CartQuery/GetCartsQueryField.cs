@@ -1,4 +1,5 @@
-﻿using GraphQL.Resolvers;
+﻿using AutoMapper;
+using GraphQL.Resolvers;
 using GraphQL.Types;
 using OrderingApi.Application.Query;
 using OrderingApi.Domain.CartAgg;
@@ -13,7 +14,7 @@ namespace OrderingApi.UI.GQL.Types.RootType.QueryType.QueryField.CartQuery
 {
     public class GetCartsQueryField : FieldType, IGQLQueryField
     {
-        public GetCartsQueryField(ICartQuery cartQuery)
+        public GetCartsQueryField(ICartQuery cartQuery, IMapper mapper)
         {
             Name = "getCarts";
 
@@ -27,13 +28,17 @@ namespace OrderingApi.UI.GQL.Types.RootType.QueryType.QueryField.CartQuery
             //ResolvedType = Cart;
 
             Arguments = new QueryArguments(
-                new QueryArgument<ListGraphType<StringGraphType>> { Name = "userIds" }
+                new QueryArgument<ListGraphType<IdGraphType>> { Name = "userIds" }
                 );
 
-            Resolver = new AsyncFieldResolver<IList<CartModel>>(context =>
+            Resolver = new AsyncFieldResolver<IList<CartModel>>(async context =>
             {
-                IList<string> userIds = context.GetArgument<IList<string>>("userIds");
-                return cartQuery.GetCartsByIds(userIds);
+                IList<Guid> userIds = context.GetArgument<IList<Guid>>("userIds");
+
+                IList<Cart> carts = await cartQuery.GetCartsByIds(userIds);
+
+                return mapper.Map<IList<CartModel>>(carts);
+
             });
 
             Metadata = new Dictionary<string, object>()

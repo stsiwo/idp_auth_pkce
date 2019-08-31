@@ -15,22 +15,27 @@ namespace OrderingApi.Infrastructure.Query
     {
         private readonly ISession _session;
 
-        private readonly IMapper _mapper;  
-        public CartQuery(ISession session, IMapper mapper)
+        public CartQuery(ISession session)
         {
             _session = session;
-            _mapper = mapper;
         }
 
-        public async Task<IList<CartModel>> GetCartsByIds(IList<string> ids)
+        public async Task<IList<Cart>> GetCartsByIds(IList<Guid> ids)
         {
-            var results = await _session
+            IList<Cart> result = null;
+
+            using(var tx = _session.BeginTransaction())
+            {
+                result = await _session
                         .Query<Cart>()
-                        .Where(c => ids.Contains(c.Id.ToString()))
+                        .Where(c => ids.Contains(c.Id))
                         .Select(c => c)
                         .ToListAsync();
 
-            return _mapper.Map<IList<CartModel>>(results);
+                tx.Commit();
+            }
+
+            return result; 
         }
     }
 }
