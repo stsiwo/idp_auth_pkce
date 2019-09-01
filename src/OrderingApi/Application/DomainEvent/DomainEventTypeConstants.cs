@@ -9,5 +9,6 @@ namespace OrderingApi.Application.DomainEvent
     public enum DomainEventTypeConstants
     {
         CartCreatedDomainEvent = 0,
+        AddedProductsToCartDomainEvent = 1,
     }
 }

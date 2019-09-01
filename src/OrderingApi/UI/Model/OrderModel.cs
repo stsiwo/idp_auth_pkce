@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.UI.Model
 {
-    public class OrderModel
+    public class OrderModel : IModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Status { get; set; }
         public UserModel User { get; set; }
         public ISet<OrderProductModel> Products { get; set; }

@@ -10,7 +10,7 @@ namespace OrderingApi.Application.Repository
     public interface IRepository<T>
         where T : IAggregate
     {
-        T Create(T e);
+        Guid Create(T e);
 
         T Find(Guid id);
 

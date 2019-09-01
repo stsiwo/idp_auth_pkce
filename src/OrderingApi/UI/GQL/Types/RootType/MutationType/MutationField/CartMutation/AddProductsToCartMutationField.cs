@@ -29,14 +29,14 @@ namespace OrderingApi.UI.GQL.Types.RootType.MutationType.MutationField.CartMutat
 
             Arguments = new QueryArguments
                 (
-                    new QueryArgument<StringGraphType> { Name = "userId" }
-                    , new QueryArgument<ListGraphType<StringGraphType>> { Name = "productIds" }
+                    new QueryArgument<IdGraphType> { Name = "userId" }
+                    , new QueryArgument<ListGraphType<IdGraphType>> { Name = "productIds" }
                 );
 
             Resolver = new AsyncFieldResolver<CartModel>(async context => 
             {
-                string userId = context.GetArgument<string>("userId");
-                IList<string> productIds = context.GetArgument<IList<string>>("productIds");
+                Guid userId = context.GetArgument<Guid>("userId");
+                IList<Guid> productIds = context.GetArgument<IList<Guid>>("productIds");
 
                 // need to map argument to command here
 

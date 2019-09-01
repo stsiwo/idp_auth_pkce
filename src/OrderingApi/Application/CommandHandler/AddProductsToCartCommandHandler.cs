@@ -21,16 +21,19 @@ namespace OrderingApi.Application.CommandHandler
     {
         private readonly IRepository<Cart> _cartRepository;
 
-        private readonly IMediator _mediator;
+        public IDomainEvent _domainEvent;
 
-        public AddProductsToCartCommandHandler(IRepository<Cart> cartRepository, IMediator mediator)
+        public AddProductsToCartCommandHandler(IRepository<Cart> cartRepository)
         {
             _cartRepository = cartRepository;
-            _mediator = mediator;
         }
         public async Task<CartModel> Handle(AddProductsToCartCommand request, CancellationToken cancellationToken)
         {
-
+            // DON'T foreget set domainevent. this is dispatched AOP interceptor after complete transaction.
+            return new CartModel()
+            {
+                Id = Guid.NewGuid(),
+            };
         }
     }
 }

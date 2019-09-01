@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.UI.Model
 {
-    public class CartModel
+    public class CartModel : IModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public UserModel User { get; set; }
         public ISet<CartProductModel> Products { get; set; }
     }

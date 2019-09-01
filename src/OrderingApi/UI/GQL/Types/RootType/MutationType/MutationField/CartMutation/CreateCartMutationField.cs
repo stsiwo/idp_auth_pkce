@@ -29,7 +29,7 @@ namespace OrderingApi.UI.GQL.Types.RootType.MutationType.MutationField.CartMutat
 
             Resolver = new FuncFieldResolver<CartModel>(context => new CartModel()
             {
-                Id = Guid.NewGuid().ToString()
+                Id = Guid.NewGuid()
             });
 
             Metadata = new Dictionary<string, object>()

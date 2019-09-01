@@ -8,7 +8,7 @@ namespace OrderingApi.UI.Model
 {
     public class CartProductModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public ProductNameModel Name { get; set; }
 

@@ -18,19 +18,37 @@ namespace OrderingApi.Infrastructure.Repository
         {
             _session = session;
         }
-        public virtual T Create(T e)
+        public virtual Guid Create(T e)
         {
-            return (T)_session.Save(e);
+            Guid id;
+            using(var tx = _session.BeginTransaction())
+            {
+                id = (Guid)_session.Save(e);
+            }
+            return id;
         }
 
         public T Find(Guid id)
         {
-            return _session.Get<T>(id);
+            T target; 
+            using(var tx = _session.BeginTransaction())
+            {
+                target = _session.Get<T>(id);
+                // #DOUBT
+                //tx.Commit();
+            }
+            return target;
         }
 
         public async Task<T> FindAsync(Guid id)
         {
-            return await _session.GetAsync<T>(id);
+            T target;
+            using(var tx = _session.BeginTransaction())
+            {
+                target = await _session.GetAsync<T>(id);
+                //tx.Commit();
+            }
+            return target;
         }
     }
 }

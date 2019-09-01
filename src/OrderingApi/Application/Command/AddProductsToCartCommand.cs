@@ -9,8 +9,8 @@ namespace OrderingApi.Application.Command
 {
     public class AddProductsToCartCommand : IRequest<CartModel>
     {
-        public string UserId { get; set; }
-        public IList<string> ProductIds { get; set; }
+        public Guid UserId { get; set; }
+        public IList<Guid> ProductIds { get; set; }
 
         public AddProductsToCartCommand()
         {

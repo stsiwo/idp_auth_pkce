@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.UI.Model
 {
-    public class UserModel
+    public class UserModel : IModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public NameModel Name { get; set; }
         public AddressModel HomeAddress { get; set; }
         public ContactModel ContactInfo { get; set; }
