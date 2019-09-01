@@ -13,11 +13,8 @@ namespace OrderingApi.Infrastructure.MSTransactionScope
     {
         public void Handler(object sender, TransactionEventArgs e, IRmqSender rmqSender, IDomainEvent domainEvent)
         {
-
             // send this domain event to messaging bus (rabbitmq)
            rmqSender.Send(domainEvent, domainEvent.DomainEventRoutingKey); 
-
-
         }
     }
 }
