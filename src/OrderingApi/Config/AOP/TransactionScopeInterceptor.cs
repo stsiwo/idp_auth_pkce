@@ -96,7 +96,6 @@ namespace OrderingApi.Config.AOP
                     _logger.LogDebug("start send integration event to the other context through RABBITMQ");
                     _dispatchIntegrationEventWhenTransactionCompletedEvent.Handler(sender, e, _rmqSender, domainEvent);
 
-
                     // #DOUBT : when try to use below, it causes errors. if use above like pass through the class to assign event, it works.
                     //_rmqSender.Send(domainEvent, domainEvent.DomainEventRoutingKey);
                 });
