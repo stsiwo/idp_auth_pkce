@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.Command
 {
-    public class AddProductsToCartCommand : IRequest<CartModel>
+    public class AddProductsToCartCommand : IRequest<CartModel>, ICommand
     {
         public Guid UserId { get; set; }
         public IList<Guid> ProductIds { get; set; }

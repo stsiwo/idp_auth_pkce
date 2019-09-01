@@ -31,7 +31,7 @@ namespace OrderingApi.Config.AutoMapper.RmqMessaging
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => JObject.FromObject(src, camelCaseSerializer)));
 
             // #EVENT
-            CreateMap<CartCreatedDomainEvent, RmqPublishMessage>();
+            CreateMap<CreatedCartDomainEvent, RmqPublishMessage>();
         }
     }
 }

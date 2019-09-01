@@ -19,6 +19,7 @@ namespace OrderingApi.DI.CommandHandler
                 .As<IRequestHandler<CreateCartCommand, int>>()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(LoggingInterceptor))
+                .InterceptedBy(typeof(TransactionScopeInterceptor))
                 .InstancePerDependency();
         }
     }

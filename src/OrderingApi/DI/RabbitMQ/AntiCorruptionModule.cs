@@ -20,8 +20,8 @@ namespace OrderingApi.DI.RabbitMQ
         protected override void Load(ContainerBuilder builder)
         {
             // domain event translator (IIndex: keyed search lookup)
-            builder.RegisterType<CartCreatedDomainEventTranslator>()
-                .Keyed<IDomainEventTranslator>(DomainEventTypeConstants.CartCreatedDomainEvent)
+            builder.RegisterType<CreatedCartDomainEventTranslator>()
+                .Keyed<IDomainEventTranslator>(DomainEventTypeConstants.CreatedCartDomainEvent)
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerDependency();

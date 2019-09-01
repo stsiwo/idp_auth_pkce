@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.DI.DomainEventHandler
 {
-    public class CartCreatedDomainEventHandlerModule : Module
+    public class CreatedCartDomainEventHandlerModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AssignCartToUserWhenCartCreated>()
-                .As<INotificationHandler<CartCreatedDomainEvent>>()
+                .As<INotificationHandler<CreatedCartDomainEvent>>()
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(LoggingInterceptor))
                 .InstancePerDependency();

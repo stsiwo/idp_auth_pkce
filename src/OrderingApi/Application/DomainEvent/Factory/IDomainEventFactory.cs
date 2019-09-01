@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OrderingApi.Application.Command;
 using OrderingApi.UI.Model;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.DomainEvent.Factory
 {
-    public interface IDomainEventFactory
+    public interface IDomainEventFactory<in C, in M>
+        where C : ICommand
+        where M : IModel
     {
-        IDomainEvent Generate<C, T>(C command, T returnValue)
-            where C : IRequest<T>
-            where T : IModel;
+        IDomainEvent Generate(C command, M model);
     }
 }

@@ -26,15 +26,15 @@ namespace OrderingApiUnitTest.DI
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile<MapDomainEventToStoredEventProfile>();
                 cfg.AddProfile<MapStoredEventToDomainEventProfile>();
-                cfg.AddProfile<CartCreatedDomainEventProfile>();
+                cfg.AddProfile<CreatedCartDomainEventProfile>();
             });
 
             IMapper mapper = config.CreateMapper();
 
 
-            CartCreatedDomainEvent cartCreatedDomainEvent = new CartCreatedDomainEvent("test-id");
+            CreatedCartDomainEvent CreatedCartDomainEvent = new CreatedCartDomainEvent("test-id");
 
-            var target = mapper.Map<StoredEvent>(cartCreatedDomainEvent);
+            var target = mapper.Map<StoredEvent>(CreatedCartDomainEvent);
 
             _output.WriteLine(JsonConvert.SerializeObject(target, Formatting.Indented));
 
@@ -47,21 +47,21 @@ namespace OrderingApiUnitTest.DI
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile<MapDomainEventToStoredEventProfile>();
                 cfg.AddProfile<MapStoredEventToDomainEventProfile>();
-                cfg.AddProfile<CartCreatedDomainEventProfile>();
+                cfg.AddProfile<CreatedCartDomainEventProfile>();
             });
 
             IMapper mapper = config.CreateMapper();
 
 
-            IDomainEvent cartCreatedDomainEvent = new CartCreatedDomainEvent("test-id");
+            IDomainEvent CreatedCartDomainEvent = new CreatedCartDomainEvent("test-id");
 
             StoredEvent storedEvent = new StoredEvent()
             {
                 Id = Guid.NewGuid(),
-                Name = "CartCreatedDomainEvent", 
-                DomainEventType = cartCreatedDomainEvent.DomainEventType,
-                OccurredOn = cartCreatedDomainEvent.OccurredOn,
-                Payload = JsonConvert.SerializeObject(cartCreatedDomainEvent, Formatting.None, new JsonSerializerSettings()
+                Name = "CreatedCartDomainEvent", 
+                DomainEventType = CreatedCartDomainEvent.DomainEventType,
+                OccurredOn = CreatedCartDomainEvent.OccurredOn,
+                Payload = JsonConvert.SerializeObject(CreatedCartDomainEvent, Formatting.None, new JsonSerializerSettings()
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 })
@@ -74,7 +74,7 @@ namespace OrderingApiUnitTest.DI
             _output.WriteLine(JsonConvert.SerializeObject(target, Formatting.Indented));
 
             //Assert.True(target.DomainEventName == "test");
-            Assert.Equal(typeof(CartCreatedDomainEvent), target.GetType());
+            Assert.Equal(typeof(CreatedCartDomainEvent), target.GetType());
         }
     }
 }

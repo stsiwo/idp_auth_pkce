@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.DomainEventHandler.CartCreated
 {
-    public class AssignCartToUserWhenCartCreated : INotificationHandler<CartCreatedDomainEvent>
+    public class AssignCartToUserWhenCartCreated : INotificationHandler<CreatedCartDomainEvent>
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(AssignCartToUserWhenCartCreated));
 
@@ -22,7 +22,7 @@ namespace OrderingApi.Application.DomainEventHandler.CartCreated
             _repository = repository;
         }
 
-        public Task Handle(CartCreatedDomainEvent notification, CancellationToken cancellationToken)
+        public Task Handle(CreatedCartDomainEvent notification, CancellationToken cancellationToken)
         {
             log.Debug("handling assign cart to user when cart created (arrived at local event handler)");
 

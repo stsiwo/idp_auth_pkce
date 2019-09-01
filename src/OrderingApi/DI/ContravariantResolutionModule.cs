@@ -1,17 +1,17 @@
 ﻿using Autofac;
-using OrderingApi.Config.AOP;
+using Autofac.Features.Variance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OrderingApi.DI.AOP
+namespace OrderingApi.DI
 {
-    public class InterceptorModule : Module
+    public class ContravariantResolutionModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(c => new LoggingInterceptor());
+            builder.RegisterSource(new ContravariantRegistrationSource());
         }
     }
 }

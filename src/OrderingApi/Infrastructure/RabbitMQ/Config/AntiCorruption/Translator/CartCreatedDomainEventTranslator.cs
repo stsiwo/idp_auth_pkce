@@ -8,17 +8,17 @@ using OrderingApi.Application.DomainEvent;
 
 namespace OrderingApi.Infrastructure.RabbitMQ.Config.AntiCorruption.Translator
 {
-    public class CartCreatedDomainEventTranslator : IDomainEventTranslator
+    public class CreatedCartDomainEventTranslator : IDomainEventTranslator
     {
         private readonly IMapper _mapper;
 
-        public CartCreatedDomainEventTranslator(IMapper mapper)
+        public CreatedCartDomainEventTranslator(IMapper mapper)
         {
             _mapper = mapper;
         }
         public IDomainEvent Translate(DomainEventTypeConstants domainEventTypeConstants, JObject content)
         {
-            return _mapper.Map<CartCreatedDomainEvent>(content);
+            return _mapper.Map<CreatedCartDomainEvent>(content);
 
         }
 

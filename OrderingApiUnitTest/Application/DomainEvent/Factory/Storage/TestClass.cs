@@ -11,16 +11,16 @@ namespace OrderingApiUnitTest.Application.DomainEvent.Factory.Storage
 {
     class TestClass
     {
-        private readonly IIndex<Type, IDomainEventFactory> _domainEventFactory;
-
-        public TestClass(IIndex<Type, IDomainEventFactory> domainEventFactory)
-        {
-            _domainEventFactory = domainEventFactory;
-        }
-
-        public string Test()
-        {
-            return _domainEventFactory[typeof(AddProductsToCartCommandHandler)].GetType().ToString();
-        }
+//        private readonly IIndex<Type, IDomainEventFactory> _domainEventFactory;
+//
+//        public TestClass(IIndex<Type, IDomainEventFactory> domainEventFactory)
+//        {
+//            _domainEventFactory = domainEventFactory;
+//        }
+//
+//        public string Test()
+//        {
+//            return _domainEventFactory[typeof(AddProductsToCartCommandHandler)].GetType().ToString();
+//        }
     }
 }

@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Config.AutoMapper.EventStoring.DomainEventImplMapping
 {
-    public class CartCreatedDomainEventProfile : Profile
+    public class CreatedCartDomainEventProfile : Profile
     {
-        public CartCreatedDomainEventProfile()
+        public CreatedCartDomainEventProfile()
         {
             
-            CreateMap<StoredEvent, CartCreatedDomainEvent>()
+            CreateMap<StoredEvent, CreatedCartDomainEvent>()
                 .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => JObject.Parse(src.Payload).GetValue("cartId")))
                 .IncludeBase<StoredEvent, DomainEventBase>();
         }

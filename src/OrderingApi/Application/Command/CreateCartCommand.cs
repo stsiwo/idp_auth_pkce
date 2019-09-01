@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.Command
 {
-    public class CreateCartCommand : IRequest<int>
+    public class CreateCartCommand : IRequest<int>, ICommand
     {
         public string SampleField { get; set; }
 

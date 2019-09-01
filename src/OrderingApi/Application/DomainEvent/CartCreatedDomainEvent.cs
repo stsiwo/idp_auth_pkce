@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.DomainEvent
 {
-    public class CartCreatedDomainEvent : DomainEventBase, INotification 
+    public class CreatedCartDomainEvent : DomainEventBase, INotification 
     {
         public string CartId { get; set; }
 
-        public CartCreatedDomainEvent()
+        public CreatedCartDomainEvent()
         {
 
         }
-        public CartCreatedDomainEvent(string cartId)
+        public CreatedCartDomainEvent(string cartId)
         {
             CartId = cartId;
-            DomainEventRoutingKey = RoutingKeyConstants.ToCartCreatedDomainEventSubscribers;
+            DomainEventRoutingKey = RoutingKeyConstants.ToCreatedCartDomainEventSubscribers;
         }
     }
 }

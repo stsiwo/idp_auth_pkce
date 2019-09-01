@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="hibernate.cfg.xml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Infrastructure\NHMapper\OrderProduct.hbm.xml" />
     <EmbeddedResource Include="Infrastructure\NHMapper\Order.hbm.xml" />
@@ -46,6 +46,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.5.0" />
     <PackageReference Include="AutoMapper" Version="8.1.1" />
+    <PackageReference Include="Castle.Core.AsyncInterceptor" Version="1.7.0" />
     <PackageReference Include="FluentValidation" Version="8.4.0" />
     <PackageReference Include="graphiql" Version="1.2.0" />
     <PackageReference Include="GraphQL" Version="2.4.0" />

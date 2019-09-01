@@ -21,7 +21,7 @@ namespace OrderingApi.Config.AutoMapper.RmqMessaging
                 .ForMember(dest => dest.DomainEventType, opt => opt.MapFrom(src => src.GetValue("domainEventType")));
 
             // #EVENT
-            CreateMap<JObject, CartCreatedDomainEvent>()
+            CreateMap<JObject, CreatedCartDomainEvent>()
                 .ForMember(dest => dest.CartId, opt => opt.MapFrom(src => src.GetValue("cartId")));
 
 

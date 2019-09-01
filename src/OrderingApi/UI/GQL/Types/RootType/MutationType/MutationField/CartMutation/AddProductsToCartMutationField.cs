@@ -16,9 +16,9 @@ namespace OrderingApi.UI.GQL.Types.RootType.MutationType.MutationField.CartMutat
     {
         public AddProductsToCartMutationField(/*ICartRepository personRepository*/ IMediator mediator)
         {
-            Name = "AddProductToCart";
+            Name = "AddProductsToCart";
 
-            Description = "add a product to cart";
+            Description = "add products to cart";
 
             //DefaultValue = new Cart();
 

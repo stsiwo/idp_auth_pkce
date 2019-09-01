@@ -30,7 +30,7 @@ namespace OrderingApi.Config.AutoMapper.EventStoring
 
             // add new item when new event
             // #EVENT
-            CreateMap<CartCreatedDomainEvent, StoredEvent>();
+            CreateMap<CreatedCartDomainEvent, StoredEvent>();
         }
     }
 }

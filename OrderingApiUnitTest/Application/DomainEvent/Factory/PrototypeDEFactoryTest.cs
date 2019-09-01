@@ -47,6 +47,7 @@ namespace OrderingApiUnitTest.Application.DomainEvent.Factory
             using (var container = builder.Build())
             using (var scope = container.BeginLifetimeScope())
             {
+                //var testm = new PrototypeDEFactoryTestClass()
                 var test = scope.Resolve<PrototypeDEFactoryTestClass>();
 
                 _output.WriteLine(test.Test(new DEbCommand(), new DEbModel(), 1).ToString());

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace OrderingApi.Application.DomainEvent.Factory
 {
-    public class AddedProductsToCartDomainEventFactory : IDomainEventFactory<ICommand, IModel>
+    public class CreatedCartDomainEventFactory : IDomainEventFactory<ICommand, IModel>
     {
         public IDomainEvent Generate(ICommand command, IModel model)
         {
-            var commandInContext = (AddProductsToCartCommand)command;
-            var modelInContext = (CartModel)model;
+            var commandInContext = (CreateCartCommand)command;
+            var modelInContext = model;
 
-            return new AddedProductsToCartDomainEvent(cartId: modelInContext.Id, productIds: commandInContext.ProductIds);
+            return new CreatedCartDomainEvent();
         }
     }
 }

@@ -21,15 +21,13 @@ namespace OrderingApi.Application.CommandHandler
     {
         private readonly IRepository<Cart> _cartRepository;
 
-        public IDomainEvent _domainEvent;
-
         public AddProductsToCartCommandHandler(IRepository<Cart> cartRepository)
         {
             _cartRepository = cartRepository;
         }
         public async Task<CartModel> Handle(AddProductsToCartCommand request, CancellationToken cancellationToken)
         {
-            // DON'T foreget set domainevent. this is dispatched AOP interceptor after complete transaction.
+            await Task.Delay(1000);
             return new CartModel()
             {
                 Id = Guid.NewGuid(),
